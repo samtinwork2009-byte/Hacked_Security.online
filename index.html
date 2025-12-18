@@ -77,29 +77,29 @@
 
         /* 主頁Logo */
         .main-logo {
-            font-size: 2.8rem;
+            font-size: 3.2rem;
             font-weight: 900;
             background: linear-gradient(135deg, #00ff41 0%, #00cc33 25%, #00ffcc 50%, #00ff41 75%, #33ff77 100%);
             background-size: 200% 200%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            text-shadow: none;
+            text-shadow: 0 0 20px rgba(0,255,65,0.6), 0 0 40px rgba(0,255,65,0.3);
             margin-bottom: 20px;
-            letter-spacing: 3px;
+            letter-spacing: 4px;
             animation: logoShine 4s ease-in-out infinite;
             text-align: center;
-            filter: drop-shadow(0 0 15px rgba(0,255,65,0.4));
+            filter: drop-shadow(0 0 25px rgba(0,255,65,0.5)) drop-shadow(0 0 50px rgba(0,255,65,0.2)) drop-shadow(0 0 40px rgba(0,255,65,0.3));
         }
 
         @keyframes logoShine {
             0%, 100% {
                 background-position: 0% 50%;
-                filter: drop-shadow(0 0 15px rgba(0,255,65,0.4));
+                filter: drop-shadow(0 0 25px rgba(0,255,65,0.5)) drop-shadow(0 0 50px rgba(0,255,65,0.2)) drop-shadow(0 0 40px rgba(0,255,65,0.3));
             }
             50% {
                 background-position: 100% 50%;
-                filter: drop-shadow(0 0 25px rgba(0,255,65,0.6));
+                filter: drop-shadow(0 0 40px rgba(0,255,65,0.7)) drop-shadow(0 0 80px rgba(0,255,65,0.3));
             }
         }
 
@@ -1732,9 +1732,600 @@
             background: rgba(0, 255, 65, 0.3);
             border-radius: 5px;
         }
+        /* ===== 導航欄樣式 ===== */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: linear-gradient(135deg, rgba(10, 10, 10, 0.95), rgba(5, 5, 5, 0.95));
+            border-bottom: 2px solid rgba(0, 255, 65, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+            z-index: 100;
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.1);
+        }
+
+        .nav-logo {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #00ff41;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-shadow: 0 0 10px rgba(0,255,65,0.5);
+        }
+
+        .nav-logo:hover {
+            filter: drop-shadow(0 0 15px rgba(0,255,65,0.7));
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-menu li a {
+            color: #aaa;
+            text-decoration: none;
+            font-size: 0.95rem;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            padding: 8px 15px;
+            border-radius: 4px;
+        }
+
+        .nav-menu li a:hover {
+            color: #00ff41;
+            background: rgba(0, 255, 65, 0.1);
+            box-shadow: 0 0 10px rgba(0, 255, 65, 0.3);
+        }
+
+        .nav-menu li a.active {
+            color: #00ff41;
+            border-bottom: 2px solid #00ff41;
+        }
+
+        /* ===== 麵包屑導航樣式 ===== */
+        .breadcrumb {
+            position: fixed;
+            top: 65px;
+            left: 30px;
+            font-size: 0.85rem;
+            color: #666;
+            z-index: 99;
+            display: none;
+        }
+
+        .breadcrumb.active {
+            display: block;
+        }
+
+        .breadcrumb a {
+            color: #4af;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .breadcrumb a:hover {
+            color: #00ff41;
+        }
+
+        .breadcrumb span {
+            color: #666;
+            margin: 0 8px;
+        }
+
+        /* ===== 主頁面頂部邊距調整 ===== */
+        #main-page {
+            padding-top: 80px;
+        }
+
+        /* ===== 模式卡片增強 ===== */
+        .mode-card {
+            background: rgba(20, 20, 30, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+        }
+
+        .mode-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .mode-card:hover::before {
+            left: 100%;
+        }
+
+        .mode-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.7);
+        }
+
+        /* ===== 按鈕增強 ===== */
+        .select-btn {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            text-align: center;
+            border-radius: 10px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .select-btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .select-btn:hover::after {
+            width: 300px;
+            height: 300px;
+        }
+
+        .hacker-btn {
+            background: rgba(0, 255, 65, 0.15);
+            color: #00ff41;
+            border: 2px solid #00ff41;
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.2);
+        }
+
+        .hacker-btn:hover {
+            background: rgba(0, 255, 65, 0.25);
+            box-shadow: 0 0 30px rgba(0, 255, 65, 0.5), inset 0 0 20px rgba(0, 255, 65, 0.1);
+        }
+
+        .defender-btn {
+            background: rgba(255, 51, 51, 0.15);
+            color: #ff3333;
+            border: 2px solid #ff3333;
+            box-shadow: 0 0 20px rgba(255, 51, 51, 0.2);
+        }
+
+        .defender-btn:hover {
+            background: rgba(255, 51, 51, 0.25);
+            box-shadow: 0 0 30px rgba(255, 51, 51, 0.5), inset 0 0 20px rgba(255, 51, 51, 0.1);
+        }
+
+        .challenge-btn {
+            background: rgba(153, 102, 255, 0.15);
+            color: #9966ff;
+            border: 2px solid #9966ff;
+            box-shadow: 0 0 20px rgba(153, 102, 255, 0.2);
+        }
+
+        .challenge-btn:hover {
+            background: rgba(153, 102, 255, 0.25);
+            box-shadow: 0 0 30px rgba(153, 102, 255, 0.5), inset 0 0 20px rgba(153, 102, 255, 0.1);
+        }
+
+        /* ===== 挑戰模式卡片 ===== */
+        .mode-card.challenge {
+            border-color: #9966ff;
+            box-shadow: 0 0 20px rgba(153, 102, 255, 0.2);
+        }
+
+        .mode-card.challenge:hover {
+            box-shadow: 0 0 30px rgba(153, 102, 255, 0.4);
+        }
+
+        .mode-card.challenge .mode-icon {
+            color: #9966ff;
+        }
+
+        .mode-card.challenge .mode-title {
+            color: #9966ff;
+        }
+
+        .mode-card.challenge .mode-features li:before {
+            color: #9966ff;
+        }
+
+        /* ===== 執法系統樣式 ===== */
+        .law-enforcement-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .law-enforcement-container {
+            background: linear-gradient(135deg, rgba(20, 20, 40, 0.95), rgba(10, 10, 30, 0.95));
+            border: 2px solid rgba(100, 150, 255, 0.3);
+            border-radius: 15px;
+            padding: 40px;
+            max-width: 900px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 0 50px rgba(100, 150, 255, 0.2);
+        }
+
+        .law-enforcement-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid rgba(100, 150, 255, 0.3);
+            padding-bottom: 20px;
+        }
+
+        .law-enforcement-icon {
+            font-size: 3rem;
+            color: #4a90d9;
+            filter: drop-shadow(0 0 10px rgba(74, 144, 217, 0.5));
+        }
+
+        .law-enforcement-title {
+            font-size: 1.8rem;
+            color: #4a90d9;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .law-enforcement-subtitle {
+            font-size: 0.9rem;
+            color: #888;
+            margin-top: 5px;
+        }
+
+        .law-enforcement-section {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(100, 150, 255, 0.2);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .law-enforcement-section h3 {
+            color: #4a90d9;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .law-enforcement-section h3 i {
+            font-size: 1.5rem;
+        }
+
+        .department-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .department-card {
+            background: rgba(20, 20, 40, 0.8);
+            border: 1px solid rgba(100, 150, 255, 0.3);
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .department-card:hover {
+            background: rgba(30, 30, 50, 0.9);
+            border-color: rgba(100, 150, 255, 0.6);
+            box-shadow: 0 0 20px rgba(100, 150, 255, 0.2);
+        }
+
+        .department-icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            filter: drop-shadow(0 0 5px rgba(100, 150, 255, 0.4));
+        }
+
+        .department-name {
+            color: #4a90d9;
+            font-weight: bold;
+            font-size: 0.95rem;
+            margin-bottom: 5px;
+        }
+
+        .department-status {
+            color: #888;
+            font-size: 0.8rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 25px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(100, 150, 255, 0.3);
+            border-radius: 12px;
+            overflow: hidden;
+            margin: 15px 0;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4a90d9, #6ab0ff);
+            width: 0%;
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .investigation-timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+            position: relative;
+            padding-left: 40px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 10px;
+            top: 0;
+            width: 20px;
+            height: 20px;
+            background: rgba(100, 150, 255, 0.3);
+            border: 2px solid #4a90d9;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-item.completed::before {
+            background: #4a90d9;
+            box-shadow: 0 0 15px rgba(74, 144, 217, 0.6);
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            left: 19px;
+            top: 20px;
+            width: 2px;
+            height: calc(100% + 20px);
+            background: rgba(100, 150, 255, 0.2);
+        }
+
+        .timeline-item:last-child::after {
+            display: none;
+        }
+
+        .timeline-content {
+            flex: 1;
+        }
+
+        .timeline-title {
+            color: #4a90d9;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .timeline-description {
+            color: #888;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .hacker-profile {
+            background: rgba(255, 51, 51, 0.1);
+            border: 1px solid rgba(255, 51, 51, 0.3);
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+
+        .hacker-profile-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 51, 51, 0.1);
+        }
+
+        .hacker-profile-item:last-child {
+            border-bottom: none;
+        }
+
+        .hacker-profile-label {
+            color: #888;
+        }
+
+        .hacker-profile-value {
+            color: #ff3333;
+            font-weight: bold;
+            font-family: 'Courier New', monospace;
+        }
+
+        .law-enforcement-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .law-enforcement-btn {
+            padding: 12px 25px;
+            border-radius: 8px;
+            border: 2px solid #4a90d9;
+            background: rgba(74, 144, 217, 0.15);
+            color: #4a90d9;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .law-enforcement-btn:hover {
+            background: rgba(74, 144, 217, 0.25);
+            box-shadow: 0 0 20px rgba(74, 144, 217, 0.4);
+        }
+
+        .law-enforcement-btn.arrest {
+            border-color: #ff3333;
+            background: rgba(255, 51, 51, 0.15);
+            color: #ff3333;
+        }
+
+        .law-enforcement-btn.arrest:hover {
+            background: rgba(255, 51, 51, 0.25);
+            box-shadow: 0 0 20px rgba(255, 51, 51, 0.4);
+        }
+
+        .law-enforcement-btn.success {
+            border-color: #00ff41;
+            background: rgba(0, 255, 65, 0.15);
+            color: #00ff41;
+        }
+
+        .law-enforcement-btn.success:hover {
+            background: rgba(0, 255, 65, 0.25);
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.4);
+        }
+
+        .law-enforcement-result {
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid rgba(100, 150, 255, 0.4);
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            margin-top: 30px;
+            animation: slideUp 0.5s ease;
+        }
+
+        .law-enforcement-result.success {
+            border-color: rgba(0, 255, 65, 0.5);
+        }
+
+        .law-enforcement-result.failure {
+            border-color: rgba(255, 51, 51, 0.5);
+        }
+
+        .result-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 0 15px currentColor);
+        }
+
+        .result-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .result-description {
+            color: #aaa;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .close-law-enforcement {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 2rem;
+            color: #888;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: none;
+            border: none;
+            padding: 0;
+        }
+
+        .close-law-enforcement:hover {
+            color: #ff3333;
+            transform: rotate(90deg);
+        }
 </style>
 </head>
-<body>
+<body><nav id="navbar">
+        <div class="nav-logo" onclick="goToMainPage()">
+            <i class="fas fa-shield-virus"></i> Hacker VS Defender
+        </div>
+        <ul class="nav-menu">
+            <li><a onclick="goToMainPage()" id="nav-home">主頁</a></li>
+            <li><a onclick="navigateToMode('hacker')" id="nav-hacker">黑客模式</a></li>
+            <li><a onclick="navigateToMode('defender')" id="nav-defender">防禦者模式</a></li>
+            <li><a onclick="navigateToMode('battle')" id="nav-battle">對戰模式</a></li>
+            <li><a onclick="navigateToMode('challenge')" id="nav-challenge">挑戰模式</a></li>
+        </ul>
+    </nav>
+    <div class="breadcrumb" id="breadcrumb"></div>
+
     <!-- 自定義模態框 -->
     <div class="modal-overlay" id="custom-modal">
         <div class="modal-box">
@@ -1840,7 +2431,7 @@
                         <span>教育學習模式</span>
                     </li>
                 </ul>
-                <button class="select-btn hacker-btn" id="hacker-btn">
+                <button class="select-btn hacker-btn" id="hacker-btn" onclick="navigateToMode('hacker')">
                     <i class="fas fa-terminal"></i>
                     <span>進入模擬器</span>
                 </button>
@@ -1878,7 +2469,7 @@
                         <span>教育學習模式</span>
                     </li>
                 </ul>
-                <button class="select-btn defender-btn" id="defender-btn">
+                <button class="select-btn defender-btn" id="defender-btn" onclick="navigateToMode('defender')">
                     <i class="fas fa-shield-alt"></i>
                     <span>進入模擬器</span>
                 </button>
@@ -1916,11 +2507,48 @@
                         <span>勝負判定系統</span>
                     </li>
                 </ul>
-                <button class="select-btn" id="battle-btn" style="background: linear-gradient(135deg, #ff9900 0%, #ff6600 100%); font-weight: bold;">
+                <button class="select-btn" id="battle-btn" onclick="navigateToMode('battle')" style="background: linear-gradient(135deg, #ff9900 0%, #ff6600 100%); font-weight: bold;">
                     <i class="fas fa-gamepad"></i>
                     <span>開始對戰</span>
                 </button>
-            </div>
+            
+            <!-- 挑戰模式卡片 (高難度情景) -->
+            <div class="mode-card challenge" id="challenge-card" style="border-color: #9966ff; box-shadow: 0 0 25px rgba(153, 102, 255, 0.3);">
+                <div class="mode-icon" style="color: #9966ff;">
+                    <i class="fas fa-star"></i>
+                </div>
+                <div class="mode-title" style="color: #9966ff;">⚡ 挑戰模式 ⚡</div>
+                <div class="mode-description">
+                    極限挑戰！在限時、限制工具等特殊條件下完成任務。
+                    適合有經驗的玩家挑戰自我，獲得高分和成就。
+                </div>
+                <ul class="mode-features">
+                    <li>
+                        <span class="feature-icon" style="color: #9966ff;"><i class="fas fa-hourglass-end"></i></span>
+                        <span>限時挑戰 (3-10分鐘)</span>
+                    </li>
+                    <li>
+                        <span class="feature-icon" style="color: #9966ff;"><i class="fas fa-ban"></i></span>
+                        <span>工具限制模式</span>
+                    </li>
+                    <li>
+                        <span class="feature-icon" style="color: #9966ff;"><i class="fas fa-skull"></i></span>
+                        <span>高難度AI對手</span>
+                    </li>
+                    <li>
+                        <span class="feature-icon" style="color: #9966ff;"><i class="fas fa-medal"></i></span>
+                        <span>排行榜和成就</span>
+                    </li>
+                    <li>
+                        <span class="feature-icon" style="color: #9966ff;"><i class="fas fa-gem"></i></span>
+                        <span>獨家獎勵系統</span>
+                    </li>
+                </ul>
+                <button class="select-btn challenge-btn" id="challenge-btn" onclick="navigateToMode('challenge')">
+                    <i class="fas fa-bolt"></i>
+                    <span>開始挑戰</span>
+                </button>
+            </div></div>
         </div>
 
         <!-- 版權聲明 -->
@@ -15806,6 +16434,199 @@ find /target -type f -exec ./encrypt.sh {} \\;
         window.ItemEffects = ItemEffects;
         window.closeItemSelector = closeItemSelector;
         
+
+        // ===== 導航和麵包屑函數 =====
+        function goToMainPage() {
+            const mainPage = document.getElementById('main-page');
+            const gamePage = document.getElementById('game-page');
+            const battleSelectPage = document.getElementById('battle-select-page');
+            const guidePage = document.getElementById('guide-page');
+            const flowchartPage = document.getElementById('flowchart-page');
+            
+            // 隱藏所有頁面
+            [gamePage, battleSelectPage, guidePage, flowchartPage].forEach(page => {
+                if (page) {
+                    page.classList.remove('active');
+                    page.classList.add('hidden');
+                }
+            });
+            
+            // 顯示主頁面
+            mainPage.classList.remove('hidden');
+            mainPage.classList.add('active');
+            
+            // 隱藏麵包屑
+            updateBreadcrumb('');
+            
+            // 更新導航菜單
+            updateNavMenu('home');
+        }
+
+        function navigateToMode(mode) {
+            if (mode === 'hacker') {
+                startSoloGame('hacker');
+                updateBreadcrumb('主頁 > 黑客模式');
+                updateNavMenu('hacker');
+            } else if (mode === 'defender') {
+                startSoloGame('defender');
+                updateBreadcrumb('主頁 > 防禦者模式');
+                updateNavMenu('defender');
+            } else if (mode === 'battle') {
+                showBattleSelect();
+                updateBreadcrumb('主頁 > 對戰模式');
+                updateNavMenu('battle');
+            } else if (mode === 'challenge') {
+                startChallengeMode();
+                updateBreadcrumb('主頁 > 挑戰模式');
+                updateNavMenu('challenge');
+            }
+        }
+
+        function updateBreadcrumb(breadcrumbText) {
+            const breadcrumb = document.getElementById('breadcrumb');
+            if (breadcrumbText) {
+                breadcrumb.innerHTML = breadcrumbText.split(' > ').map((item, index, arr) => {
+                    if (index === arr.length - 1) {
+                        return `<span>${item}</span>`;
+                    } else {
+                        return `<a onclick="goToMainPage()">${item}</a><span> > </span>`;
+                    }
+                }).join('');
+                breadcrumb.classList.add('active');
+            } else {
+                breadcrumb.classList.remove('active');
+            }
+        }
+
+        function updateNavMenu(active) {
+            const navItems = document.querySelectorAll('.nav-menu li a');
+            navItems.forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            const activeMap = {
+                'home': 'nav-home',
+                'hacker': 'nav-hacker',
+                'defender': 'nav-defender',
+                'battle': 'nav-battle',
+                'challenge': 'nav-challenge'
+            };
+            
+            if (activeMap[active]) {
+                document.getElementById(activeMap[active]).classList.add('active');
+            }
+        }
+
+        // ===== 挑戰模式函數 =====
+        function startChallengeMode() {
+            // 設置挑戰模式的特殊配置
+            GameState.challengeMode = {
+                enabled: true,
+                timeLimit: 300, // 5分鐘
+                toolsDisabled: ['vpn-elite', 'ultimate-package'],
+                difficulty: 'hard',
+                aiSpeed: 1.5
+            };
+            
+            // 選擇隨機的挑戰場景
+            const challenges = [
+                { name: '3分鐘閃電戰', timeLimit: 180, difficulty: 'hard' },
+                { name: '工具限制挑戰', timeLimit: 300, toolsDisabled: ['vpn-elite', 'ultimate-package'] },
+                { name: '無敵AI對手', timeLimit: 600, difficulty: 'insane', aiSpeed: 2.0 }
+            ];
+            
+            const randomChallenge = challenges[Math.floor(Math.random() * challenges.length)];
+            Object.assign(GameState.challengeMode, randomChallenge);
+            
+            // 隨機選擇黑客或防禦者
+            if (Math.random() > 0.5) {
+                startSoloGame('hacker');
+            } else {
+                startSoloGame('defender');
+            }
+            
+            showNotification('挑戰模式', `挑戰已開始：${randomChallenge.name}`, 'info');
+        }
 </script>
 
+
+    <!-- 執法系統模態框 -->
+    <div class="law-enforcement-modal" id="law-enforcement-modal" style="display: none;">
+        <div class="law-enforcement-container">
+            <button class="close-law-enforcement" onclick="closeLawEnforcement()">&times;</button>
+            
+            <div class="law-enforcement-header">
+                <div class="law-enforcement-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <div>
+                    <div class="law-enforcement-title">執法部門聯動系統</div>
+                    <div class="law-enforcement-subtitle">網絡罪案調查與追蹤</div>
+                </div>
+            </div>
+
+            <!-- 報案信息 -->
+            <div class="law-enforcement-section">
+                <h3><i class="fas fa-file-alt"></i> 案件報告</h3>
+                <div class="hacker-profile">
+                    <div class="hacker-profile-item">
+                        <span class="hacker-profile-label">報案時間：</span>
+                        <span class="hacker-profile-value" id="report-time">-</span>
+                    </div>
+                    <div class="hacker-profile-item">
+                        <span class="hacker-profile-label">攻擊者 IP：</span>
+                        <span class="hacker-profile-value" id="attacker-ip">-</span>
+                    </div>
+                    <div class="hacker-profile-item">
+                        <span class="hacker-profile-label">攻擊類型：</span>
+                        <span class="hacker-profile-value" id="attack-type">-</span>
+                    </div>
+                    <div class="hacker-profile-item">
+                        <span class="hacker-profile-label">案件狀態：</span>
+                        <span class="hacker-profile-value" id="case-status">調查中</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 執法部門 -->
+            <div class="law-enforcement-section">
+                <h3><i class="fas fa-building"></i> 參與部門</h3>
+                <div class="department-grid" id="department-grid">
+                    <!-- 動態生成 -->
+                </div>
+            </div>
+
+            <!-- 調查進度 -->
+            <div class="law-enforcement-section">
+                <h3><i class="fas fa-tasks"></i> 調查進度</h3>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="investigation-progress" style="width: 0%;">0%</div>
+                </div>
+                <div class="investigation-timeline" id="investigation-timeline">
+                    <!-- 動態生成時間線 -->
+                </div>
+            </div>
+
+            <!-- 黑客檔案 -->
+            <div class="law-enforcement-section" id="hacker-file-section" style="display: none;">
+                <h3><i class="fas fa-user-secret"></i> 嫌疑人檔案</h3>
+                <div class="hacker-profile" id="hacker-details">
+                    <!-- 動態生成 -->
+                </div>
+            </div>
+
+            <!-- 執法行動 -->
+            <div class="law-enforcement-actions" id="law-enforcement-actions">
+                <button class="law-enforcement-btn" onclick="continueInvestigation()">
+                    <i class="fas fa-search"></i> 繼續調查
+                </button>
+                <button class="law-enforcement-btn arrest" onclick="executeArrest()">
+                    <i class="fas fa-handcuffs"></i> 執行拘捕
+                </button>
+            </div>
+
+            <!-- 結果顯示 -->
+            <div id="law-enforcement-result-container"></div>
+        </div>
+    </div>
 </body></html>
