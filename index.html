@@ -1922,40 +1922,6 @@
             box-shadow: 0 0 30px rgba(255, 51, 51, 0.5), inset 0 0 20px rgba(255, 51, 51, 0.1);
         }
 
-        .challenge-btn {
-            background: rgba(153, 102, 255, 0.15);
-            color: #9966ff;
-            border: 2px solid #9966ff;
-            box-shadow: 0 0 20px rgba(153, 102, 255, 0.2);
-        }
-
-        .challenge-btn:hover {
-            background: rgba(153, 102, 255, 0.25);
-            box-shadow: 0 0 30px rgba(153, 102, 255, 0.5), inset 0 0 20px rgba(153, 102, 255, 0.1);
-        }
-
-        /* ===== 挑戰模式卡片 ===== */
-        .mode-card.challenge {
-            border-color: #9966ff;
-            box-shadow: 0 0 20px rgba(153, 102, 255, 0.2);
-        }
-
-        .mode-card.challenge:hover {
-            box-shadow: 0 0 30px rgba(153, 102, 255, 0.4);
-        }
-
-        .mode-card.challenge .mode-icon {
-            color: #9966ff;
-        }
-
-        .mode-card.challenge .mode-title {
-            color: #9966ff;
-        }
-
-        .mode-card.challenge .mode-features li:before {
-            color: #9966ff;
-        }
-
         /* ===== 執法系統樣式 ===== */
         .law-enforcement-modal {
             position: fixed;
@@ -2321,7 +2287,6 @@
             <li><a onclick="navigateToMode('hacker')" id="nav-hacker">黑客模式</a></li>
             <li><a onclick="navigateToMode('defender')" id="nav-defender">防禦者模式</a></li>
             <li><a onclick="navigateToMode('battle')" id="nav-battle">對戰模式</a></li>
-            <li><a onclick="navigateToMode('challenge')" id="nav-challenge">挑戰模式</a></li>
         </ul>
     </nav>
     <div class="breadcrumb" id="breadcrumb"></div>
@@ -2512,43 +2477,7 @@
                     <span>開始對戰</span>
                 </button>
             
-            <!-- 挑戰模式卡片 (高難度情景) -->
-            <div class="mode-card challenge" id="challenge-card" style="border-color: #9966ff; box-shadow: 0 0 25px rgba(153, 102, 255, 0.3);">
-                <div class="mode-icon" style="color: #9966ff;">
-                    <i class="fas fa-star"></i>
-                </div>
-                <div class="mode-title" style="color: #9966ff;">⚡ 挑戰模式 (續集) ⚡</div>
-                <div class="mode-description">
-                    **對戰模式的續集版本**：黑客 vs 執法部門！高技術強度攻防、起底、反擊、談判、多部門聯合調查。
-                    挑戰目標：黑客需成功逃脫，執法部門需成功起底拘捕。
-                </div>
-                <ul class="mode-features">
-                    <li>
-                        <span class="feature-icon" style="color: #9966ff;"><i class="fas fa-hourglass-end"></i></span>
-                        <span>限時挑戰 (3-10分鐘)</span>
-                    </li>
-                    <li>
-                        <span class="feature-icon" style="color: #9966ff;"><i class="fas fa-ban"></i></span>
-                        <span>工具限制模式</span>
-                    </li>
-                    <li>
-                        <span class="feature-icon" style="color: #9966ff;"><i class="fas fa-skull"></i></span>
-                        <span>高難度AI對手</span>
-                    </li>
-                    <li>
-                        <span class="feature-icon" style="color: #9966ff;"><i class="fas fa-medal"></i></span>
-                        <span>排行榜和成就</span>
-                    </li>
-                    <li>
-                        <span class="feature-icon" style="color: #9966ff;"><i class="fas fa-gem"></i></span>
-                        <span>獨家獎勵系統</span>
-                    </li>
-                </ul>
-                <button class="select-btn challenge-btn" id="challenge-btn" onclick="navigateToMode('challenge')">
-                    <i class="fas fa-bolt"></i>
-                    <span>開始挑戰</span>
-                </button>
-            </div></div>
+</div>
         </div>
 
         <!-- 版權聲明 -->
@@ -3062,7 +2991,7 @@
             <div class="main-logo" style="color: #9b59b6; text-shadow: 0 0 10px #9b59b6, 0 0 20px #9b59b6;">
                 <span>流程示範圖</span>
             </div>
-            <div class="main-subtitle">完整攻防流程視覺化 v3.2 (新增挑戰模式)</div>},{find:
+            <div class="main-subtitle">完整攻防流程視覺化 v3.2</div>},{find:
         </div>
 
         <div style="max-width: 1400px; margin: 0 auto; padding: 20px;">
@@ -3099,7 +3028,7 @@
 	                        </div>
 	                        <div style="background: rgba(153,102,255,0.1); border: 2px solid #9966ff; border-radius: 12px; padding: 20px; text-align: center;">
 	                            <div style="font-size: 2.5rem; margin-bottom: 10px;">⚡</div>
-	                            <strong style="color: #9966ff; font-size: 1.1rem;">挑戰模式 (續集)</strong>
+
 	                            <p style="color: #888; font-size: 0.85rem; margin-top: 8px;">黑客 vs 執法部門</p>
 	                        </div>
 	                    </div>
@@ -3194,10 +3123,10 @@
 	                            </div>
 	                        </div>
 	                        
-	                        <!-- 挑戰模式專屬流程 -->
+
 	                        <div style="background: rgba(153,102,255,0.05); border: 2px solid #9966ff; border-radius: 12px; padding: 25px;">
 	                            <h3 style="color: #9966ff; text-align: center; margin-bottom: 20px; font-size: 1.2rem;">
-	                                <i class="fas fa-star"></i> 挑戰模式專屬流程 (續集)
+	                                <i class="fas fa-star"></i> 專屬流程 (續集)
 	                            </h3>
 	                            <div style="display: flex; flex-direction: column; gap: 15px;">
 	                                <div style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 8px; border-left: 4px solid #9966ff;">
@@ -3633,10 +3562,10 @@
                         </ul>
                     </div>
                     
-                    <!-- 挑戰模式 (續集) -->
+
                     <div style="background: rgba(153, 102, 255, 0.1); border: 2px solid #9966ff; border-radius: 12px; padding: 22px;">
                         <h3 style="color: #9966ff; margin-bottom: 15px; font-size: 1.2rem;">
-                            <i class="fas fa-star"></i> 挑戰模式功能 (續集)
+                            <i class="fas fa-star"></i> 其他功能 (續集)
                         </h3>
                         <ul style="color: #aaa; line-height: 2; list-style: none; padding: 0; font-size: 0.95rem;">
                             <li><i class="fas fa-check-circle" style="color: #9966ff; margin-right: 10px;"></i><strong>黑客 vs 執法部門</strong> - 高強度身份攻防</li>
@@ -4048,10 +3977,10 @@
                     </div>
                 </div>
                 
-                <!-- 挑戰模式詳細流程 -->
+
                 <div style="flex: 1; min-width: 300px; background: rgba(153, 102, 255, 0.1); border: 2px solid #9966ff; border-radius: 12px; padding: 20px; margin-bottom: 20px;">
                     <h2 style="color: #9966ff; text-align: center; margin-bottom: 15px; font-size: 1.2rem;">
-                        <i class="fas fa-star"></i> 挑戰模式詳細流程 (續集)
+                        <i class="fas fa-star"></i> 詳細流程 (續集)
                     </h2>
                     <div style="display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 10px; text-align: center;">
                         <div style="background: rgba(153,102,255,0.2); padding: 10px 15px; border-radius: 8px; border: 1px solid #9966ff;">
@@ -4457,9 +4386,6 @@
                 autoSave: true,
                 notifications: true,
                 soundEffects: true,
-                // 挑戰模式專屬
-                challengeTarget: 'Law Enforcement HQ',
-                challengeTargetIP: '10.0.0.1'
             },
             
             // 虛擬對手配置 (AI模擬人物)
@@ -4546,23 +4472,7 @@
                 terminalTitle: "DARKNET TERMINAL v3.0",
                 terminalPrompt: "root@shadow:~#",
                 
-                // 挑戰模式專屬商品配置
-            challengeTools: {
-                hacker: {
-                    'stealth': { id: 'stealth', name: '身份偽造工具包', cost: 50000, effect: { riskReduction: 30 }, description: '降低被起底風險30%' },
-                    'darknet': { id: 'darknet', name: '暗網情報網絡', cost: 80000, effect: { leDelay: 5000 }, description: '提前獲知執法部門行動' },
-                    'quantum': { id: 'quantum', name: '量子加密通訊', cost: 120000, effect: { immuneToIntercept: true }, description: '通訊無法被攔截' },
-                    'zero-day': { id: 'zero-day', name: '零日漏洞庫', cost: 200000, effect: { attackPower: 50 }, description: '強力攻擊工具' },
-                    'global-proxy': { id: 'global-proxy', name: '全球代理網絡', cost: 150000, effect: { riskReduction: 50 }, description: '極難追蹤的網絡路徑' }
-                },
-                lawEnforcement: {
-                    'advanced-tracking': { id: 'advanced-tracking', name: '高級追蹤系統', cost: 60000, effect: { leProgressGain: 50 }, description: '提升起底速度50%' },
-                    'forensics': { id: 'forensics', name: '數位取證工具', cost: 70000, effect: { hackerRiskIncrease: 40 }, description: '分析黑客痕跡' },
-                    'interpol-share': { id: 'interpol-share', name: '國際情報共享', cost: 100000, effect: { leProgressGain: 30, departmentPower: 10 }, description: '獲得其他國家協助' },
-                    'ai-analysis': { id: 'ai-analysis', name: 'AI行為分析', cost: 130000, effect: { leAttackPower: 40 }, description: '預測黑客下一步行動' },
-                    'arrest-warrant': { id: 'arrest-warrant', name: '緊急逮捕令', cost: 180000, effect: { instantArrest: true }, description: '立即發動強制行動' }
-                }
-            },
+
 
             // 黑客工具分類
                 toolCategories: {
@@ -4989,6 +4899,16 @@
                         handler: 'executeTool',
                         tool: 'nmap'
                     },
+                    'whois': {
+                        desc: '查詢域名信息',
+                        handler: 'executeTool',
+                        tool: 'whois'
+                    },
+                    'dnsenum': {
+                        desc: 'DNS枚舉',
+                        handler: 'executeTool',
+                        tool: 'dns_enum'
+                    },
                     'exploit': {
                         desc: '利用系統漏洞',
                         handler: 'executeTool',
@@ -5033,6 +4953,8 @@
                         handler: 'executeTool',
                         tool: 'ransomware'
                     },
+
+                    // 通用命令
                     'status': {
                         desc: '顯示攻擊狀態',
                         handler: 'showStatus'
@@ -5052,6 +4974,60 @@
                     'disconnect': {
                         desc: '斷開連接',
                         handler: 'disconnectFromTarget'
+                    },
+                    'upgrade': {
+                        desc: '升級或購買強化',
+                        handler: 'openShop'
+                    },
+                    'shop': {
+                        desc: '打開商店',
+                        handler: 'openShop'
+                    },
+                    'select': {
+                        desc: '顯示當前選項/目標',
+                        handler: 'showSelection'
+                    },
+                    'setupvpn': {
+                        desc: '設定VPN',
+                        handler: 'setupVPN'
+                    },
+                    'proxy': {
+                        desc: '使用代理鏈',
+                        handler: 'executeTool',
+                        tool: 'proxy_chain'
+                    },
+                    'tor': {
+                        desc: '使用Tor網絡',
+                        handler: 'executeTool',
+                        tool: 'tor'
+                    },
+                    'history': {
+                        desc: '顯示終端歷史',
+                        handler: 'showHistory'
+                    },
+                    'save': {
+                        desc: '保存遊戲狀態',
+                        handler: 'saveGame'
+                    },
+                    'load': {
+                        desc: '加載遊戲狀態',
+                        handler: 'loadGame'
+                    },
+                    'settings': {
+                        desc: '打開設置',
+                        handler: 'showSettings'
+                    },
+                    'notifications': {
+                        desc: '切換通知',
+                        handler: 'toggleNotifications'
+                    },
+                    'sound': {
+                        desc: '切換音效',
+                        handler: 'toggleSound'
+                    },
+                    'quit': {
+                        desc: '退出遊戲',
+                        handler: 'quitGame'
                     }
                 },
                 
@@ -5380,6 +5356,8 @@
                         handler: 'executeTool',
                         tool: 'backup_restore'
                     },
+
+                    // 通用命令
                     'status': {
                         desc: '顯示防禦狀態',
                         handler: 'showStatus'
@@ -5399,6 +5377,88 @@
                     'disconnect': {
                         desc: '斷開連接',
                         handler: 'disconnectFromTarget'
+                    },
+                    'upgrade': {
+                        desc: '升級或購買強化',
+                        handler: 'openShop'
+                    },
+                    'shop': {
+                        desc: '打開商店',
+                        handler: 'openShop'
+                    },
+                    'select': {
+                        desc: '顯示當前選項/目標',
+                        handler: 'showSelection'
+                    },
+                    'isolate': {
+                        desc: '隔離受感染主機',
+                        handler: 'notAvailable'
+                    },
+                    'quarantine': {
+                        desc: '隔離系統',
+                        handler: 'notAvailable'
+                    },
+                    'patch': {
+                        desc: '修補漏洞',
+                        handler: 'executeTool',
+                        tool: 'patch_manager'
+                    },
+                    'harden': {
+                        desc: '系統加固',
+                        handler: 'notAvailable'
+                    },
+                    'update': {
+                        desc: '更新系統和簽名',
+                        handler: 'executeTool',
+                        tool: 'update_system'
+                    },
+                    'blacklist': {
+                        desc: '添加到黑名單',
+                        handler: 'notAvailable'
+                    },
+                    'whitelist': {
+                        desc: '添加到白名單',
+                        handler: 'notAvailable'
+                    },
+                    'trace': {
+                        desc: '追蹤來源',
+                        handler: 'notAvailable'
+                    },
+                    'contain': {
+                        desc: '限制威脅擴散',
+                        handler: 'notAvailable'
+                    },
+                    'eradicate': {
+                        desc: '消除威脅',
+                        handler: 'notAvailable'
+                    },
+                    'history': {
+                        desc: '顯示終端歷史',
+                        handler: 'showHistory'
+                    },
+                    'save': {
+                        desc: '保存遊戲狀態',
+                        handler: 'saveGame'
+                    },
+                    'load': {
+                        desc: '加載遊戲狀態',
+                        handler: 'loadGame'
+                    },
+                    'settings': {
+                        desc: '打開設置',
+                        handler: 'showSettings'
+                    },
+                    'notifications': {
+                        desc: '切換通知',
+                        handler: 'toggleNotifications'
+                    },
+                    'sound': {
+                        desc: '切換音效',
+                        handler: 'toggleSound'
+                    },
+                    'quit': {
+                        desc: '退出遊戲',
+                        handler: 'quitGame'
                     }
                 },
                 
@@ -5488,27 +5548,7 @@
                 alertHistory: []
             },
 
-            // 挑戰模式狀態
-            challenge: {
-                hackerRisk: 0, // 黑客身份暴露風險 (0-100)
-                leProgress: 0, // 執法部門起底進度 (0-100)
-                negotiationStatus: 'none', // none, offered, in_progress, failed, success
-                departments: {
-                    cyberCrime: { active: false, power: 20, name: '網絡犯罪調查科' },
-                    techSupport: { active: false, power: 15, name: '技術支援組' },
-                    specialOps: { active: false, power: 30, name: '特別行動組' },
-                    interpol: { active: false, power: 35, name: '國際刑警聯絡處' }
-                },
-                activeDepartments: 0,
-                leAttackTimer: null,
-                leDifficulty: 'medium',
-                timeLimit: 600, // 10分鐘
-                timeRemaining: 600,
-                challengeEnded: false,
-                winner: null,
-                score: { player: 0, le: 0 },
-                sharedMessages: []
-            },
+
 
             // 對戰狀態
             battle: {
@@ -6677,7 +6717,7 @@
             if (difficulty === 'easy') {
                 addTerminalLine('💡 簡單模式: AI反應較慢，你有更多時間準備！', 'success');
             } else if (difficulty === 'medium') {
-                addTerminalLine('💡 中等模式: 標準挑戰，平衡攻防！', 'response');
+                addTerminalLine('💡 中等模式: 標準對戰，平衡攻防！', 'response');
             } else {
                 addTerminalLine('⚠️ 困難模式: AI反應迅速，需快速行動！', 'alert');
             }
@@ -7114,22 +7154,9 @@
             
             /// 設置對戰目標
             let opponentMode = mode === 'hacker' ? 'defender' : 'hacker';
-            if (GameState.isChallengeMode) {
-                // 挑戰模式的目標是執法部門總部或黑客
-                GameState.battle.targetIP = GameConfig.settings.challengeTargetIP;
-                // 挑戰模式的對手Stats需要根據玩家角色來設定
-                if (mode === 'hacker') {
-                    // 黑客對抗執法部門
-                    GameState.battle.opponentStats = JSON.parse(JSON.stringify(GameConfig.opponent.lawEnforcement.stats));
-                } else {
-                    // 執法部門對抗黑客
-                    GameState.battle.opponentStats = JSON.parse(JSON.stringify(GameConfig.opponent.hacker.stats));
-                }
-            } else {
-                // 傳統對戰模式
-                GameState.battle.targetIP = GameConfig.settings.targetIP || GameConfig.opponent[opponentMode].ip;
-                GameState.battle.opponentStats = JSON.parse(JSON.stringify(GameConfig[opponentMode].stats));
-            };
+            // 設置對戰目標（傳統對戰模式）
+            GameState.battle.targetIP = GameConfig.settings.targetIP || GameConfig.opponent[opponentMode].ip;
+            GameState.battle.opponentStats = JSON.parse(JSON.stringify(GameConfig[opponentMode].stats));
             
             // 隱藏主頁，顯示遊戲頁
             mainPage.classList.remove('active');
@@ -7926,13 +7953,9 @@
             // 開始遊戲計時器
             startGameTimer();
             
-            // 開始對戰/挑戰模擬
+            // 開始對戰模擬
             if (GameState.isBattleMode) {
                 startBattleSimulation(mode);
-            } else if (GameState.isChallengeMode) {
-                // 挑戰模式的AI和計時器已在startChallengeGame中啟動
-                // 只需要更新面板
-                updateChallengePanels(mode);
             }
             
             console.log(`${mode} 模式遊戲邏輯初始化完成`);
@@ -7976,6 +7999,8 @@
                     const tool = config.toolCategories[getToolCategory(mode, cmdConfig.tool)]?.tools.find(t => t.id === cmdConfig.tool);
                     if (tool) {
                         executeTool(mode, tool);
+                    } else {
+                        addTerminalLine(`工具未找到: ${cmdConfig.tool}`, 'error');
                     }
                 } else if (cmdConfig.handler === 'toggleStealth') {
                     toggleStealthMode();
@@ -7989,6 +8014,31 @@
                     connectToTarget();
                 } else if (cmdConfig.handler === 'disconnectFromTarget') {
                     disconnectFromTarget();
+                } else if (cmdConfig.handler === 'showSelection') {
+                    showSelection(mode);
+                } else if (cmdConfig.handler === 'showHistory') {
+                    showHistory();
+                } else if (cmdConfig.handler === 'setupVPN') {
+                    setupVPN();
+                } else if (cmdConfig.handler === 'openShop') {
+                    showShop();
+                } else if (cmdConfig.handler === 'saveGame') {
+                    saveGameState();
+                    addTerminalLine('遊戲已保存', 'success');
+                } else if (cmdConfig.handler === 'loadGame') {
+                    loadGameState();
+                    addTerminalLine('遊戲已加載（若有存檔）', 'success');
+                } else if (cmdConfig.handler === 'notAvailable') {
+                    addTerminalLine('該指令尚未實作，請使用 UI 或稍後更新。', 'warning');
+                } else if (cmdConfig.handler === 'toggleNotifications') {
+                    GameConfig.settings.notifications = !GameConfig.settings.notifications;
+                    addTerminalLine(`通知已${GameConfig.settings.notifications ? '啟用' : '禁用'}`, 'system');
+                } else if (cmdConfig.handler === 'toggleSound') {
+                    GameConfig.settings.soundEffects = !GameConfig.settings.soundEffects;
+                    SoundSystem.enabled = !!GameConfig.settings.soundEffects;
+                    addTerminalLine(`音效已${GameConfig.settings.soundEffects ? '啟用' : '禁用'}`, 'system');
+                } else if (cmdConfig.handler === 'quitGame') {
+                    addTerminalLine('退出遊戲... (請關閉此標籤頁)', 'system');
                 }
             } else {
                 addTerminalLine(`錯誤: 未知指令 "${command}"`, 'error');
@@ -9899,6 +9949,59 @@
                 console.log("遊戲狀態已保存");
             } catch (e) {
                 console.error("保存遊戲狀態失敗:", e);
+            }
+        }
+
+        // ===== 顯示選擇/目標 =====
+        function showSelection(mode) {
+            const roleName = mode === 'hacker' ? '黑客' : '防禦者';
+            const targetIP = GameState.battle?.targetIP || GameConfig.settings.targetIP || '未設定';
+            addTerminalLine(`角色: ${roleName}`, 'system');
+            addTerminalLine(`目標IP: ${targetIP}`, 'system');
+            if (GameState.stats) {
+                addTerminalLine(`當前資源: ${GameState.stats.resources || 0}`, 'system');
+            }
+        }
+
+        // ===== 顯示終端歷史 =====
+        function showHistory() {
+            if (!terminalOutput) {
+                addTerminalLine('無法存取終端輸出', 'error');
+                return;
+            }
+            const lines = Array.from(terminalOutput.querySelectorAll('.terminal-line')).map(l => l.textContent);
+            const last = lines.slice(-30);
+            addTerminalLine('--- 終端歷史（最近30行） ---', 'system');
+            last.forEach(l => addTerminalLine(l, 'response'));
+            addTerminalLine('--- 歷史結束 ---', 'system');
+        }
+
+        // ===== 設置/切換 VPN =====
+        function setupVPN() {
+            GameState.vpn.active = !GameState.vpn.active;
+            GameState.vpn.provider = GameState.vpn.active ? (GameState.vpn.provider || 'NordVPN') : null;
+            GameState.vpn.maskedIP = GameState.vpn.active ? `10.8.0.${Math.floor(Math.random()*200)+2}` : null;
+            addTerminalLine(`VPN 已${GameState.vpn.active ? '啟動' : '關閉'}，提供者: ${GameState.vpn.provider || '無'}`, 'system');
+            updateConnectionDisplay();
+        }
+
+        // ===== 加載遊戲狀態 =====
+        function loadGameState() {
+            try {
+                const saved = MemoryStorage.getItem(`${GameConfig.STORAGE_KEY}_game`);
+                if (saved) {
+                    const data = JSON.parse(saved);
+                    GameState.currentMode = data.mode || GameState.currentMode;
+                    GameState.stats = data.stats || GameState.stats;
+                    GameState.battle = data.battle || GameState.battle;
+                    addTerminalLine('存檔已加載', 'success');
+                    updateStatsDisplay(GameState.currentMode);
+                } else {
+                    addTerminalLine('找不到存檔', 'warning');
+                }
+            } catch (e) {
+                addTerminalLine('加載存檔失敗', 'error');
+                console.error(e);
             }
         }
 
@@ -16619,10 +16722,6 @@ find /target -type f -exec ./encrypt.sh {} \\;
                 showBattleSelect();
                 updateBreadcrumb('主頁 > 對戰模式');
                 updateNavMenu('battle');
-            } else if (mode === 'challenge') {
-                startChallengeMode();
-                updateBreadcrumb('主頁 > 挑戰模式');
-                updateNavMenu('challenge');
             }
         }
 
@@ -16652,8 +16751,7 @@ find /target -type f -exec ./encrypt.sh {} \\;
                 'home': 'nav-home',
                 'hacker': 'nav-hacker',
                 'defender': 'nav-defender',
-                'battle': 'nav-battle',
-                'challenge': 'nav-challenge'
+                'battle': 'nav-battle'
             };
             
             if (activeMap[active]) {
@@ -16661,629 +16759,16 @@ find /target -type f -exec ./encrypt.sh {} \\;
             }
         }
 
-        // ===== 挑戰模式函數 =====
-        function startChallengeMode() {
-            // 隱藏主頁，顯示挑戰模式選擇頁
-            mainPage.classList.remove('active');
-            mainPage.classList.add('hidden');
-            
-            // 挑戰模式使用對戰模式的選擇頁面，但會修改其內容
-            showChallengeSelect();
-        }
+        // 該功能已移除
 
-        // ===== 顯示挑戰模式選擇頁面 =====
-        function showChallengeSelect() {
-            console.log("進入挑戰模式選擇...");
-            SoundSystem.play('success');
 
-            // 隱藏主頁，顯示對戰選擇頁
-            mainPage.classList.remove('active');
-            mainPage.classList.add('hidden');
+        // 模式選擇功能已移除
 
-            battleSelectPage.classList.remove('hidden');
-            battleSelectPage.classList.add('active');
+        // 已移除該模式相關遊戲函數與提示
 
-            // 修改對戰選擇頁面的標題和描述以適應挑戰模式
-            document.querySelector('#battle-select-page .main-logo span').textContent = '挑戰模式 (黑客 vs 執法部門)';
-            document.querySelector('#battle-select-page .main-subtitle').textContent = '選擇你的角色';
-            document.querySelector('#battle-select-page .main-tagline').innerHTML = '這是**對戰模式的續集版本**，你將與AI控制的**高技術強度執法部門**進行攻防對決。';
-            document.querySelector('#battle-select-page .settings-title span').textContent = '挑戰設置';
-            
-            // 設置挑戰模式專屬IP
-            document.getElementById('battle-player-ip').value = GameConfig.settings.playerIP;
-            document.getElementById('battle-target-ip').value = GameConfig.settings.challengeTargetIP;
-            document.getElementById('battle-target-ip').placeholder = GameConfig.settings.challengeTargetIP + ' (執法部門總部)';
-            
-            // 設置按鈕事件為啟動挑戰模式
-            document.getElementById('battle-start-hacker').onclick = (e) => { e.stopPropagation(); startChallengeGame('hacker'); };
-            document.getElementById('battle-start-defender').onclick = (e) => { e.stopPropagation(); startChallengeGame('lawEnforcement'); };
-            document.getElementById('battle-hacker-card').onclick = (e) => { if (!e.target.closest('.select-btn')) startChallengeGame('hacker'); };
-            document.getElementById('battle-defender-card').onclick = (e) => { if (!e.target.closest('.select-btn')) startChallengeGame('lawEnforcement'); };
-            
-            // 修改防禦者卡片為執法部門
-            document.querySelector('#battle-defender-card .mode-title').textContent = '🛡️ 執法部門 🛡️';
-            document.querySelector('#battle-defender-card .mode-description').textContent = '扮演執法部門，聯合多個部門，使用高科技手段起底並拘捕黑客。';
-            document.querySelector('#battle-start-defender span').textContent = '以執法部門身份挑戰';
-        }
+        // 重新開始功能已移除
 
-        // ===== 挑戰模式遊戲 =====
-        function startChallengeGame(mode) {
-            console.log(`開始挑戰 ${mode} 模式...`);
-
-            const targetIP = document.getElementById('battle-target-ip').value.trim();
-            let difficulty = document.getElementById('battle-difficulty').value;
-
-            if (!targetIP) {
-                showAlertModal('錯誤', '請輸入目標IP地址才能開始挑戰！');
-                return;
-            }
-
-            // 設置挑戰模式狀態
-            GameState.isBattleMode = false; // 確保不是傳統對戰模式
-            GameState.isChallengeMode = true;
-            GameState.currentMode = mode;
-            
-            // 根據難度設定時限 - 簡單15分鐘、中等10分鐘、困難5分鐘
-            const timeLimits = { easy: 900, medium: 600, hard: 300 };
-            GameState.challenge.timeLimit = timeLimits[difficulty] || 600;
-
-            GameState.challenge.leDifficulty = difficulty;
-            GameConfig.settings.difficulty = difficulty;
-            
-            // 重置挑戰狀態
-            GameState.challenge.timeRemaining = GameState.challenge.timeLimit;
-            GameState.challenge.hackerRisk = 0;
-            GameState.challenge.leProgress = 0;
-            GameState.challenge.challengeEnded = false;
-            GameState.challenge.winner = null;
-            GameState.challenge.score = { player: 0, le: 0 };
-            GameState.challenge.sharedMessages = [];
-            GameState.challenge.negotiationStatus = 'none';
-            GameState.challenge.departments = {
-                cyberCrime: { active: false, power: 20, name: '網絡犯罪調查科' },
-                techSupport: { active: false, power: 15, name: '技術支援組' },
-                specialOps: { active: false, power: 30, name: '特別行動組' },
-                interpol: { active: false, power: 35, name: '國際刑警聯絡處' }
-            };
-            GameState.challenge.activeDepartments = 0;
-
-            SoundSystem.play('attack');
-
-            // 隱藏對戰選擇頁，顯示遊戲頁
-            battleSelectPage.classList.remove('active');
-            battleSelectPage.classList.add('hidden');
-
-            // 啟動遊戲界面
-            startGame(mode);
-            
-            // 啟動挑戰模式AI
-            startChallengeAI(mode, difficulty);
-
-            // 啟動挑戰計時器
-            startChallengeTimer(mode);
-
-            // 顯示挑戰開始提示
-            showChallengeStartNotification(mode, difficulty);
-        }
-
-        // ===== 挑戰開始提示 =====
-        function showChallengeStartNotification(mode, difficulty) {
-            const difficultyNames = { easy: '簡單', medium: '中等', hard: '困難' };
-            const timeNames = { easy: '15分鐘', medium: '10分鐘', hard: '5分鐘' };
-            const playerRole = mode === 'hacker' ? '黑客' : '執法部門';
-            const opponentRole = mode === 'hacker' ? '執法部門' : '黑客';
-
-            addTerminalLine('═══════════════════════════════════════', 'system');
-            addTerminalLine(`⚡ 挑戰模式開始！`, 'system');
-            addTerminalLine(`🎮 你的角色: ${playerRole}`, 'success');
-            addTerminalLine(`🤖 對手: ${opponentRole} (難度: ${difficultyNames[difficulty]})`, 'warning');
-            addTerminalLine(`⏱️ 挑戰時限: ${timeNames[difficulty]}`, 'system');
-            addTerminalLine(`🎯 目標: ${mode === 'hacker' ? '成功逃脫並癱瘓執法系統' : '聯合部門起底並拘捕黑客'}`, 'system');
-            addTerminalLine('═══════════════════════════════════════', 'system');
-        }
-
-        // ===== 挑戰計時器 =====
-        function startChallengeTimer(mode) {
-            // 清除舊計時器
-            if (GameState.challenge.challengeTimer) {
-                clearInterval(GameState.challenge.challengeTimer);
-            }
-
-            updateChallengeTimerDisplay();
-
-            GameState.challenge.challengeTimer = setInterval(() => {
-                if (GameState.challenge.challengeEnded) {
-                    clearInterval(GameState.challenge.challengeTimer);
-                    return;
-                }
-
-                GameState.challenge.timeRemaining--;
-                updateChallengeTimerDisplay();
-
-                // 時間到
-                if (GameState.challenge.timeRemaining <= 0) {
-                    clearInterval(GameState.challenge.challengeTimer);
-                    determineChallengeWinner(mode);
-                }
-            }, 1000);
-        }
-
-        // ===== 更新挑戰計時器顯示 =====
-        function updateChallengeTimerDisplay() {
-            const timerElement = document.getElementById('challenge-timer-display');
-            if (timerElement) {
-                const minutes = Math.floor(GameState.challenge.timeRemaining / 60);
-                const seconds = GameState.challenge.timeRemaining % 60;
-                timerElement.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
-
-                // 時間少於60秒變紅色
-                if (GameState.challenge.timeRemaining <= 60) {
-                    timerElement.style.color = '#ff3333';
-                    timerElement.style.animation = 'pulse 1s infinite';
-                } else {
-                    timerElement.style.color = '#9966ff';
-                    timerElement.style.animation = 'none';
-                }
-            }
-        }
-
-        // ===== 啟動挑戰模式AI =====
-        function startChallengeAI(playerMode, difficulty) {
-            const aiMode = playerMode === 'hacker' ? 'lawEnforcement' : 'hacker';
-            const interval = difficulty === 'hard' ? 1500 : difficulty === 'medium' ? 3000 : 5000; // AI行動間隔
-
-            // 清除舊的AI計時器
-            if (GameState.challenge.leAttackTimer) {
-                clearInterval(GameState.challenge.leAttackTimer);
-            }
-
-            // 啟動AI行動計時器
-            GameState.challenge.leAttackTimer = setInterval(() => {
-                if (GameState.challenge.challengeEnded) return;
-
-                executeChallengeAIAction(aiMode, difficulty);
-            }, interval);
-        }
-
-        // ===== 執行挑戰模式AI行動 =====
-        function executeChallengeAIAction(aiMode, difficulty) {
-            if (aiMode === 'lawEnforcement') {
-                // 執法部門AI行動：起底、反擊、聯合部門
-                const actions = ['track', 'counter', 'join'];
-                const action = actions[Math.floor(Math.random() * actions.length)];
-                
-                switch (action) {
-                    case 'track':
-                        // 增加起底進度
-                        const trackGain = 5 + GameState.challenge.activeDepartments * 2;
-                        GameState.challenge.leProgress = Math.min(100, GameState.challenge.leProgress + trackGain);
-                        addTerminalLine(`[執法部門] 正在進行高強度追蹤... 起底進度 +${trackGain}%`, 'warning');
-                        break;
-                    case 'counter':
-                        // 降低黑客風險
-                        const riskReduction = 10;
-                        GameState.challenge.hackerRisk = Math.max(0, GameState.challenge.hackerRisk - riskReduction);
-                        addTerminalLine(`[執法部門] 啟動反擊系統，黑客風險 -${riskReduction}%`, 'system');
-                        break;
-                    case 'join':
-                        // 聯合部門
-                        const departments = Object.keys(GameState.challenge.departments);
-                        const inactiveDepartments = departments.filter(d => !GameState.challenge.departments[d].active);
-                        if (inactiveDepartments.length > 0) {
-                            const deptToJoin = inactiveDepartments[Math.floor(Math.random() * inactiveDepartments.length)];
-                            GameState.challenge.departments[deptToJoin].active = true;
-                            GameState.challenge.activeDepartments++;
-                            addTerminalLine(`[執法部門] ${GameState.challenge.departments[deptToJoin].name} 已加入聯合調查！`, 'alert');
-                        }
-                        break;
-                }
-                
-                // 檢查勝利條件
-                if (GameState.challenge.leProgress >= 100) {
-                    determineChallengeWinner('lawEnforcement');
-                }
-            } else {
-                // 黑客AI行動：攻擊、隱藏、談判
-                const actions = ['attack', 'hide', 'negotiate'];
-                const action = actions[Math.floor(Math.random() * actions.length)];
-                
-                switch (action) {
-                    case 'attack':
-                        // 攻擊執法部門系統
-                        const attackPower = 10;
-                        GameState.challenge.leProgress = Math.max(0, GameState.challenge.leProgress - attackPower);
-                        addTerminalLine(`[黑客] 發動零日攻擊，執法部門進度 -${attackPower}%`, 'error');
-                        break;
-                    case 'hide':
-                        // 降低身份暴露風險
-                        const riskDecrease = 15;
-                        GameState.challenge.hackerRisk = Math.max(0, GameState.challenge.hackerRisk - riskDecrease);
-                        addTerminalLine(`[黑客] 啟動全球代理網絡，身份風險 -${riskDecrease}%`, 'success');
-                        break;
-                    case 'negotiate':
-                        // 發起談判
-                        if (GameState.challenge.negotiationStatus === 'none') {
-                            GameState.challenge.negotiationStatus = 'offered';
-                            addTerminalLine(`[黑客] 發起談判請求...`, 'warning');
-                        }
-                        break;
-                }
-                
-                // 檢查勝利條件
-                if (GameState.challenge.leProgress <= 0) {
-                    determineChallengeWinner('hacker');
-                }
-            }
-            
-            updateChallengePanels(playerMode);
-        }
-
-        // ===== 決定挑戰勝負 =====
-        function determineChallengeWinner(winner) {
-            if (GameState.challenge.challengeEnded) return;
-            GameState.challenge.challengeEnded = true;
-            GameState.challenge.winner = winner;
-
-            // 停止計時器
-            if (GameState.challenge.challengeTimer) clearInterval(GameState.challenge.challengeTimer);
-            if (GameState.challenge.leAttackTimer) clearInterval(GameState.challenge.leAttackTimer);
-
-            let resultMessage = '';
-            let isPlayerWin = false;
-            const playerMode = GameState.currentMode;
-
-            if (winner === 'hacker') {
-                resultMessage = playerMode === 'hacker' ? '成功逃脫並癱瘓執法系統！' : '系統被黑客完全癱瘓！';
-                isPlayerWin = playerMode === 'hacker';
-            } else if (winner === 'lawEnforcement') {
-                resultMessage = playerMode === 'lawEnforcement' ? '成功起底並拘捕黑客！' : '身份暴露，被執法部門拘捕！';
-                isPlayerWin = playerMode === 'lawEnforcement';
-            } else {
-                // 時間到，根據進度判斷
-                if (GameState.challenge.leProgress > GameState.challenge.hackerRisk) {
-                    winner = 'lawEnforcement';
-                    resultMessage = playerMode === 'lawEnforcement' ? '時間到，優勢獲勝！' : '時間到，被起底風險過高而失敗！';
-                    isPlayerWin = playerMode === 'lawEnforcement';
-                } else if (GameState.challenge.hackerRisk > GameState.challenge.leProgress) {
-                    winner = 'hacker';
-                    resultMessage = playerMode === 'hacker' ? '時間到，成功隱藏並獲勝！' : '時間到，未能成功起底而失敗！';
-                    isPlayerWin = playerMode === 'hacker';
-                } else {
-                    winner = 'draw';
-                    resultMessage = '平局！雙方勢均力敵，挑戰結束。';
-                    isPlayerWin = false;
-                }
-            }
-
-            showChallengeResult(winner, resultMessage, playerMode);
-        }
-
-        // ===== 顯示挑戰結果 =====
-        function showChallengeResult(winner, message, mode) {
-            const isPlayerWin = winner === mode;
-            const isDraw = winner === 'draw';
-            
-            // 獎勵計算 (挑戰模式獎勵更高)
-            let reward = 0;
-            if (isPlayerWin) {
-                reward = 100000 + (GameState.challenge.score.player * 200);
-            } else if (isDraw) {
-                reward = 20000;
-            }
-
-            // 更新玩家金錢
-            if (reward > 0) {
-                GameState.money += reward;
-                saveSettings();
-            }
-
-            const resultHTML = `
-                <div class="modal-overlay" id="challenge-result-modal" style="display: flex;">
-                    <div class="modal-box" style="max-width: 600px; background: linear-gradient(135deg, ${isPlayerWin ? 'rgba(153,102,255,0.95)' : isDraw ? 'rgba(255,153,0,0.95)' : 'rgba(231,76,60,0.95)'} 0%, ${isPlayerWin ? 'rgba(100,50,200,0.95)' : isDraw ? 'rgba(200,120,0,0.95)' : 'rgba(180,50,40,0.95)'} 100%); border: 3px solid ${isPlayerWin ? '#9966ff' : isDraw ? '#ff9900' : '#e74c3c'}; text-align: center;">
-
-                        <h2 style="color: #fff; font-size: 2.5rem; margin-bottom: 15px;">
-                            <i class="fas fa-star" style="color: ${isPlayerWin ? '#ffd700' : isDraw ? '#ff9900' : '#e74c3c'};"></i>
-                            挑戰結果
-                        </h2>
-
-                        <p style="color: #fff; font-size: 1.2rem; margin-bottom: 25px; line-height: 1.5;">
-                            ${message}
-                        </p>
-
-                        <!-- 挑戰統計 -->
-                        <div style="background: rgba(0,0,0,0.3); border-radius: 10px; padding: 20px; margin-bottom: 25px;">
-                            <h3 style="color: #fff; margin-bottom: 15px;"><i class="fas fa-chart-bar"></i> 挑戰統計</h3>
-                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
-                                <div>
-                                    <div style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">你的得分</div>
-                                    <div style="color: #fff; font-size: 1.5rem; font-weight: bold;">${GameState.challenge.score.player}</div>
-                                </div>
-                                <div>
-                                    <div style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">對手得分</div>
-                                    <div style="color: #fff; font-size: 1.5rem; font-weight: bold;">${GameState.challenge.score.le}</div>
-                                </div>
-                                <div>
-                                    <div style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">挑戰時長</div>
-                                    <div style="color: #fff; font-size: 1.5rem; font-weight: bold;">${formatTime(GameState.challenge.timeLimit - GameState.challenge.timeRemaining)}</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        ${reward > 0 ? `<p style="color: #ffd700; font-size: 1.3rem; font-weight: bold; margin-bottom: 25px;">💰 獲得獎勵: $${reward.toLocaleString()}</p>` : ''}
-
-                        <button class="btn" onclick="restartChallenge()" style="background: #9966ff; color: #fff; border: none; padding: 12px 30px; margin-right: 10px;">
-                            <i class="fas fa-redo"></i> 重新挑戰
-                        </button>
-                        <button class="btn" onclick="closeChallengeResult()" style="background: #555; color: #fff; border: none; padding: 12px 30px;">
-                            <i class="fas fa-home"></i> 返回主頁
-                        </button>
-                    </div>
-                </div>
-            `;
-
-            document.body.insertAdjacentHTML('beforeend', resultHTML);
-            SoundSystem.play(isPlayerWin ? 'win' : 'lose');
-
-            // 終端機提示
-            addTerminalLine('═══════════════════════════════════════', 'system');
-            addTerminalLine(`⚡ 挑戰結束: ${message}`, isPlayerWin ? 'success' : isDraw ? 'warning' : 'error');
-            addTerminalLine(`得分: 你 ${GameState.challenge.score.player} vs 對手 ${GameState.challenge.score.le}`, 'system');
-            if (reward > 0) {
-                addTerminalLine(`💰 獲得獎勵: $${reward.toLocaleString()}`, 'success');
-            }
-        }
-
-        // 關閉挑戰結果
-        function closeChallengeResult() {
-            const modal = document.getElementById('challenge-result-modal');
-            if (modal) modal.remove();
-            resetGameState();
-            goToMainPage();
-        }
-
-        // 重新開始挑戰
-        function restartChallenge() {
-            closeChallengeResult();
-            // 返回挑戰選擇頁
-            gamePage.classList.remove('active');
-            gamePage.classList.add('hidden');
-            showChallengeSelect();
-        }
-
-        // ===== 更新挑戰模式專用面板 =====
-        function updateChallengePanels(mode) {
-            if (!GameState.isChallengeMode) return;
-
-            // 更新進度條
-            const playerProgress = document.getElementById('challenge-player-progress-bar');
-            const aiProgress = document.getElementById('challenge-ai-progress-bar');
-            const playerText = document.getElementById('challenge-player-progress-text');
-            const aiText = document.getElementById('challenge-ai-progress-text');
-
-            if (mode === 'hacker') {
-                // 黑客：目標是降低風險，執法部門目標是提高進度
-                const risk = GameState.challenge.hackerRisk;
-                const progress = GameState.challenge.leProgress;
-                
-                if (playerProgress) playerProgress.style.width = `${100 - risk}%`; // 隱藏程度
-                if (aiProgress) aiProgress.style.width = `${progress}%`; // 起底進度
-                if (playerText) playerText.textContent = `隱藏程度: ${100 - risk}% (風險: ${risk}%)`;
-                if (aiText) aiText.textContent = `起底進度: ${progress}%`;
-            } else {
-                // 執法部門：目標是提高進度，黑客目標是降低進度
-                const progress = GameState.challenge.leProgress;
-                const risk = GameState.challenge.hackerRisk;
-                
-                if (playerProgress) playerProgress.style.width = `${progress}%`; // 起底進度
-                if (aiProgress) aiProgress.style.width = `${100 - risk}%`; // 黑客隱藏程度
-                if (playerText) playerText.textContent = `起底進度: ${progress}%`;
-                if (aiProgress) aiText.textContent = `黑客隱藏程度: ${100 - risk}% (風險: ${risk}%)`;
-            }
-            
-            // 更新部門聯合面板
-            const deptPanel = document.getElementById('challenge-department-panel');
-            if (deptPanel) {
-                let deptHTML = '';
-                for (const key in GameState.challenge.departments) {
-                    const dept = GameState.challenge.departments[key];
-                    deptHTML += `
-                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 5px 0; border-bottom: 1px dotted rgba(255,255,255,0.1);">
-                            <span style="color: ${dept.active ? '#00ff41' : '#ff3333'};"><i class="fas fa-circle" style="font-size: 0.6rem; margin-right: 5px;"></i>${dept.name}</span>
-                            <span style="color: ${dept.active ? '#00ff41' : '#aaa'};">${dept.active ? '已聯合' : '未行動'}</span>
-                        </div>
-                    `;
-                }
-                deptPanel.innerHTML = deptHTML;
-            }
-            
-            // 更新談判按鈕狀態
-            const negotiateBtn = document.getElementById('btn-negotiate');
-            if (negotiateBtn) {
-                negotiateBtn.disabled = GameState.challenge.negotiationStatus !== 'none';
-                negotiateBtn.textContent = GameState.challenge.negotiationStatus === 'offered' ? '談判請求中...' : '發起談判';
-            }
-        }
-
-        // ===== 處理談判 =====
-        function handleNegotiation() {
-            if (!GameState.isChallengeMode) return;
-            
-            if (GameState.challenge.negotiationStatus !== 'none') {
-                showAlertModal('提示', '談判正在進行中或已結束，請稍後再試。');
-                return;
-            }
-            
-            // 玩家發起談判
-            GameState.challenge.negotiationStatus = 'offered';
-            addTerminalLine(`[談判] 你已向對手發起談判請求...`, 'warning');
-            
-            // 模擬對手回應
-            setTimeout(() => {
-                const accepted = Math.random() > 0.3; // 70%機率接受
-                
-                if (accepted) {
-                    GameState.challenge.negotiationStatus = 'in_progress';
-                    addTerminalLine(`[談判] 對手接受了談判請求！正在進入談判室...`, 'success');
-                    showNegotiationModal();
-                } else {
-                    GameState.challenge.negotiationStatus = 'failed';
-                    addTerminalLine(`[談判] 對手拒絕了談判請求。`, 'error');
-                    setTimeout(() => { GameState.challenge.negotiationStatus = 'none'; }, 10000); // 10秒後可再次發起
-                }
-                updateChallengePanels(GameState.currentMode);
-            }, 3000);
-        }
-
-        // ===== 顯示談判模態框 =====
-        function showNegotiationModal() {
-            const isHacker = GameState.currentMode === 'hacker';
-            const opponent = isHacker ? '執法部門' : '黑客';
-            
-            const negotiationHTML = `
-                <div class="modal-overlay" id="negotiation-modal" style="display: flex;">
-                    <div class="modal-box" style="max-width: 700px; background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%); border: 3px solid #9966ff; text-align: center;">
-
-                        <h2 style="color: #9966ff; font-size: 2rem; margin-bottom: 20px;">
-                            <i class="fas fa-handshake"></i> 談判室
-                        </h2>
-
-                        <p style="color: #aaa; font-size: 1rem; margin-bottom: 25px; line-height: 1.5;">
-                            你正在與 ${opponent} 進行談判。選擇你的策略。
-                        </p>
-                        
-                        <div id="negotiation-log" style="height: 150px; overflow-y: auto; background: #000; border: 1px solid #333; padding: 15px; margin-bottom: 20px; text-align: left; color: #00ff41; font-size: 0.9rem;">
-                            <div style="color: #9966ff;">[系統] 談判開始。</div>
-                        </div>
-
-                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 20px;">
-                            <button class="btn" onclick="negotiateAction('surrender')" style="background: #e74c3c; color: #fff; border: none;">
-                                <i class="fas fa-flag"></i> ${isHacker ? '投降' : '要求黑客投降'}
-                            </button>
-                            <button class="btn" onclick="negotiateAction('exchange')" style="background: #f39c12; color: #fff; border: none;">
-                                <i class="fas fa-exchange-alt"></i> 交換條件
-                            </button>
-                            <button class="btn" onclick="negotiateAction('stall')" style="background: #3498db; color: #fff; border: none;">
-                                <i class="fas fa-hourglass-half"></i> 拖延時間
-                            </button>
-                            <button class="btn" onclick="negotiateAction('false_promise')" style="background: #2ecc71; color: #fff; border: none;">
-                                <i class="fas fa-mask"></i> 虛假承諾
-                            </button>
-                        </div>
-
-                        <button class="btn" onclick="closeNegotiationModal()" style="background: #555; color: #fff; border: none; padding: 12px 30px;">
-                            <i class="fas fa-times"></i> 結束談判
-                        </button>
-                    </div>
-                </div>
-            `;
-
-            document.body.insertAdjacentHTML('beforeend', negotiationHTML);
-        }
-
-        // ===== 處理談判行動 =====
-        function negotiateAction(action) {
-            const log = document.getElementById('negotiation-log');
-            const isHacker = GameState.currentMode === 'hacker';
-            let message = '';
-            let outcome = '';
-
-            switch (action) {
-                case 'surrender':
-                    message = isHacker ? '我選擇投降，請停止追蹤。' : '我們要求你立即投降，否則將強制執行逮捕。';
-                    outcome = isHacker ? 'surrender_hacker' : 'demand_surrender';
-                    break;
-                case 'exchange':
-                    message = isHacker ? '我願意提供一個零日漏洞，換取我的自由。' : '我們可以用減輕刑罰，換取你提供的情報。';
-                    outcome = 'exchange';
-                    break;
-                case 'stall':
-                    message = isHacker ? '我需要更多時間考慮，請給我3分鐘。' : '我們給你最後3分鐘考慮，否則談判破裂。';
-                    outcome = 'stall';
-                    break;
-                case 'false_promise':
-                    message = isHacker ? '我保證會停止所有攻擊，並提供所有後門。' : '我們承諾不會追究你的責任，只要你現在停止。';
-                    outcome = 'false_promise';
-                    break;
-            }
-
-            log.innerHTML += `<div style="color: ${isHacker ? '#00ff41' : '#ff3333'};">[你] ${message}</div>`;
-            log.scrollTop = log.scrollHeight;
-
-            // 模擬對手回應
-            setTimeout(() => {
-                let response = '';
-                let success = false;
-                
-                if (action === 'surrender') {
-                    if (isHacker) {
-                        determineChallengeWinner('lawEnforcement');
-                        response = '執法部門接受投降。挑戰結束。';
-                        success = true;
-                    } else {
-                        if (GameState.challenge.hackerRisk < 50) {
-                            response = '黑客拒絕投降，並發動反擊！';
-                            GameState.challenge.leProgress = Math.max(0, GameState.challenge.leProgress - 20);
-                        } else {
-                            determineChallengeWinner('lawEnforcement');
-                            response = '黑客同意投降。挑戰結束。';
-                            success = true;
-                        }
-                    }
-                } else if (action === 'exchange') {
-                    if (Math.random() > 0.5) {
-                        response = '對手接受了交換條件！你的進度大幅提升！';
-                        if (isHacker) GameState.challenge.leProgress = Math.max(0, GameState.challenge.leProgress - 30);
-                        else GameState.challenge.leProgress = Math.min(100, GameState.challenge.leProgress + 30);
-                        success = true;
-                    } else {
-                        response = '對手拒絕了交換條件，認為你的籌碼不足。';
-                    }
-                } else if (action === 'stall') {
-                    if (Math.random() > 0.4) {
-                        response = '對手同意給你3分鐘。';
-                        GameState.challenge.timeRemaining += 180;
-                        success = true;
-                    } else {
-                        response = '對手拒絕，並警告你不要拖延時間。';
-                    }
-                } else if (action === 'false_promise') {
-                    if (Math.random() > 0.6) {
-                        response = '對手相信了你的承諾，暫時停止行動。';
-                        if (isHacker) GameState.challenge.leProgress = Math.max(0, GameState.challenge.leProgress - 15);
-                        else GameState.challenge.hackerRisk = Math.max(0, GameState.challenge.hackerRisk - 15);
-                        success = true;
-                    } else {
-                        response = '對手識破了你的謊言，談判破裂！';
-                        GameState.challenge.negotiationStatus = 'failed';
-                    }
-                }
-                
-                log.innerHTML += `<div style="color: ${isHacker ? '#ff3333' : '#00ff41'};">[對手] ${response}</div>`;
-                log.scrollTop = log.scrollHeight;
-                
-                if (success) {
-                    GameState.challenge.negotiationStatus = 'success';
-                    setTimeout(closeNegotiationModal, 5000);
-                } else if (GameState.challenge.negotiationStatus === 'failed') {
-                    setTimeout(closeNegotiationModal, 5000);
-                }
-                
-                updateChallengePanels(GameState.currentMode);
-            }, 2000);
-        }
-
-        // ===== 關閉談判模態框 =====
-        function closeNegotiationModal() {
-            const modal = document.getElementById('negotiation-modal');
-            if (modal) modal.remove();
-            
-            if (GameState.challenge.negotiationStatus === 'in_progress') {
-                GameState.challenge.negotiationStatus = 'none'; // 談判破裂
-                addTerminalLine(`[談判] 談判已結束。`, 'system');
-            }
-            
-            updateChallengePanels(GameState.currentMode);
-        }
+        // 談判與專用面板功能已移除
 </script>
 
 
