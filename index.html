@@ -676,6 +676,41 @@
             font-family: 'Monaco', monospace;
         }
 
+        /* 熱門新功能：終端閃爍光標 */
+        .terminal-prompt::after {
+            content: '|';
+            display: inline-block;
+            margin-left: 8px;
+            color: var(--primary-color, #00ff41);
+            animation: terminalBlink 1s steps(1) infinite;
+            font-weight: bold;
+        }
+
+        @keyframes terminalBlink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        /* 日誌等級顏色 (熱門新功能) */
+        .terminal-line.debug { color: #9b59b6; border-left: 3px solid #9b59b6; background: rgba(155,89,182,0.04); }
+        .terminal-line.info { color: #3498db; border-left: 3px solid #3498db; background: rgba(52,152,219,0.03); }
+        .terminal-line.warn { color: #f39c12; border-left: 3px solid #f39c12; background: rgba(243,156,18,0.03); }
+        .terminal-line.critical { color: #ff3333; border-left: 3px solid #ff3333; background: rgba(255,51,51,0.05); }
+
+        /* HUD 調整 (熱門新功能) */
+        .status-item { padding: 10px; border-radius: 6px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.03); }
+        .status-label span { display: block; font-size: 0.8rem; color: #aaa; }
+        .status-fill { transition: width 0.6s ease; box-shadow: 0 0 8px rgba(0,0,0,0.6) inset; }
+
+        /* 粒子背景 (熱門新功能) */
+        .particle-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; opacity: 0.18; }
+
+    /* 屏幕閃爍遮罩 (熱門新功能) */
+    #screen-flash { position: fixed; inset: 0; pointer-events: none; z-index: 9999; opacity: 0; transition: opacity 200ms ease; }
+
+    /* HUD 狀態目標 (熱門新功能) */
+    .hud .status { font-weight: 700; color: #e6ffed; text-shadow: 0 1px 8px rgba(0,0,0,0.6); }
+
         .input-suggestions {
             display: flex;
             flex-wrap: wrap;
@@ -698,6 +733,50 @@
             background: rgba(255, 255, 255, 0.2);
             transform: translateY(-2px);
         }
+
+        /* Modal accent variables and mode-aware styling */
+        .modal-overlay .modal-box.accent-border {
+            border: 2px solid var(--modal-border, #9b59b6);
+        }
+
+        .modal-accent { color: var(--modal-accent, #9b59b6); }
+
+        .modal-overlay[data-mode="hacker"] { --modal-accent: #9b59b6; --modal-border: #9b59b6; }
+        .modal-overlay[data-mode="defender"] { --modal-accent: #00ff41; --modal-border: #00ff41; }
+
+        /* CDN / resource warning banner */
+        #cdn-warning { background: linear-gradient(90deg,#6c3483,#4a90d9); color: #fff; padding: 8px 12px; border-radius: 6px; font-size: 0.95rem; display: none; position: fixed; top: 16px; left: 50%; transform: translateX(-50%); z-index: 9999; }
+
+        /* Threat Feed */
+        .threat-feed {
+            background: linear-gradient(180deg, rgba(20,20,30,0.9), rgba(10,10,15,0.9));
+            border: 2px solid #c0392b;
+            border-radius: 10px;
+            padding: 12px;
+            color: #eee;
+            max-height: 240px;
+            overflow-y: auto;
+        }
+
+        .threat-item {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 8px;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+            font-family: 'Monaco', monospace;
+            font-size: 0.85rem;
+        }
+
+        .threat-item .severity {
+            min-width: 72px;
+            text-align: right;
+            font-weight: bold;
+        }
+
+        .threat-sev-low { color: #00ff41; }
+        .threat-sev-med { color: #ffaa00; }
+        .threat-sev-high { color: #ff3333; }
 
         /* 工具面板 */
         .tools-panel {
@@ -1020,9 +1099,10 @@
 
         .status-fill {
             height: 100%;
-            background: linear-gradient(90deg, 
-                var(--primary-color), 
-                color-mix(in srgb, var(--primary-color) 80%, white));
+            /* Fallback for browsers that don't support color-mix */
+            background: linear-gradient(90deg, var(--primary-color), rgba(255,255,255,0.15));
+            /* Preferred modern value */
+            background: linear-gradient(90deg, var(--primary-color), color-mix(in srgb, var(--primary-color) 80%, white));
             border-radius: 6px;
             transition: width 0.5s ease;
             position: relative;
@@ -1124,6 +1204,8 @@
             position: fixed;
             top: 20px;
             right: 20px;
+            /* Fallback background when backdrop-filter is not supported */
+            background-color: rgba(20, 20, 30, 0.95);
             background: rgba(20, 20, 30, 0.95);
             border-left: 4px solid;
             padding: 20px;
@@ -1133,6 +1215,7 @@
             transition: transform 0.3s ease;
             z-index: 1000;
             max-width: 350px;
+            -webkit-backdrop-filter: blur(10px);
             backdrop-filter: blur(10px);
         }
 
@@ -2989,41 +3072,7 @@
     <div id="flowchart-page" class="page hidden">
         <div class="main-header">
             <div class="main-logo" style="color: #9b59b6; text-shadow: 0 0 10px #9b59b6, 0 0 20px #9b59b6;">
-                <span>流程示範圖</span>
-            </div>
-            <div class="main-subtitle">完整攻防流程視覺化 v3.2</div>},{find:
-        </div>
-
-        <div style="max-width: 1400px; margin: 0 auto; padding: 20px;">
-            <!-- 整體流程圖 -->
-            <div style="background: rgba(155, 89, 182, 0.1); border: 2px solid #9b59b6; border-radius: 12px; padding: 30px; margin-bottom: 30px;">
-                <h2 style="color: #9b59b6; margin-bottom: 25px; text-align: center; font-size: 1.5rem;">
-                    <i class="fas fa-project-diagram"></i> 完整遊戲流程圖
-                </h2>
-                
-                <div style="display: flex; flex-direction: column; gap: 20px; align-items: center;">
-                    <!-- 開始 -->
-                    <div style="background: linear-gradient(135deg, #00ff41, #00cc33); color: #000; padding: 20px 40px; border-radius: 50px; font-weight: bold; font-size: 1.2rem; box-shadow: 0 4px 20px rgba(0,255,65,0.4);">
-                        🎮 開始遊戲
-                    </div>
-                    
-                    <div style="font-size: 2rem; color: #666;">↓</div>
-                    
-                    <!-- 模式選擇 -->
-	                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; width: 100%;">
-	                        <div style="background: rgba(0,255,65,0.1); border: 2px solid #00ff41; border-radius: 12px; padding: 20px; text-align: center;">
-	                            <div style="font-size: 2.5rem; margin-bottom: 10px;">🎭</div>
-	                            <strong style="color: #00ff41; font-size: 1.1rem;">黑客模式</strong>
-	                            <p style="color: #888; font-size: 0.85rem; margin-top: 8px;">攻擊與滲透</p>
-	                        </div>
-	                        <div style="background: rgba(255,51,51,0.1); border: 2px solid #ff3333; border-radius: 12px; padding: 20px; text-align: center;">
-	                            <div style="font-size: 2.5rem; margin-bottom: 10px;">🛡️</div>
-	                            <strong style="color: #ff3333; font-size: 1.1rem;">防禦者模式</strong>
-	                            <p style="color: #888; font-size: 0.85rem; margin-top: 8px;">防守與反擊</p>
-	                        </div>
-	                        <div style="background: rgba(255,153,0,0.1); border: 2px solid #ff9900; border-radius: 12px; padding: 20px; text-align: center;">
-	                            <div style="font-size: 2.5rem; margin-bottom: 10px;">⚔️</div>
-	                            <strong style="color: #ff9900; font-size: 1.1rem;">對戰模式</strong>
+    
 	                            <p style="color: #888; font-size: 0.85rem; margin-top: 8px;">即時PVP對決</p>
 	                        </div>
 	                        <div style="background: rgba(153,102,255,0.1); border: 2px solid #9966ff; border-radius: 12px; padding: 20px; text-align: center;">
@@ -3356,403 +3405,8 @@
         </div>
     </div>
 
-    <!-- 遊戲頁面容器 -->
+    <!-- Single game page container (placeholder) -->
     <div id="game-page" class="page hidden"></div>
-
-    <!-- 對戰模式選擇頁面 -->
-    <div id="battle-select-page" class="page hidden">
-        <div class="main-header">
-            <div class="main-logo" style="color: #ff9900; text-shadow: 0 0 10px #ff9900, 0 0 20px #ff9900;">
-                <span>對戰模式</span>
-            </div>
-            <div class="main-subtitle">選擇你的陣營</div>
-            <div class="main-tagline">
-                在對戰模式中，你將與AI對手進行實時攻防對決。
-                選擇扮演黑客發動攻擊，或選擇扮演防禦者保護系統。
-            </div>
-        </div>
-
-        <!-- 對戰設置 -->
-        <div class="game-settings" style="border-color: rgba(255, 153, 0, 0.3);">
-            <div class="settings-title" style="color: #ff9900;">
-                <i class="fas fa-cog"></i>
-                <span>對戰設置</span>
-            </div>
-
-            <div class="setting-group">
-                <label class="setting-label">你的虛擬IP地址：</label>
-                <input type="text" id="battle-player-ip" class="setting-input" value="192.168.1.100" readonly="" style="border-color: rgba(255, 153, 0, 0.5);">
-                <small style="color: #666; display: block; margin-top: 5px;">
-                    這是你的唯一識別ID
-                </small>
-            </div>
-
-            <div class="setting-group">
-                <label class="setting-label">目標IP地址（AI對手）：</label>
-                <input type="text" id="battle-target-ip" class="setting-input" placeholder="輸入目標IP地址（例：192.168.1.200）" style="border-color: rgba(255, 153, 0, 0.5);">
-                <small style="color: #666; display: block; margin-top: 5px;">
-                    輸入對手的虛擬IP地址開始對戰
-                </small>
-            </div>
-
-            <div class="setting-group">
-                <label class="setting-label">AI難度：</label>
-                <select id="battle-difficulty" class="setting-input" style="border-color: rgba(255, 153, 0, 0.5);">
-                    <option value="random" selected="">🎲 隨機難度 (推薦)</option>
-                    <option value="easy">簡單 - AI反應較慢 (7分鐘)</option>
-                    <option value="medium">中等 - 標準AI對手 (5分鐘)</option>
-                    <option value="hard">困難 - AI反應迅速 (3分鐘)</option>
-                </select>
-                <small style="color: #ff9900; display: block; margin-top: 5px;">
-                    <i class="fas fa-info-circle"></i> 隨機難度: 60%簡單、30%中等、10%困難
-                </small>
-            </div>
-        </div>
-
-        <!-- 陣營選擇 -->
-        <div class="mode-selection" style="margin-top: 30px;">
-            <!-- 選擇黑客 -->
-            <div class="mode-card hacker" id="battle-hacker-card">
-                <div class="mode-icon">
-                    <i class="fas fa-user-secret"></i>
-                </div>
-                <div class="mode-title">扮演黑客</div>
-                <div class="mode-description">
-                    作為攻擊方，使用各種攻擊工具嘗試入侵防禦者的系統。
-                    突破防火牆，獲取系統權限，在被發現前完成目標。
-                </div>
-                <button class="select-btn hacker-btn" id="battle-start-hacker">
-                    <i class="fas fa-skull-crossbones"></i>
-                    <span>以黑客身份對戰</span>
-                </button>
-            </div>
-
-            <!-- 選擇防禦者 -->
-            <div class="mode-card defender" id="battle-defender-card">
-                <div class="mode-icon">
-                    <i class="fas fa-shield-alt"></i>
-                </div>
-                <div class="mode-title">扮演防禦者</div>
-                <div class="mode-description">
-                    作為防守方，監控網絡流量，配置防火牆規則，
-                    檢測並阻擋黑客的攻擊，保護系統安全。
-                </div>
-                <button class="select-btn defender-btn" id="battle-start-defender">
-                    <i class="fas fa-shield-alt"></i>
-                    <span>以防禦者身份對戰</span>
-                </button>
-            </div>
-        </div>
-
-        <!-- 返回按鈕 -->
-        <div style="text-align: center; margin-top: 30px;">
-            <button class="btn" id="battle-back-btn" style="background: rgba(255, 255, 255, 0.1); border: 1px solid #666; padding: 12px 30px;">
-                <i class="fas fa-arrow-left"></i>
-                <span>返回主選單</span>
-            </button>
-        </div>
-    </div>
-
-        <!-- 操作說明指南頁面 -->
-    <div id="guide-page" class="page hidden">
-        <div class="main-header">
-            <div class="main-logo" style="color: #4a90d9; text-shadow: 0 0 10px #4a90d9, 0 0 20px #4a90d9;">
-                <span>操作說明指南</span>
-            </div>
-            <div class="main-subtitle">模擬器使用手冊 v3.0 - 全新增強版</div>
-        </div>
-
-        <div style="max-width: 1200px; margin: 0 auto; padding: 20px;">
-            <!-- 版本更新亮點 -->
-            <div style="background: linear-gradient(135deg, rgba(255,215,0,0.2), rgba(255,140,0,0.2)); border: 2px solid #ffd700; border-radius: 12px; padding: 25px; margin-bottom: 25px; box-shadow: 0 0 20px rgba(255,215,0,0.3);">
-                <h2 style="color: #ffd700; margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
-                    <i class="fas fa-star"></i> 🎉 v3.0 重大更新亮點
-                </h2>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px;">
-                    <div style="background: rgba(0,0,0,0.4); padding: 15px; border-radius: 8px; border-left: 4px solid #00ff41;">
-                        <strong style="color: #00ff41; font-size: 1.1rem;"><i class="fas fa-shopping-cart"></i> 商店系統與商品應用</strong>
-                        <p style="color: #ccc; font-size: 0.9rem; margin-top: 10px; line-height: 1.7;">購買的商品現在可以實際應用到遊戲中！包括VPN、攻擊加速器、終極套裝等，每個商品都有獨特效果，可在商品選擇器中一鍵應用。</p>
-                    </div>
-                    <div style="background: rgba(0,0,0,0.4); padding: 15px; border-radius: 8px; border-left: 4px solid #ff3333;">
-                        <strong style="color: #ff3333; font-size: 1.1rem;"><i class="fas fa-eye"></i> 防禦者即時預覽</strong>
-                        <p style="color: #ccc; font-size: 0.9rem; margin-top: 10px; line-height: 1.7;">黑客可以即時監控防禦者的瀏覽器操作！查看對方正在做什麼、訪問哪些頁面，掌握先機。需要防禦者先上線才能開始監控。</p>
-                    </div>
-                    <div style="background: rgba(0,0,0,0.4); padding: 15px; border-radius: 8px; border-left: 4px solid #ff9900;">
-                        <strong style="color: #ff9900; font-size: 1.1rem;"><i class="fas fa-clock"></i> 延遲提示系統</strong>
-                        <p style="color: #ccc; font-size: 0.9rem; margin-top: 10px; line-height: 1.7;">防禦者不會立即收到黑客監控的警告！系統會延遲30秒至1分鐘才通知，給黑客更多操作時間。購買隱身工具包可延長至2分鐘。</p>
-                    </div>
-                    <div style="background: rgba(0,0,0,0.4); padding: 15px; border-radius: 8px; border-left: 4px solid #9b59b6;">
-                        <strong style="color: #9b59b6; font-size: 1.1rem;"><i class="fas fa-bolt"></i> 權限爭奪機制</strong>
-                        <p style="color: #ccc; font-size: 0.9rem; margin-top: 10px; line-height: 1.7;">全新的系統控制權爭奪戰！黑客可以逐步奪取防禦者的系統權限。購買終極套裝可瞬間完全控制對方系統！</p>
-                    </div>
-                    <div style="background: rgba(0,0,0,0.4); padding: 15px; border-radius: 8px; border-left: 4px solid #00ffff;">
-                        <strong style="color: #00ffff; font-size: 1.1rem;"><i class="fas fa-shield-alt"></i> 防禦者反擊能力</strong>
-                        <p style="color: #ccc; font-size: 0.9rem; margin-top: 10px; line-height: 1.7;">防禦者不再只能被動防守！購買反擊套裝後可以反追蹤並攻擊黑客，在權限爭奪中有機會奪回控制權。速度是關鍵！</p>
-                    </div>
-                    <div style="background: rgba(0,0,0,0.4); padding: 15px; border-radius: 8px; border-left: 4px solid #ff1493;">
-                        <strong style="color: #ff1493; font-size: 1.1rem;"><i class="fas fa-gem"></i> 高級套裝系統</strong>
-                        <p style="color: #ccc; font-size: 0.9rem; margin-top: 10px; line-height: 1.7;">課金越高，能力越強！終極套裝提供瞬間控制能力，可在極短時間內完全掌控對方系統。攻擊力+100%，控制速度x10！</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 介紹 -->
-            <div style="background: rgba(74, 144, 217, 0.1); border: 2px solid #4a90d9; border-radius: 12px; padding: 25px; margin-bottom: 25px;">
-                <h2 style="color: #4a90d9; margin-bottom: 18px; display: flex; align-items: center; gap: 10px;">
-                    <i class="fas fa-info-circle"></i> 關於此模擬器
-                </h2>
-                <p style="color: #ccc; line-height: 1.9; font-size: 1rem;">
-                    「模擬黑客入侵平台」是一個功能完整的<strong style="color: #00ff41;">網絡安全教育模擬器</strong>，讓您在完全安全的環境中體驗真實的網絡攻防場景。
-                    平台支援<strong style="color: #ff9900;">即時對戰</strong>、<strong style="color: #9b59b6;">完整課金系統</strong>、<strong style="color: #e74c3c;">多種攻擊模式</strong>以及<strong style="color: #00ffff;">商品應用機制</strong>。
-                    <br><br>
-                    <strong style="color: #ff9900;">⚠️ 重要提示：</strong>所有操作都在瀏覽器中模擬進行，不會對任何真實系統造成影響。本平台純粹用於教育和學習目的。
-                    <br><br>
-                    <strong style="color: #00ff41;">✨ 新功能：</strong>商品購買後可實際應用、即時監控對手、延遲警告系統、權限爭奪戰、防禦者反擊等豐富互動功能！
-                </p>
-            </div>
-
-            <!-- 核心功能分類 -->
-            <div style="margin-bottom: 25px;">
-                <h2 style="color: #fff; margin-bottom: 20px; font-size: 1.4rem;">
-                    <i class="fas fa-th-large"></i> 核心功能模組
-                </h2>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 18px;">
-                    <!-- 黑客模式 -->
-                    <div style="background: rgba(0, 255, 65, 0.1); border: 2px solid #00ff41; border-radius: 12px; padding: 22px;">
-                        <h3 style="color: #00ff41; margin-bottom: 15px; font-size: 1.2rem;">
-                            <i class="fas fa-user-secret"></i> 黑客模式功能
-                        </h3>
-                        <ul style="color: #aaa; line-height: 2; list-style: none; padding: 0; font-size: 0.95rem;">
-                            <li><i class="fas fa-check-circle" style="color: #00ff41; margin-right: 10px;"></i><strong>端口掃描</strong> - 探測目標開放服務與漏洞</li>
-                            <li><i class="fas fa-check-circle" style="color: #00ff41; margin-right: 10px;"></i><strong>漏洞利用</strong> - 使用已知漏洞進行攻擊</li>
-                            <li><i class="fas fa-check-circle" style="color: #00ff41; margin-right: 10px;"></i><strong>密碼破解</strong> - 暴力破解系統密碼</li>
-                            <li><i class="fas fa-check-circle" style="color: #00ff41; margin-right: 10px;"></i><strong>三種攻擊模式</strong> - 直接/漸進/勒索</li>
-                            <li><i class="fas fa-check-circle" style="color: #00ff41; margin-right: 10px;"></i><strong>即時監控</strong> - 查看防禦者操作 🆕</li>
-                            <li><i class="fas fa-check-circle" style="color: #00ff41; margin-right: 10px;"></i><strong>權限奪取</strong> - 逐步控制對方系統 🆕</li>
-                            <li><i class="fas fa-check-circle" style="color: #00ff41; margin-right: 10px;"></i><strong>商品應用</strong> - 使用購買的工具 🆕</li>
-                            <li><i class="fas fa-check-circle" style="color: #00ff41; margin-right: 10px;"></i><strong>課金升級</strong> - 提升攻擊能力與速度</li>
-                        </ul>
-                    </div>
-
-                    <!-- 防禦者模式 -->
-                    <div style="background: rgba(255, 51, 51, 0.1); border: 2px solid #ff3333; border-radius: 12px; padding: 22px;">
-                        <h3 style="color: #ff3333; margin-bottom: 15px; font-size: 1.2rem;">
-                            <i class="fas fa-shield-alt"></i> 防禦者模式功能
-                        </h3>
-                        <ul style="color: #aaa; line-height: 2; list-style: none; padding: 0; font-size: 0.95rem;">
-                            <li><i class="fas fa-check-circle" style="color: #ff3333; margin-right: 10px;"></i><strong>入侵檢測</strong> - 即時監控異常活動</li>
-                            <li><i class="fas fa-check-circle" style="color: #ff3333; margin-right: 10px;"></i><strong>防火牆配置</strong> - 封鎖惡意流量與IP</li>
-                            <li><i class="fas fa-check-circle" style="color: #ff3333; margin-right: 10px;"></i><strong>延遲警告</strong> - 30秒後收到監控提示 🆕</li>
-                            <li><i class="fas fa-check-circle" style="color: #ff3333; margin-right: 10px;"></i><strong>反擊能力</strong> - 反追蹤並攻擊黑客 🆕</li>
-                            <li><i class="fas fa-check-circle" style="color: #ff3333; margin-right: 10px;"></i><strong>權限防守</strong> - 抵抗黑客控制 🆕</li>
-                            <li><i class="fas fa-check-circle" style="color: #ff3333; margin-right: 10px;"></i><strong>反擊課金</strong> - 入侵黑客戶口竊取資金</li>
-                            <li><i class="fas fa-check-circle" style="color: #ff3333; margin-right: 10px;"></i><strong>漏洞修補</strong> - 修復系統安全弱點</li>
-                            <li><i class="fas fa-check-circle" style="color: #ff3333; margin-right: 10px;"></i><strong>警報系統</strong> - 收到攻擊即時提示</li>
-                        </ul>
-                    </div>
-<!-- 對戰模式 -->
-                    <div style="background: rgba(255, 153, 0, 0.1); border: 2px solid #ff9900; border-radius: 12px; padding: 22px;">
-                        <h3 style="color: #ff9900; margin-bottom: 15px; font-size: 1.2rem;">
-                            <i class="fas fa-gamepad"></i> 對戰模式功能
-                        </h3>
-                        <ul style="color: #aaa; line-height: 2; list-style: none; padding: 0; font-size: 0.95rem;">
-                            <li><i class="fas fa-check-circle" style="color: #ff9900; margin-right: 10px;"></i><strong>限時對戰</strong> - 5分鐘激烈攻防對決</li>
-                            <li><i class="fas fa-check-circle" style="color: #ff9900; margin-right: 10px;"></i><strong>智能AI對手</strong> - 根據難度即時反應</li>
-                            <li><i class="fas fa-check-circle" style="color: #ff9900; margin-right: 10px;"></i><strong>進度追蹤</strong> - 實時顯示雙方進度條</li>
-                        </ul>
-                    </div>
-                    
-
-                    <div style="background: rgba(153, 102, 255, 0.1); border: 2px solid #9966ff; border-radius: 12px; padding: 22px;">
-                        <h3 style="color: #9966ff; margin-bottom: 15px; font-size: 1.2rem;">
-                            <i class="fas fa-star"></i> 其他功能 (續集)
-                        </h3>
-                        <ul style="color: #aaa; line-height: 2; list-style: none; padding: 0; font-size: 0.95rem;">
-                            <li><i class="fas fa-check-circle" style="color: #9966ff; margin-right: 10px;"></i><strong>黑客 vs 執法部門</strong> - 高強度身份攻防</li>
-                            <li><i class="fas fa-check-circle" style="color: #9966ff; margin-right: 10px;"></i><strong>談判系統</strong> - 影響戰局的策略選擇</li>
-                            <li><i class="fas fa-check-circle" style="color: #9966ff; margin-right: 10px;"></i><strong>多部門聯合</strong> - 執法部門可選擇聯合調查</li>
-                            <li><i class="fas fa-check-circle" style="color: #9966ff; margin-right: 10px;"></i><strong>專屬商品</strong> - 購買獨有的攻防工具</li>
-                        </ul>
-                    </div>class="fas fa-check-circle" style="color: #ff9900; margin-right: 10px;"></i><strong>權限爭奪</strong> - 即時控制權百分比 🆕</li>
-                            <li><i class="fas fa-check-circle" style="color: #ff9900; margin-right: 10px;"></i><strong>勝利獎勵</strong> - 獲得大量虛擬金錢</li>
-                            <li><i class="fas fa-check-circle" style="color: #ff9900; margin-right: 10px;"></i><strong>雙方互動</strong> - 指令互相影響與干擾</li>
-                            <li><i class="fas fa-check-circle" style="color: #ff9900; margin-right: 10px;"></i><strong>商品效果</strong> - 應用的商品影響戰局 🆕</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 商店與商品系統 -->
-            <div style="background: rgba(255, 215, 0, 0.1); border: 2px solid #ffd700; border-radius: 12px; padding: 25px; margin-bottom: 25px;">
-                <h2 style="color: #ffd700; margin-bottom: 20px; font-size: 1.3rem;">
-                    <i class="fas fa-store"></i> 商店與商品應用系統 🆕
-                </h2>
-                <p style="color: #ccc; line-height: 1.8; margin-bottom: 20px; font-size: 0.95rem;">
-                    全新的商店系統讓您購買各種工具和套裝，<strong style="color: #00ff41;">購買後可以在遊戲中實際應用</strong>，每個商品都有獨特的效果和能力加成！
-                </p>
-                
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; margin-bottom: 20px;">
-                    <!-- 黑客商品 -->
-                    <div style="background: rgba(0,255,65,0.1); padding: 18px; border-radius: 10px; border: 2px solid #00ff41;">
-                        <h4 style="color: #00ff41; margin-bottom: 12px;"><i class="fas fa-skull-crossbones"></i> 黑客專屬商品</h4>
-                        <ul style="color: #aaa; font-size: 0.9rem; line-height: 1.9; padding-left: 20px;">
-                            <li><strong>VPN套裝</strong> - 基礎/高級/精英三個等級，隱藏機率30%/60%/90%</li>
-                            <li><strong>攻擊加速器</strong> - 攻擊力+20%，控制速度x1.5</li>
-                            <li><strong>高級攻擊套裝</strong> - 攻擊力+50%，控制速度x3.0</li>
-                            <li><strong>終極套裝</strong> - 攻擊力+100%，瞬間控制能力！</li>
-                            <li><strong>隱身工具包</strong> - 隱身+40%，警告延遲120秒</li>
-                        </ul>
-                    </div>
-                    
-                    <!-- 防禦者商品 -->
-                    <div style="background: rgba(255,51,51,0.1); padding: 18px; border-radius: 10px; border: 2px solid #ff3333;">
-                        <h4 style="color: #ff3333; margin-bottom: 12px;"><i class="fas fa-shield-alt"></i> 防禦者專屬商品</h4>
-                        <ul style="color: #aaa; font-size: 0.9rem; line-height: 1.9; padding-left: 20px;">
-                            <li><strong>基礎防火牆</strong> - 阻擋機率30%，基本防護</li>
-                            <li><strong>高級防火牆</strong> - 阻擋機率60%，強化防護</li>
-                            <li><strong>反擊套裝</strong> - 啟用反追蹤與攻擊能力，反擊力50%</li>
-                            <li><strong>追蹤偵測器</strong> - 提前30秒警告黑客監控</li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <div style="background: rgba(0,0,0,0.4); padding: 18px; border-radius: 8px; border-left: 4px solid #ffd700;">
-                    <strong style="color: #ffd700; font-size: 1.05rem;"><i class="fas fa-lightbulb"></i> 如何應用商品？</strong>
-                    <p style="color: #ccc; margin-top: 10px; line-height: 1.8; font-size: 0.9rem;">
-                        1. 在商店購買商品後，商品會自動加入您的庫存<br>
-                        2. 點擊遊戲介面中的「應用商品」按鈕<br>
-                        3. 在商品選擇器中選擇要使用的商品<br>
-                        4. 商品效果立即生效，終端會顯示應用成功訊息<br>
-                        5. 已應用的商品會在當前遊戲中持續有效
-                    </p>
-                </div>
-            </div>
-
-            <!-- 攻擊模式詳解 -->
-            <div style="background: rgba(231, 76, 60, 0.1); border: 2px solid #e74c3c; border-radius: 12px; padding: 25px; margin-bottom: 25px;">
-                <h2 style="color: #e74c3c; margin-bottom: 20px; font-size: 1.3rem;">
-                    <i class="fas fa-bolt"></i> 黑客攻擊模式詳解
-                </h2>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px;">
-                    <div style="background: rgba(0,0,0,0.4); padding: 18px; border-radius: 10px; border-left: 4px solid #ff3333;">
-                        <strong style="color: #ff3333; font-size: 1.1rem;">💀 直接執行攻擊</strong>
-                        <p style="color: #aaa; font-size: 0.9rem; margin-top: 12px; line-height: 1.8;">
-                            <strong>效果：</strong>立即封殺對方防禦者系統，使所有設備殭屍化<br>
-                            <strong>特點：</strong>攻擊速度最快，但風險較高<br>
-                            <strong>結果：</strong>防禦者無法作出任何反擊或設定<br>
-                            <strong>成本：</strong>$50,000
-                        </p>
-                    </div>
-                    <div style="background: rgba(0,0,0,0.4); padding: 18px; border-radius: 10px; border-left: 4px solid #ff9900;">
-                        <strong style="color: #ff9900; font-size: 1.1rem;">🕷️ 循序漸進攻擊</strong>
-                        <p style="color: #aaa; font-size: 0.9rem; margin-top: 12px; line-height: 1.8;">
-                            <strong>效果：</strong>分10步慢慢滲透目標系統<br>
-                            <strong>特點：</strong>每步偷取$5,000-$15,000，隱蔽性高<br>
-                            <strong>總收益：</strong>約$80,000-$120,000<br>
-                            <strong>成本：</strong>$25,000
-                        </p>
-                    </div>
-                    <div style="background: rgba(0,0,0,0.4); padding: 18px; border-radius: 10px; border-left: 4px solid #9b59b6;">
-                        <strong style="color: #9b59b6; font-size: 1.1rem;">🔐 勒索金攻擊</strong>
-                        <p style="color: #aaa; font-size: 0.9rem; margin-top: 12px; line-height: 1.8;">
-                            <strong>效果：</strong>加密目標系統並發送勒索要求<br>
-                            <strong>金額：</strong>$1,500,000 / $3,500,000 / $10,000,000（隨機）<br>
-                            <strong>時限：</strong>5分鐘內不付款則自動殭屍化<br>
-                            <strong>成本：</strong>$10,000
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 即時監控與權限爭奪 -->
-            <div style="background: rgba(0, 255, 255, 0.1); border: 2px solid #00ffff; border-radius: 12px; padding: 25px; margin-bottom: 25px;">
-                <h2 style="color: #00ffff; margin-bottom: 20px; font-size: 1.3rem;">
-                    <i class="fas fa-eye"></i> 即時監控與權限爭奪系統 🆕
-                </h2>
-                
-                <div style="margin-bottom: 20px;">
-                    <h4 style="color: #00ff41; margin-bottom: 12px;"><i class="fas fa-binoculars"></i> 防禦者即時預覽（黑客功能）</h4>
-                    <p style="color: #ccc; line-height: 1.8; font-size: 0.95rem;">
-                        黑客可以即時監控防禦者的瀏覽器操作，查看對方正在訪問的頁面、執行的操作、系統狀態等資訊。
-                        這個功能需要防禦者先上線並執行第一項操作後才能啟動。
-                    </p>
-                    <div style="background: rgba(0,0,0,0.4); padding: 15px; border-radius: 8px; margin-top: 12px;">
-                        <strong style="color: #ff9900;">⚠️ 延遲通知機制：</strong>
-                        <p style="color: #aaa; margin-top: 8px; line-height: 1.7; font-size: 0.9rem;">
-                            防禦者不會立即收到監控警告！系統會延遲<strong style="color: #ff3333;">30秒至1分鐘</strong>才通知防禦者「黑客已經看見你的瀏覽器操作」。
-                            購買<strong style="color: #00ff41;">隱身工具包</strong>可以將延遲時間延長至<strong style="color: #00ff41;">120秒（2分鐘）</strong>！
-                        </p>
-                    </div>
-                </div>
-                
-                <div style="margin-bottom: 20px;">
-                    <h4 style="color: #ff3333; margin-bottom: 12px;"><i class="fas fa-tachometer-alt"></i> 系統控制權爭奪戰</h4>
-                    <p style="color: #ccc; line-height: 1.8; font-size: 0.95rem;">
-                        全新的權限爭奪機制！黑客可以逐步奪取防禦者的系統控制權，控制權以百分比顯示（0%-100%）。
-                        當黑客控制權達到100%時，防禦者的系統將被完全控制。
-                    </p>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 12px; margin-top: 12px;">
-                        <div style="background: rgba(0,255,65,0.1); padding: 12px; border-radius: 6px;">
-                            <strong style="color: #00ff41;">基礎速度：</strong> 每秒+2%控制權
-                        </div>
-                        <div style="background: rgba(255,153,0,0.1); padding: 12px; border-radius: 6px;">
-                            <strong style="color: #ff9900;">攻擊加速器：</strong> 速度x1.5
-                        </div>
-                        <div style="background: rgba(255,51,255,0.1); padding: 12px; border-radius: 6px;">
-                            <strong style="color: #ff33ff;">高級套裝：</strong> 速度x3.0
-                        </div>
-                        <div style="background: rgba(255,0,0,0.1); padding: 12px; border-radius: 6px;">
-                            <strong style="color: #ff0000;">終極套裝：</strong> 瞬間100%控制！
-                        </div>
-                    </div>
-                </div>
-                
-                <div>
-                    <h4 style="color: #ff3333; margin-bottom: 12px;"><i class="fas fa-fist-raised"></i> 防禦者反擊機制</h4>
-                    <p style="color: #ccc; line-height: 1.8; font-size: 0.95rem;">
-                        防禦者不再只能被動挨打！購買<strong style="color: #ff3333;">反擊套裝</strong>後，防禦者可以：
-                    </p>
-                    <ul style="color: #aaa; line-height: 1.9; margin-top: 12px; font-size: 0.9rem;">
-                        <li>反追蹤黑客的真實位置</li>
-                        <li>發動反擊攻擊，降低黑客的控制權</li>
-                        <li>在權限爭奪中有50%機率每次反擊-5%黑客控制權</li>
-                        <li>速度是關鍵！越快反應，越有機會保住系統</li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- 課金系統說明 -->
-            <div style="background: rgba(155, 89, 182, 0.1); border: 2px solid #9b59b6; border-radius: 12px; padding: 25px; margin-bottom: 25px;">
-                <h2 style="color: #9b59b6; margin-bottom: 20px; font-size: 1.3rem;">
-                    <i class="fas fa-coins"></i> 課金系統完整說明
-                </h2>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px;">
-                    <div style="background: rgba(0,255,65,0.1); padding: 18px; border-radius: 10px; border: 2px solid #00ff41;">
-                        <h4 style="color: #00ff41; margin-bottom: 12px;"><i class="fas fa-user-ninja"></i> 黑客課金功能</h4>
-                        <ul style="color: #aaa; font-size: 0.9rem; line-height: 1.9; padding-left: 20px;">
-                            <li>接收防禦者支付的勒索金</li>
-                            <li>升級攻擊強度（+20%/+50%/+100%）</li>
-                            <li>升級隱蔽能力（延長警告延遲）</li>
-                            <li>購買殭屍網絡擴展</li>
-                            <li>轉移偷取的資金到錢包</li>
-                            <li>購買VPN套裝提升隱藏能力</li>
-                            <li>購買終極套裝獲得瞬間控制</li>
-                        </ul>
-                    </div>
-                    <div style="background: rgba(255,51,51,0.1); padding: 18px; border-radius: 10px; border: 2px solid #ff3333;">
-                        <h4 style="color: #ff3333; margin-bottom: 12px;"><i class="fas fa-user-shield"></i> 防禦者課金功能</h4>
-                        <ul style="color: #aaa; font-size: 0.9rem; line-height: 1.9; padding-left: 20px;">
-                            <li>充值入侵預算反擊黑客</li>
-                            <li>執行入侵偷取黑客資金</li>
-                            <li>升級入侵成功率（40%→95%）</li>
-                            <li>購買收益倍增器</li>
-                            <li>購買防火牆提升阻擋率</li>
-                            <li>購買反擊套裝啟用攻擊能力</li>
-                            <li>購買追蹤偵測器提前警告</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
 
             <!-- 操作步驟流程 -->
             <div style="background: rgba(255, 255, 255, 0.05); border: 2px solid #666; border-radius: 12px; padding: 25px; margin-bottom: 25px;">
@@ -3859,234 +3513,338 @@
     </div>
 
     <!-- 流程示範圖頁面 -->
-    <div id="flowchart-page" class="page hidden">
+    <div data-dup-for="flowchart-page" data-dup="true" class="page hidden" hidden>
         <div class="main-header">
             <div class="main-logo" style="color: #9b59b6; text-shadow: 0 0 10px #9b59b6, 0 0 20px #9b59b6;">
-                <span>流程示範圖</span>
-            </div>
-            <div class="main-subtitle">模擬器操作流程 v2.0</div>
-        </div>
-
-        <div style="max-width: 1100px; margin: 0 auto; padding: 15px;">
-            <!-- 主流程圖 -->
-            <div style="background: rgba(155, 89, 182, 0.1); border: 2px solid #9b59b6; border-radius: 12px; padding: 20px; margin-bottom: 20px;">
-                <h2 style="color: #9b59b6; text-align: center; margin-bottom: 20px; font-size: 1.3rem;">
-                    <i class="fas fa-project-diagram"></i> 模擬器主流程
-                </h2>
-
-                <!-- 流程圖 -->
-                <div style="display: flex; flex-direction: column; align-items: center; gap: 15px;">
-                    <!-- 開始 -->
-                    <div style="background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%); color: #fff; padding: 12px 30px; border-radius: 25px; font-weight: bold; font-size: 0.95rem;">
-                        <i class="fas fa-play"></i> 啟動模擬器
-                    </div>
-                    <div style="width: 3px; height: 20px; background: #9b59b6;"></div>
-
-                    <!-- 選擇模式 -->
-                    <div style="background: #2a2a40; border: 2px solid #9b59b6; padding: 15px 25px; border-radius: 10px; text-align: center;">
-                        <strong style="color: #fff; font-size: 0.95rem;">選擇遊戲模式</strong>
-                    </div>
-                    <div style="width: 3px; height: 15px; background: #9b59b6;"></div>
-
-                    <!-- 三分支 -->
-                    <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; width: 100%;">
-                        <!-- 黑客模式分支 -->
-                        <div style="display: flex; flex-direction: column; align-items: center; gap: 10px; flex: 1; min-width: 140px; max-width: 200px;">
-                            <div style="background: rgba(0, 255, 65, 0.2); border: 2px solid #00ff41; padding: 12px 15px; border-radius: 10px; text-align: center; width: 100%;">
-                                <i class="fas fa-user-secret" style="color: #00ff41;"></i><br>
-                                <strong style="color: #00ff41; font-size: 0.9rem;">黑客模式</strong>
+    
+                                <p style="color: #888; font-size: 0.85rem; margin-top: 8px;">即時PVP對決</p>
                             </div>
-                            <div style="width: 3px; height: 15px; background: #00ff41;"></div>
-                            <div style="background: #1a1a2e; border: 1px solid #00ff41; padding: 10px 12px; border-radius: 8px; color: #aaa; font-size: 0.8rem; text-align: center; width: 100%;">
-                                攻擊模式 → 課金升級 → 殭屍化
+                            <div style="background: rgba(153,102,255,0.1); border: 2px solid #9966ff; border-radius: 12px; padding: 20px; text-align: center;">
+                                <div style="font-size: 2.5rem; margin-bottom: 10px;">⚡</div>
+
+                                <p style="color: #888; font-size: 0.85rem; margin-top: 8px;">黑客 vs 執法部門</p>
                             </div>
                         </div>
+                    
+                    <div style="font-size: 2rem; color: #666;">↓</div>
+                    
+                    <!-- 商店購物 -->
+                    <div style="background: rgba(255,215,0,0.1); border: 3px dashed #ffd700; border-radius: 12px; padding: 25px; width: 100%; text-align: center;">
+                        <div style="font-size: 2.5rem; margin-bottom: 10px;">🛒</div>
+                        <strong style="color: #ffd700; font-size: 1.2rem;">商店購物（可選）🆕</strong>
+                        <p style="color: #aaa; margin-top: 10px; line-height: 1.7;">購買VPN、攻擊套裝、防火牆、反擊工具等商品</p>
+                        <div style="display: flex; justify-content: center; gap: 15px; margin-top: 15px; flex-wrap: wrap;">
+                            <span style="background: rgba(0,255,65,0.2); padding: 8px 15px; border-radius: 20px; font-size: 0.9rem;">VPN套裝</span>
+                            <span style="background: rgba(255,51,51,0.2); padding: 8px 15px; border-radius: 20px; font-size: 0.9rem;">攻擊加速器</span>
+                            <span style="background: rgba(255,0,255,0.2); padding: 8px 15px; border-radius: 20px; font-size: 0.9rem;">終極套裝</span>
+                            <span style="background: rgba(0,255,255,0.2); padding: 8px 15px; border-radius: 20px; font-size: 0.9rem;">反擊套裝</span>
+                        </div>
+                    </div>
+                    
+                    <div style="font-size: 2rem; color: #666;">↓</div>
 
-                        <!-- 防禦者模式分支 -->
-                        <div style="display: flex; flex-direction: column; align-items: center; gap: 10px; flex: 1; min-width: 140px; max-width: 200px;">
-                            <div style="background: rgba(255, 51, 51, 0.2); border: 2px solid #ff3333; padding: 12px 15px; border-radius: 10px; text-align: center; width: 100%;">
-                                <i class="fas fa-shield-alt" style="color: #ff3333;"></i><br>
-                                <strong style="color: #ff3333; font-size: 0.9rem;">防禦者模式</strong>
-                            </div>
-                            <div style="width: 3px; height: 15px; background: #ff3333;"></div>
-                            <div style="background: #1a1a2e; border: 1px solid #ff3333; padding: 10px 12px; border-radius: 8px; color: #aaa; font-size: 0.8rem; text-align: center; width: 100%;">
-                                監控 → 反擊課金 → 入侵黑客
+                    <!-- 應用商品 -->
+                    <div style="background: rgba(0,255,255,0.1); border: 3px dashed #00ffff; border-radius: 12px; padding: 25px; width: 100%; text-align: center;">
+                        <div style="font-size: 2.5rem; margin-bottom: 10px;">📦</div>
+                        <strong style="color: #00ffff; font-size: 1.2rem;">應用商品效果 🆕</strong>
+                        <p style="color: #aaa; margin-top: 10px; line-height: 1.7;">在商品選擇器中選擇要使用的商品，效果立即生效</p>
+                        <div style="margin-top: 15px; color: #888; font-size: 0.9rem;">
+                            攻擊力↑ | 隱藏率↑ | 控制速度↑ | 防禦力↑ | 反擊力↑
+                        </div>
+                    </div>
+                    
+                    <div style="font-size: 2rem; color: #666;">↓</div>
+                    
+                    <!-- 連接目標 -->
+                    <div style="background: rgba(74,144,217,0.1); border: 2px solid #4a90d9; border-radius: 12px; padding: 20px; width: 100%; text-align: center;">
+                        <div style="font-size: 2.5rem; margin-bottom: 10px;">🔌</div>
+                        <strong style="color: #4a90d9; font-size: 1.1rem;">連接目標系統</strong>
+                        <p style="color: #888; margin-top: 8px;">建立與目標的網絡連接</p>
+                    </div>
+                    
+                    <div style="font-size: 2rem; color: #666;">↓</div>
+
+<!-- 攻防流程 -->
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; width: 100%;">
+                        <!-- 黑客專屬流程 -->
+                        <div style="background: rgba(0,255,65,0.05); border: 2px solid #00ff41; border-radius: 12px; padding: 25px;">
+                            <h3 style="color: #00ff41; text-align: center; margin-bottom: 20px; font-size: 1.2rem;">
+                                <i class="fas fa-user-secret"></i> 黑客專屬流程
+                            </h3>
+                            <div style="display: flex; flex-direction: column; gap: 15px;">
+                                <div style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 8px; border-left: 4px solid #00ff41;">
+                                    <strong style="color: #00ff41;">1. 啟動即時監控 🆕</strong>
+                                    <p style="color: #888; font-size: 0.85rem; margin-top: 5px;">查看防禦者瀏覽器操作</p>
+                                </div>
+                                <div style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 8px; border-left: 4px solid #ff9900;">
+                                    <strong style="color: #ff9900;">2. 延遲通知機制 🆕</strong>
+                                    <p style="color: #888; font-size: 0.85rem; margin-top: 5px;">30-120秒後對方才收到警告</p>
+                                </div>
+                                <div style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 8px; border-left: 4px solid #ff3333;">
+                                    <strong style="color: #ff3333;">3. 開始權限爭奪 🆕</strong>
+                                    <p style="color: #888; font-size: 0.85rem; margin-top: 5px;">逐步奪取系統控制權</p>
+                                </div>
+                                <div style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 8px; border-left: 4px solid #9b59b6;">
+                                    <strong style="color: #9b59b6;">4. 選擇攻擊模式</strong>
+                                    <p style="color: #888; font-size: 0.85rem; margin-top: 5px;">直接/漸進/勒索</p>
+                                </div>
                             </div>
                         </div>
-
-                        <!-- 對戰模式分支 -->
-                        <div style="display: flex; flex-direction: column; align-items: center; gap: 10px; flex: 1; min-width: 140px; max-width: 200px;">
-                            <div style="background: rgba(255, 153, 0, 0.2); border: 2px solid #ff9900; padding: 12px 15px; border-radius: 10px; text-align: center; width: 100%;">
-                                <i class="fas fa-gamepad" style="color: #ff9900;"></i><br>
-                                <strong style="color: #ff9900; font-size: 0.9rem;">對戰模式</strong>
+                        
+<!-- 防禦者專屬流程 -->
+                            <div style="background: rgba(255,51,51,0.05); border: 2px solid #ff3333; border-radius: 12px; padding: 25px;">
+                                <h3 style="color: #ff3333; text-align: center; margin-bottom: 20px; font-size: 1.2rem;">
+                                    <i class="fas fa-shield-alt"></i> 防禦者專屬流程
+                                </h3>
+                                <div style="display: flex; flex-direction: column; gap: 15px;">
+                                    <div style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 8px; border-left: 4px solid #ff3333;">
+                                        <strong style="color: #ff3333;">1. 收到延遲警告 🆕</strong>
+                                        <p style="color: #888; font-size: 0.85rem; margin-top: 5px;">30-120秒後收到監控提示</p>
+                                    </div>
+                                    <div style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 8px; border-left: 4px solid #00ffff;">
+                                        <strong style="color: #00ffff;">2. 啟動反擊模式 🆕</strong>
+                                        <p style="color: #888; font-size: 0.85rem; margin-top: 5px;">反追蹤並攻擊黑客</p>
+                                    </div>
+                                    <div style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 8px; border-left: 4px solid #ff9900;">
+                                        <strong style="color: #ff9900;">3. 權限防守戰 🆕</strong>
+                                        <p style="color: #888; font-size: 0.85rem; margin-top: 5px;">抵抗黑客控制權奪取</p>
+                                    </div>
+                                    <div style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 8px; border-left: 4px solid #4a90d9;">
+                                        <strong style="color: #4a90d9;">4. 尋求第三方支援 🆕</strong>
+                                        <p style="color: #888; font-size: 0.85rem; margin-top: 5px;">尋求專業協助或報案</p>
+                                    </div>
+                                </div>
                             </div>
-                            <div style="width: 3px; height: 15px; background: #ff9900;"></div>
-                            <div style="background: #1a1a2e; border: 1px solid #ff9900; padding: 10px 12px; border-radius: 8px; color: #aaa; font-size: 0.8rem; text-align: center; width: 100%;">
-                                5分鐘限時 → 互相攻防 → 勝負
+                            
+
+                            <div style="background: rgba(153,102,255,0.05); border: 2px solid #9966ff; border-radius: 12px; padding: 25px;">
+                                <h3 style="color: #9966ff; text-align: center; margin-bottom: 20px; font-size: 1.2rem;">
+                                    <i class="fas fa-star"></i> 專屬流程 (續集)
+                                </h3>
+                                <div style="display: flex; flex-direction: column; gap: 15px;">
+                                    <div style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 8px; border-left: 4px solid #9966ff;">
+                                        <strong style="color: #9966ff;">1. 選擇角色</strong>
+                                        <p style="color: #888; font-size: 0.85rem; margin-top: 5px;">黑客或執法部門</p>
+                                    </div>
+                                    <div style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 8px; border-left: 4px solid #9966ff;">
+                                        <strong style="color: #9966ff;">2. 攻防對決</strong>
+                                        <p style="color: #888; font-size: 0.85rem; margin-top: 5px;">黑客：攻擊/隱藏；執法部門：起底/反擊</p>
+                                    </div>
+                                    <div style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 8px; border-left: 4px solid #9966ff;">
+                                        <strong style="color: #9966ff;">3. 策略行動</strong>
+                                        <p style="color: #888; font-size: 0.85rem; margin-top: 5px;">黑客：發起談判；執法部門：聯合部門</p>
+                                    </div>
+                                    <div style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 8px; border-left: 4px solid #9966ff;">
+                                        <strong style="color: #9966ff;">4. 購買專屬商品</strong>
+                                        <p style="color: #888; font-size: 0.85rem; margin-top: 5px;">使用專屬工具強化攻防能力</p>
+                                    </div>
+                                    <div style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 8px; border-left: 4px solid #9966ff;">
+                                        <strong style="color: #9966ff;">5. 判定勝負</strong>
+                                        <p style="color: #888; font-size: 0.85rem; margin-top: 5px;">黑客逃脫或執法部門拘捕</p>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                    
+                    <div style="font-size: 2rem; color: #666;">↓</div>
+                    
+                    <!-- 權限爭奪戰 -->
+                    <div style="background: linear-gradient(135deg, rgba(255,0,0,0.2), rgba(0,255,0,0.2)); border: 3px solid #ff9900; border-radius: 12px; padding: 30px; width: 100%;">
+                        <h3 style="color: #ff9900; text-align: center; margin-bottom: 20px; font-size: 1.3rem;">
+                            <i class="fas fa-tachometer-alt"></i> 系統控制權爭奪戰 🆕
+                        </h3>
+                        <div style="background: rgba(0,0,0,0.5); padding: 20px; border-radius: 10px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                                <span style="color: #00ff41; font-weight: bold;">黑客控制權</span>
+                                <span style="color: #fff; font-size: 1.5rem; font-weight: bold;">0% → 100%</span>
+                                <span style="color: #ff3333; font-weight: bold;">防禦者控制權</span>
+                            </div>
+                            <div style="height: 30px; background: rgba(0,0,0,0.5); border-radius: 15px; overflow: hidden; position: relative;">
+                                <div style="position: absolute; left: 0; top: 0; height: 100%; width: 50%; background: linear-gradient(90deg, #00ff41, #00cc33);"></div>
+                                <div style="position: absolute; right: 0; top: 0; height: 100%; width: 50%; background: linear-gradient(90deg, #cc0000, #ff3333);"></div>
+                            </div>
+                            <div style="margin-top: 20px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; text-align: center; font-size: 0.85rem;">
+                                <div>
+                                    <div style="color: #888;">基礎速度</div>
+                                    <div style="color: #00ff41;">+2%/秒</div>
+                                </div>
+                                <div>
+                                    <div style="color: #888;">加速器</div>
+                                    <div style="color: #ff9900;">×1.5</div>
+                                </div>
+                                <div>
+                                    <div style="color: #888;">高級套裝</div>
+                                    <div style="color: #ff33ff;">×3.0</div>
+                                </div>
+                                <div>
+                                    <div style="color: #888;">終極套裝</div>
+                                    <div style="color: #ff0000;">瞬間100%</div>
+                                </div>
                             </div>
                         </div>
                     </div>
-
-                    <div style="width: 3px; height: 20px; background: #9b59b6;"></div>
-
-                    <!-- 遊戲進行 -->
-                    <div style="background: #2a2a40; border: 2px solid #9b59b6; padding: 15px 25px; border-radius: 10px; text-align: center;">
-                        <strong style="color: #fff; font-size: 0.95rem;">使用工具 / 課金系統 / 攻擊模式</strong>
-                    </div>
-                    <div style="width: 3px; height: 15px; background: #9b59b6;"></div>
-
+                    
+                    <div style="font-size: 2rem; color: #666;">↓</div>
+                    
                     <!-- 結果 -->
-                    <div style="background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%); color: #fff; padding: 12px 30px; border-radius: 25px; font-weight: bold; font-size: 0.95rem;">
-                        <i class="fas fa-trophy"></i> 獲勝 + 獲得獎勵
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; width: 100%;">
+                        <div style="background: linear-gradient(135deg, rgba(0,255,65,0.2), rgba(0,200,50,0.2)); border: 2px solid #00ff41; border-radius: 12px; padding: 25px; text-align: center;">
+                            <div style="font-size: 3rem; margin-bottom: 10px;">🏆</div>
+                            <strong style="color: #00ff41; font-size: 1.3rem;">黑客勝利</strong>
+                            <p style="color: #888; margin-top: 10px;">完全控制對方系統</p>
+                            <p style="color: #00ff41; margin-top: 5px;">獲得 $50,000 獎勵</p>
+                        </div>
+                        <div style="background: linear-gradient(135deg, rgba(255,51,51,0.2), rgba(200,0,0,0.2)); border: 2px solid #ff3333; border-radius: 12px; padding: 25px; text-align: center;">
+                            <div style="font-size: 3rem; margin-bottom: 10px;">🛡️</div>
+                            <strong style="color: #ff3333; font-size: 1.3rem;">防禦者勝利</strong>
+                            <p style="color: #888; margin-top: 10px;">成功保住系統</p>
+                            <p style="color: #ff3333; margin-top: 5px;">獲得防禦獎勵</p>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- 對戰模式詳細流程（新增） -->
-<div style="display: flex; gap: 20px; flex-wrap: wrap;">
-                <!-- 對戰模式詳細流程 -->
-                <div style="flex: 1; min-width: 300px; background: rgba(255, 153, 0, 0.1); border: 2px solid #ff9900; border-radius: 12px; padding: 20px; margin-bottom: 20px;">
-                    <h2 style="color: #ff9900; text-align: center; margin-bottom: 15px; font-size: 1.2rem;">
-                        <i class="fas fa-gamepad"></i> 對戰模式詳細流程
-                    </h2>
-                    <div style="display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 10px; text-align: center;">
-                        <div style="background: rgba(255,153,0,0.2); padding: 10px 15px; border-radius: 8px; border: 1px solid #ff9900;">
-                            <div style="color: #ff9900; font-weight: bold; font-size: 0.85rem;">1. 選擇陣營</div>
-                            <div style="color: #aaa; font-size: 0.75rem;">黑客或防禦者</div>
-                        </div>
-                        <div style="color: #ff9900;">→</div>
-                        <div style="background: rgba(255,153,0,0.2); padding: 10px 15px; border-radius: 8px; border: 1px solid #ff9900;">
-                            <div style="color: #ff9900; font-weight: bold; font-size: 0.85rem;">2. 設置IP/難度</div>
-                            <div style="color: #aaa; font-size: 0.75rem;">準備開始</div>
-                        </div>
-                        <div style="color: #ff9900;">→</div>
-                        <div style="background: rgba(255,153,0,0.2); padding: 10px 15px; border-radius: 8px; border: 1px solid #ff9900;">
-                            <div style="color: #ff9900; font-weight: bold; font-size: 0.85rem;">3. 開始對戰</div>
-                            <div style="color: #aaa; font-size: 0.75rem;">5分鐘限時</div>
-                        </div>
-                        <div style="color: #ff9900;">→</div>
-                        <div style="background: rgba(255,153,0,0.2); padding: 10px 15px; border-radius: 8px; border: 1px solid #ff9900;">
-                            <div style="color: #ff9900; font-weight: bold; font-size: 0.85rem;">4. 實時對戰</div>
-                            <div style="color: #aaa; font-size: 0.75rem;">進度追蹤</div>
-                        </div>
-                        <div style="color: #ff9900;">→</div>
-                        <div style="background: rgba(255,153,0,0.2); padding: 10px 15px; border-radius: 8px; border: 1px solid #ff9900;">
-                            <div style="color: #ff9900; font-weight: bold; font-size: 0.85rem;">5. 判定勝負</div>
-                            <div style="color: #aaa; font-size: 0.75rem;">獲得獎勵</div>
-                        </div>
-                    </div>
-                </div>
+            <!-- 時間軸流程 -->
+            <div style="background: rgba(255, 255, 255, 0.05); border: 1px solid #444; border-radius: 12px; padding: 30px; margin-bottom: 30px;">
+                <h2 style="color: #fff; margin-bottom: 25px; text-align: center; font-size: 1.4rem;">
+                    <i class="fas fa-clock"></i> 典型對戰時間軸（5分鐘）
+                </h2>
                 
+                <div style="position: relative; padding-left: 40px;">
+                    <!-- 時間軸線 -->
+                    <div style="position: absolute; left: 20px; top: 0; bottom: 0; width: 3px; background: linear-gradient(180deg, #00ff41, #ff3333);"></div>
+                    
+                    <!-- 時間點 -->
+                    <div style="display: flex; flex-direction: column; gap: 25px;">
+                        <div style="position: relative;">
+                            <div style="position: absolute; left: -28px; top: 5px; width: 16px; height: 16px; background: #00ff41; border-radius: 50%; border: 3px solid #000;"></div>
+                            <div style="background: rgba(0,255,65,0.1); padding: 15px; border-radius: 8px; border-left: 4px solid #00ff41;">
+                                <strong style="color: #00ff41;">0:00 - 遊戲開始</strong>
+                                <p style="color: #888; margin-top: 5px; font-size: 0.9rem;">雙方連接系統，黑客購買並應用商品</p>
+                            </div>
+                        </div>
+                        
+                        <div style="position: relative;">
+                            <div style="position: absolute; left: -28px; top: 5px; width: 16px; height: 16px; background: #4a90d9; border-radius: 50%; border: 3px solid #000;"></div>
+                            <div style="background: rgba(74,144,217,0.1); padding: 15px; border-radius: 8px; border-left: 4px solid #4a90d9;">
+                                <strong style="color: #4a90d9;">0:05 - 黑客啟動監控 🆕</strong>
+                                <p style="color: #888; margin-top: 5px; font-size: 0.9rem;">黑客開始即時監控防禦者瀏覽器操作</p>
+                            </div>
+                        </div>
 
-                <div style="flex: 1; min-width: 300px; background: rgba(153, 102, 255, 0.1); border: 2px solid #9966ff; border-radius: 12px; padding: 20px; margin-bottom: 20px;">
-                    <h2 style="color: #9966ff; text-align: center; margin-bottom: 15px; font-size: 1.2rem;">
-                        <i class="fas fa-star"></i> 詳細流程 (續集)
-                    </h2>
-                    <div style="display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 10px; text-align: center;">
-                        <div style="background: rgba(153,102,255,0.2); padding: 10px 15px; border-radius: 8px; border: 1px solid #9966ff;">
-                            <div style="color: #9966ff; font-weight: bold; font-size: 0.85rem;">1. 選擇角色</div>
-                            <div style="color: #aaa; font-size: 0.75rem;">黑客或執法部門</div>
+                        <div style="position: relative;">
+                            <div style="position: absolute; left: -28px; top: 5px; width: 16px; height: 16px; background: #ff9900; border-radius: 50%; border: 3px solid #000;"></div>
+                            <div style="background: rgba(255,153,0,0.1); padding: 15px; border-radius: 8px; border-left: 4px solid #ff9900;">
+                                <strong style="color: #ff9900;">0:35 - 防禦者收到警告 🆕</strong>
+                                <p style="color: #888; margin-top: 5px; font-size: 0.9rem;">延遲30秒後，防禦者收到「黑客已經看見你的瀏覽器操作」的提示</p>
+                            </div>
                         </div>
-                        <div style="color: #9966ff;">→</div>
-                        <div style="background: rgba(153,102,255,0.2); padding: 10px 15px; border-radius: 8px; border: 1px solid #9966ff;">
-                            <div style="color: #9966ff; font-weight: bold; font-size: 0.85rem;">2. 設置難度</div>
-                            <div style="color: #aaa; font-size: 0.75rem;">準備開始</div>
+
+                        <div style="position: relative;">
+                            <div style="position: absolute; left: -28px; top: 5px; width: 16px; height: 16px; background: #ff3333; border-radius: 50%; border: 3px solid #000;"></div>
+                            <div style="background: rgba(255,51,51,0.1); padding: 15px; border-radius: 8px; border-left: 4px solid #ff3333;">
+                                <strong style="color: #ff3333;">0:40 - 權限爭奪開始 🆕</strong>
+                                <p style="color: #888; margin-top: 5px; font-size: 0.9rem;">黑客開始奪取控制權，防禦者啟動反擊</p>
+                            </div>
                         </div>
-                        <div style="color: #9966ff;">→</div>
-                        <div style="background: rgba(153,102,255,0.2); padding: 10px 15px; border-radius: 8px; border: 1px solid #9966ff;">
-                            <div style="color: #9966ff; font-weight: bold; font-size: 0.85rem;">3. 攻防對決</div>
-                            <div style="color: #aaa; font-size: 0.75rem;">起底/反追蹤/反擊</div>
+
+                        <div style="position: relative;">
+                            <div style="position: absolute; left: -28px; top: 5px; width: 16px; height: 16px; background: #9b59b6; border-radius: 50%; border: 3px solid #000;"></div>
+                            <div style="background: rgba(155,89,182,0.1); padding: 15px; border-radius: 8px; border-left: 4px solid #9b59b6;">
+                                <strong style="color: #9b59b6;">1:00 - 攻擊模式執行</strong>
+                                <p style="color: #888; margin-top: 5px; font-size: 0.9rem;">黑客選擇並執行攻擊模式（直接/漸進/勒索）</p>
+                            </div>
                         </div>
-                        <div style="color: #9966ff;">→</div>
-                        <div style="background: rgba(153,102,255,0.2); padding: 10px 15px; border-radius: 8px; border: 1px solid #9966ff;">
-                            <div style="color: #9966ff; font-weight: bold; font-size: 0.85rem;">4. 談判/聯合</div>
-                            <div style="color: #aaa; font-size: 0.75rem;">策略性行動</div>
+
+                        <div style="position: relative;">
+                            <div style="position: absolute; left: -28px; top: 5px; width: 16px; height: 16px; background: #00ffff; border-radius: 50%; border: 3px solid #000;"></div>
+                            <div style="background: rgba(0,255,255,0.1); padding: 15px; border-radius: 8px; border-left: 4px solid #00ffff;">
+                                <strong style="color: #00ffff;">2:00 - 激烈攻防</strong>
+                                <p style="color: #888; margin-top: 5px; font-size: 0.9rem;">雙方使用各種工具進行攻擊與防禦</p>
+                            </div>
                         </div>
-                        <div style="color: #9966ff;">→</div>
-                        <div style="background: rgba(153,102,255,0.2); padding: 10px 15px; border-radius: 8px; border: 1px solid #9966ff;">
-                            <div style="color: #9966ff; font-weight: bold; font-size: 0.85rem;">5. 判定勝負</div>
-                            <div style="color: #aaa; font-size: 0.75rem;">獲得高額獎勵</div>
+
+                        <div style="position: relative;">
+                            <div style="position: absolute; left: -28px; top: 5px; width: 16px; height: 16px; background: #ffd700; border-radius: 50%; border: 3px solid #000;"></div>
+                            <div style="background: rgba(255,215,0,0.1); padding: 15px; border-radius: 8px; border-left: 4px solid #ffd700;">
+                                <strong style="color: #ffd700;">5:00 - 對戰結束</strong>
+                                <p style="color: #888; margin-top: 5px; font-size: 0.9rem;">時間到或控制權達100%，判定勝負並發放獎勵</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- 詳細流程說明 -->
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px;">
-                <!-- 黑客攻擊流程 -->
-                <div style="background: rgba(0, 255, 65, 0.05); border: 2px solid #00ff41; border-radius: 12px; padding: 20px;">
-                    <h3 style="color: #00ff41; margin-bottom: 15px; text-align: center;">
-                        <i class="fas fa-user-secret"></i> 黑客攻擊流程
-                    </h3>
-                    <div style="display: flex; flex-direction: column; gap: 10px;">
-                        <div style="display: flex; align-items: center; gap: 10px;">
-                            <span style="background: #00ff41; color: #000; padding: 5px 10px; border-radius: 5px; font-weight: bold;">1</span>
-                            <span style="color: #ccc;">偵察階段：端口掃描、信息收集</span>
-                        </div>
-                        <div style="text-align: center; color: #00ff41;">↓</div>
-                        <div style="display: flex; align-items: center; gap: 10px;">
-                            <span style="background: #00ff41; color: #000; padding: 5px 10px; border-radius: 5px; font-weight: bold;">2</span>
-                            <span style="color: #ccc;">武器化：選擇攻擊工具和漏洞</span>
-                        </div>
-                        <div style="text-align: center; color: #00ff41;">↓</div>
-                        <div style="display: flex; align-items: center; gap: 10px;">
-                            <span style="background: #00ff41; color: #000; padding: 5px 10px; border-radius: 5px; font-weight: bold;">3</span>
-                            <span style="color: #ccc;">入侵階段：執行攻擊獲取訪問</span>
-                        </div>
-                        <div style="text-align: center; color: #00ff41;">↓</div>
-                        <div style="display: flex; align-items: center; gap: 10px;">
-                            <span style="background: #00ff41; color: #000; padding: 5px 10px; border-radius: 5px; font-weight: bold;">4</span>
-                            <span style="color: #ccc;">提權階段：提升系統權限</span>
-                        </div>
-                        <div style="text-align: center; color: #00ff41;">↓</div>
-                        <div style="display: flex; align-items: center; gap: 10px;">
-                            <span style="background: #00ff41; color: #000; padding: 5px 10px; border-radius: 5px; font-weight: bold;">5</span>
-                            <span style="color: #ccc;">隱藏階段：清除痕跡植入後門</span>
-                        </div>
-                    </div>
+            <!-- 商品效果對比 -->
+            <div style="background: rgba(255, 215, 0, 0.1); border: 2px solid #ffd700; border-radius: 12px; padding: 30px; margin-bottom: 30px;">
+                <h2 style="color: #ffd700; margin-bottom: 25px; text-align: center; font-size: 1.4rem;">
+                    <i class="fas fa-chart-bar"></i> 商品效果對比表 🆕
+                </h2>
+                
+                <div style="overflow-x: auto;">
+                    <table style="width: 100%; border-collapse: collapse; color: #fff;">
+                        <thead>
+                            <tr style="background: rgba(0,0,0,0.5);">
+                                <th style="padding: 15px; text-align: left; border-bottom: 2px solid #ffd700;">商品名稱</th>
+                                <th style="padding: 15px; text-align: center; border-bottom: 2px solid #ffd700;">價格</th>
+                                <th style="padding: 15px; text-align: center; border-bottom: 2px solid #ffd700;">攻擊力加成</th>
+                                <th style="padding: 15px; text-align: center; border-bottom: 2px solid #ffd700;">控制速度</th>
+                                <th style="padding: 15px; text-align: center; border-bottom: 2px solid #ffd700;">特殊效果</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="background: rgba(0,255,65,0.05);">
+                                <td style="padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.1);"><strong style="color: #00ff41;">VPN 基礎版</strong></td>
+                                <td style="padding: 12px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1);">$5,000</td>
+                                <td style="padding: 12px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1);">-</td>
+                                <td style="padding: 12px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1);">-</td>
+                                <td style="padding: 12px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1);">隱藏30%</td>
+                            </tr>
+                            <tr style="background: rgba(0,255,65,0.05);">
+                                <td style="padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.1);"><strong style="color: #00ff41;">攻擊加速器</strong></td>
+                                <td style="padding: 12px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1);">$15,000</td>
+                                <td style="padding: 12px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1);">+20%</td>
+                                <td style="padding: 12px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1);">×1.5</td>
+                                <td style="padding: 12px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1);">-</td>
+                            </tr>
+                            <tr style="background: rgba(255,153,0,0.05);">
+                                <td style="padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.1);"><strong style="color: #ff9900;">高級攻擊套裝</strong></td>
+                                <td style="padding: 12px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1);">$50,000</td>
+                                <td style="padding: 12px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1);">+50%</td>
+                                <td style="padding: 12px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1);">×3.0</td>
+                                <td style="padding: 12px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1);">-</td>
+                            </tr>
+                            <tr style="background: rgba(255,0,0,0.1);">
+                                <td style="padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.1);"><strong style="color: #ff0000;">終極套裝</strong></td>
+                                <td style="padding: 12px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1);">$200,000</td>
+                                <td style="padding: 12px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1);">+100%</td>
+                                <td style="padding: 12px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1);">×10</td>
+                                <td style="padding: 12px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1);"><strong style="color: #ff0000;">瞬間控制</strong></td>
+                            </tr>
+                            <tr style="background: rgba(0,255,255,0.05);">
+                                <td style="padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.1);"><strong style="color: #00ffff;">隱身工具包</strong></td>
+                                <td style="padding: 12px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1);">$30,000</td>
+                                <td style="padding: 12px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1);">-</td>
+                                <td style="padding: 12px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1);">-</td>
+                                <td style="padding: 12px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1);">隱身+40%, 延遲120秒</td>
+                            </tr>
+                            <tr style="background: rgba(255,51,51,0.05);">
+                                <td style="padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.1);"><strong style="color: #ff3333;">反擊套裝</strong></td>
+                                <td style="padding: 12px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1);">$40,000</td>
+                                <td style="padding: 12px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1);">-</td>
+                                <td style="padding: 12px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1);">-</td>
+                                <td style="padding: 12px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1);">反擊力50%</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
 
-                <!-- 防禦者防護流程 -->
-                <div style="background: rgba(255, 51, 51, 0.05); border: 2px solid #ff3333; border-radius: 12px; padding: 20px;">
-                    <h3 style="color: #ff3333; margin-bottom: 15px; text-align: center;">
-                        <i class="fas fa-shield-alt"></i> 防禦者防護流程
-                    </h3>
-                    <div style="display: flex; flex-direction: column; gap: 10px;">
-                        <div style="display: flex; align-items: center; gap: 10px;">
-                            <span style="background: #ff3333; color: #fff; padding: 5px 10px; border-radius: 5px; font-weight: bold;">1</span>
-                            <span style="color: #ccc;">監控階段：啟動IDS和日誌監控</span>
-                        </div>
-                        <div style="text-align: center; color: #ff3333;">↓</div>
-                        <div style="display: flex; align-items: center; gap: 10px;">
-                            <span style="background: #ff3333; color: #fff; padding: 5px 10px; border-radius: 5px; font-weight: bold;">2</span>
-                            <span style="color: #ccc;">檢測階段：識別異常活動</span>
-                        </div>
-                        <div style="text-align: center; color: #ff3333;">↓</div>
-                        <div style="display: flex; align-items: center; gap: 10px;">
-                            <span style="background: #ff3333; color: #fff; padding: 5px 10px; border-radius: 5px; font-weight: bold;">3</span>
-                            <span style="color: #ccc;">分析階段：確認威脅來源</span>
-                        </div>
-                        <div style="text-align: center; color: #ff3333;">↓</div>
-                        <div style="display: flex; align-items: center; gap: 10px;">
-                            <span style="background: #ff3333; color: #fff; padding: 5px 10px; border-radius: 5px; font-weight: bold;">4</span>
-                            <span style="color: #ccc;">響應階段：封鎖攻擊IP</span>
-                        </div>
-                        <div style="text-align: center; color: #ff3333;">↓</div>
-                        <div style="display: flex; align-items: center; gap: 10px;">
-                            <span style="background: #ff3333; color: #fff; padding: 5px 10px; border-radius: 5px; font-weight: bold;">5</span>
-                            <span style="color: #ccc;">修復階段：修補漏洞加固系統</span>
-                        </div>
-                    </div>
-                </div>
+            <!-- 返回按鈕 -->
+            <div style="text-align: center; margin-top: 30px;">
+                <button id="flowchart-back-btn" style="padding: 15px 40px; background: linear-gradient(135deg, #9b59b6, #8e44ad); border: none; border-radius: 10px; color: #fff; font-size: 1.1rem; cursor: pointer; box-shadow: 0 4px 15px rgba(155,89,182,0.3); transition: all 0.3s;">
+                    <i class="fas fa-arrow-left"></i> 返回主頁
+                </button>
             </div>
-        </div>
-
-        <!-- 返回按鈕 -->
-        <div style="text-align: center; margin: 30px 0;">
-            <button class="btn" id="flowchart-back-btn" style="background: rgba(255, 255, 255, 0.1); border: 1px solid #666; padding: 12px 30px;">
-                <i class="fas fa-arrow-left"></i>
-                <span>返回主選單</span>
-            </button>
         </div>
     </div>
 
@@ -6387,7 +6145,10 @@
 
         // ===== DOM元素引用 =====
         let mainPage, gamePage, battleSelectPage;
-        let terminalInput, terminalOutput, terminalBody;
+    let terminalInput, terminalOutput, terminalBody;
+    // 命令歷史與索引（持久化到 localStorage）
+    let terminalHistory = [];
+    let historyIndex = -1;
         let toolsGrid, networkMap, attackLog;
 
         // ===== 初始化 =====
@@ -6416,6 +6177,11 @@
         }
 
         // ===== 設置事件監聽器 =====
+        // Helper: 嘗試取得元素，若原始 ID 不存在則尋找 -dup 變體
+        function findEl(id) {
+            return document.getElementById(id) || document.getElementById(id + '-dup') || document.querySelector('[data-dup-for="' + id + '"]');
+        }
+
         function setupEventListeners() {
             // 獨立模式選擇按鈕（不進入對戰）
             document.getElementById('hacker-btn').addEventListener('click', () => startSoloGame('hacker'));
@@ -6439,15 +6205,18 @@
             });
 
             // 對戰模式選擇頁面按鈕
-            document.getElementById('battle-start-hacker').addEventListener('click', (e) => {
+            const bsH = document.getElementById('battle-start-hacker');
+            if (bsH) bsH.addEventListener('click', (e) => {
                 e.stopPropagation();
                 startBattleGame('hacker');
             });
-            document.getElementById('battle-start-defender').addEventListener('click', (e) => {
+            const bsD = document.getElementById('battle-start-defender');
+            if (bsD) bsD.addEventListener('click', (e) => {
                 e.stopPropagation();
                 startBattleGame('defender');
             });
-            document.getElementById('battle-back-btn').addEventListener('click', backToMainFromBattle);
+            // 支援 battle-back-btn 與 battle-back-btn-dup
+            document.querySelectorAll('#battle-back-btn').forEach(b => b.addEventListener('click', backToMainFromBattle));
 
             // 對戰選擇頁面卡片���擊
             document.getElementById('battle-hacker-card').addEventListener('click', (e) => {
@@ -6464,13 +6233,15 @@
             // 說明指南和流程圖按鈕
             const guideBtn = document.getElementById('guide-btn');
             const flowchartBtn = document.getElementById('flowchart-btn');
-            const guideBackBtn = document.getElementById('guide-back-btn');
-            const flowchartBackBtn = document.getElementById('flowchart-back-btn');
+
+            // 支援原始 ID 與 -dup 變體（可能有多個回退按鈕）
+            const guideBackBtns = document.querySelectorAll('#guide-back-btn');
+            const flowchartBackBtns = document.querySelectorAll('#flowchart-back-btn');
 
             if (guideBtn) guideBtn.addEventListener('click', showGuide);
             if (flowchartBtn) flowchartBtn.addEventListener('click', showFlowchart);
-            if (guideBackBtn) guideBackBtn.addEventListener('click', backToMainFromGuide);
-            if (flowchartBackBtn) flowchartBackBtn.addEventListener('click', backToMainFromFlowchart);
+            guideBackBtns.forEach(b => b.addEventListener('click', backToMainFromGuide));
+            flowchartBackBtns.forEach(b => b.addEventListener('click', backToMainFromFlowchart));
 
             // 設置輸入
             document.getElementById('target-ip').addEventListener('change', updateTargetIP);
@@ -6498,6 +6269,58 @@
                 }
             }
         }
+
+        // ===== 建立全域 App 命名空間（避免過度污染 window） =====
+        window.App = window.App || {};
+        (function(ns) {
+            // 將部分 helper 暴露於 App 內，並保留向後相容的 window 屬性
+            ns.findEl = findEl;
+            ns.showModal = window.showModal || function() {};
+            ns.showNotification = window.showNotification || function() {};
+
+            // 事件委派：針對動態生成的按鈕進行處理
+            function delegatedClickHandler(e) {
+                const btn = e.target.closest('[data-action]');
+                if (!btn) return;
+                const action = btn.getAttribute('data-action');
+                if (!action) return;
+                // 常見 action 範例： 'start-battle-hacker', 'start-battle-defender', 'close-modal'
+                switch(action) {
+                    case 'start-battle-hacker':
+                        startBattleGame('hacker'); break;
+                    case 'start-battle-defender':
+                        startBattleGame('defender'); break;
+                    case 'close-browser-sim':
+                        closeBrowserSimulator(); break;
+                    default:
+                        // 可擴展
+                        console.log('未處理的委派 action:', action);
+                }
+            }
+
+            document.addEventListener('click', delegatedClickHandler);
+
+            // 監視 body 的子節點變化，確保動態插入的元素（insertAdjacentHTML）被處理
+            const mo = new MutationObserver((mutations) => {
+                for (const m of mutations) {
+                    if (m.addedNodes && m.addedNodes.length) {
+                        m.addedNodes.forEach(n => {
+                            if (n.nodeType !== 1) return;
+                            // 自動為某些按鈕加 data-action（若存在常見 class 或 onclick）
+                            n.querySelectorAll && n.querySelectorAll('button[onclick]').forEach(b => {
+                                const oc = b.getAttribute('onclick');
+                                if (oc && oc.includes('browser')) {
+                                    b.setAttribute('data-action', 'close-browser-sim');
+                                }
+                            });
+                        });
+                    }
+                }
+            });
+            mo.observe(document.body, { childList: true, subtree: true });
+
+            ns._mo = mo;
+        })(window.App);
 
         // ===== 保存設置 =====
         function saveSettings() {
@@ -7102,7 +6925,12 @@
                 </div>
             `;
 
-            document.body.insertAdjacentHTML('beforeend', resultHTML);
+            // 使用 ModalManager 統一管理模態
+            if (window.ModalManager && typeof ModalManager.mount === 'function') {
+                ModalManager.mount('battle-result-modal', resultHTML, { mode: mode });
+            } else {
+                document.body.insertAdjacentHTML('beforeend', resultHTML);
+            }
             SoundSystem.play(isPlayerWin ? 'success' : 'error');
 
             // 終端輸出
@@ -7124,8 +6952,12 @@
 
         // 關閉對戰結果
         function closeBattleResult() {
-            const modal = document.getElementById('battle-result-modal');
-            if (modal) modal.remove();
+            if (window.ModalManager && typeof ModalManager.unmount === 'function') {
+                ModalManager.unmount('battle-result-modal');
+            } else {
+                const modal = document.getElementById('battle-result-modal');
+                if (modal) modal.remove();
+            }
         }
 
         // 重新開始對戰
@@ -7584,6 +7416,30 @@
                                         <span class="log-message">${GameState.isBattleMode ? '對戰開始！' : '對戰日誌初始化完成'}</span>
                                     </div>
                                 </div>
+                                
+                                <!-- 威脅資訊流 (Threat Feed) -->
+                                <div style="margin-top:12px;">
+                                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; gap:12px;">
+                                        <div style="color:#c0392b; font-weight:bold;">威脅資訊流</div>
+                                        <div style="display:flex; gap:8px; align-items:center;">
+                                            <input id="threat-filter-search" placeholder="搜尋威脅文字..." style="padding:6px 8px; border-radius:6px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.04); color:#ddd;" />
+                                            <select id="threat-filter-sev" style="padding:6px 8px; border-radius:6px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.04); color:#ddd;">
+                                                <option value="all">全部</option>
+                                                <option value="high">HIGH</option>
+                                                <option value="med">MED</option>
+                                                <option value="low">LOW</option>
+                                            </select>
+                                            <label style="display:flex; align-items:center; gap:6px; font-size:0.85rem; color:#ccc;">
+                                                <input type="checkbox" id="threat-persist-toggle" /> 保存
+                                            </label>
+                                            <button class="btn btn-sm" id="btn-pause-feed">暫停</button>
+                                            <button class="btn btn-sm" id="btn-clear-feed">清除</button>
+                                        </div>
+                                    </div>
+                                    <div class="threat-feed" id="threat-feed">
+                                        <!-- items rendered here -->
+                                    </div>
+                                </div>
                             </div>
 
                             <!-- 視覺化區域 -->
@@ -7937,41 +7793,66 @@
         // ===== 初始化遊戲邏輯 =====
         function initGameLogic(mode) {
             const config = GameConfig[mode];
-            
+
             // 設置終端輸入處理
             setupTerminalInput(mode, config);
-            
+
             // 設置工具點擊事件
             setupToolEvents(mode, config);
-            
+
             // 設置分類按鈕事件
             setupCategoryEvents();
-            
+
             // 設置控制按鈕事件
             setupControlButtons(mode, config);
-            
+
+            // 初始化網絡拓撲
+            try { initNetworkTopology(mode); } catch (e) { /* noop */ }
+
+            // 啟動動態事件系統
+            try { startDynamicEventSystem(mode); } catch (e) { /* noop */ }
+
+            // 啟動威脅來源模擬（小型 Threat Feed）
+            try { startThreatFeedSim(mode); } catch (e) { /* noop */ }
+
             // 開始遊戲計時器
             startGameTimer();
-            
+
             // 開始對戰模擬
             if (GameState.isBattleMode) {
                 startBattleSimulation(mode);
             }
-            
+
+            // 啟動粒子背景 (熱門新功能)
+            try { startParticleBackground(); } catch (e) { /* noop */ }
+
             console.log(`${mode} 模式遊戲邏輯初始化完成`);
         }
 
         // ===== 設置終端輸入處理 =====
         function setupTerminalInput(mode, config) {
             if (!terminalInput) return;
-            
+            // 讀取歷史
+            try {
+                const saved = localStorage.getItem('terminalHistory');
+                if (saved) terminalHistory = JSON.parse(saved) || [];
+            } catch (e) { terminalHistory = []; }
+
             terminalInput.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter') {
-                    const command = terminalInput.value.trim().toLowerCase();
+                    const command = terminalInput.value.trim();
                     if (command) {
-                        processCommand(mode, command, config);
+                        const cmdLower = command.toLowerCase();
+                        processCommand(mode, cmdLower, config);
+
+                        // 保存歷史（最近 100 條）
+                        terminalHistory.push(command);
+                        if (terminalHistory.length > 100) terminalHistory.shift();
+                        try { localStorage.setItem('terminalHistory', JSON.stringify(terminalHistory)); } catch (e) {}
+                        historyIndex = terminalHistory.length;
+
                         terminalInput.value = '';
-                        
+
                         // 清空建議
                         const suggestions = document.getElementById('input-suggestions');
                         if (suggestions) suggestions.innerHTML = '';
@@ -7979,9 +7860,23 @@
                 } else if (e.key === 'Tab') {
                     e.preventDefault();
                     autoCompleteCommand(mode, config);
+                } else if (e.key === 'ArrowUp') {
+                    // 歷史向上
+                    if (terminalHistory.length === 0) return;
+                    historyIndex = Math.max(0, historyIndex - 1);
+                    terminalInput.value = terminalHistory[historyIndex] || '';
+                    setTimeout(() => terminalInput.setSelectionRange(terminalInput.value.length, terminalInput.value.length), 0);
+                    e.preventDefault();
+                } else if (e.key === 'ArrowDown') {
+                    // 歷史向下
+                    if (terminalHistory.length === 0) return;
+                    historyIndex = Math.min(terminalHistory.length, historyIndex + 1);
+                    terminalInput.value = historyIndex < terminalHistory.length ? terminalHistory[historyIndex] : '';
+                    setTimeout(() => terminalInput.setSelectionRange(terminalInput.value.length, terminalInput.value.length), 0);
+                    e.preventDefault();
                 }
             });
-            
+
             // 實時建議
             terminalInput.addEventListener('input', () => {
                 updateCommandSuggestions(mode, config);
@@ -8043,6 +7938,8 @@
             } else {
                 addTerminalLine(`錯誤: 未知指令 "${command}"`, 'error');
                 addTerminalLine('輸入 "help" 查看可用指令', 'system');
+                flashScreen('rgba(255,80,80,0.12)', 180);
+                playFeedback('error');
             }
         }
 
@@ -8105,9 +8002,23 @@
                     notifyOpponentOfAction(mode, tool);
                 }
 
-                // 添加成功消息
-                addTerminalLine(`${tool.name} 執行成功`, 'success');
-                SoundSystem.play('success');
+                // 隨機模擬成功或失敗（小概率失敗以增加遊戲互動）
+                const failChance = tool.failureRate || 0.08; // 可由 tool 定義
+                if (Math.random() < failChance) {
+                    addTerminalLine(`${tool.name} 執行失敗：操作被阻止或遇到錯誤`, 'error');
+                    // 視覺與聲音反饋
+                    flashScreen('rgba(255,80,80,0.12)', 220);
+                    playFeedback('error');
+                    // 對關鍵區塊做文字亂碼提示
+                    const keyHud = document.querySelector('.hud .status') || document.getElementById('hud-status');
+                    if (keyHud) scrambleText(keyHud, '操作失敗', 700);
+                } else {
+                    // 添加成功消息
+                    addTerminalLine(`${tool.name} 執行成功`, 'success');
+                    SoundSystem.play('success');
+                    flashScreen('rgba(0,255,120,0.08)', 140);
+                    playFeedback('success');
+                }
 
                 // 發送到對手（模擬對戰）
                 if (GameState.connected) {
@@ -8686,8 +8597,15 @@
             if (!terminalOutput) return;
             
             const line = document.createElement('div');
-            line.className = `terminal-line ${type}`;
-            line.textContent = text;
+            // 支援新等級映射
+            // 支援別名：warning -> warn, alert -> critical (視情況)
+            const aliasMap = { 'warning': 'warn', 'alert': 'critical' };
+            const normalized = aliasMap[type] || type;
+            const lvl = (['debug','info','warn','critical','success','error','system','response','command'].includes(normalized) ? normalized : 'response');
+            line.className = `terminal-line ${lvl}`;
+            // 若為特殊等級，顯示等級前綴
+            const prefix = lvl === 'debug' ? '[DEBUG] ' : lvl === 'info' ? '[INFO] ' : lvl === 'warn' ? '[WARN] ' : lvl === 'critical' ? '[CRITICAL] ' : '';
+            line.textContent = prefix + text;
             terminalOutput.appendChild(line);
             
             // 限制���數
@@ -8702,6 +8620,75 @@
                     terminalBody.scrollTop = terminalBody.scrollHeight;
                 }, 10);
             }
+        }
+
+        // ===== 屏幕閃爍 / 互動反饋 =====
+        function flashScreen(color = 'rgba(255,255,255,0.12)', duration = 120) {
+            let el = document.getElementById('screen-flash');
+            if (!el) {
+                el = document.createElement('div');
+                el.id = 'screen-flash';
+                el.style.position = 'fixed'; el.style.top = 0; el.style.left = 0; el.style.width = '100%'; el.style.height = '100%'; el.style.pointerEvents='none'; el.style.zIndex=9999;
+                document.body.appendChild(el);
+            }
+            el.style.background = color;
+            el.style.opacity = '1';
+            setTimeout(() => { el.style.transition = `opacity ${duration}ms ease`; el.style.opacity = '0'; setTimeout(()=>{ el.removeAttribute('style'); }, duration+50); }, 20);
+        }
+
+        // 簡易文字解碼/亂碼效果
+        function scrambleText(element, finalText, duration = 900) {
+            if (!element) return;
+            const chars = '!<>-_\/[]{}—=+*^?#________';
+            const start = Date.now();
+            const orig = element.textContent || '';
+            const frame = () => {
+                const now = Date.now();
+                const progress = Math.min(1, (now - start) / duration);
+                let out = '';
+                for (let i = 0; i < finalText.length; i++) {
+                    if (Math.random() < progress) {
+                        out += finalText[i];
+                    } else {
+                        out += chars[Math.floor(Math.random() * chars.length)];
+                    }
+                }
+                element.textContent = out;
+                if (progress < 1) requestAnimationFrame(frame);
+            };
+            frame();
+        }
+
+        // ===== 粒子背景 (簡易 Canvas 實作) =====
+        function startParticleBackground() {
+            if (window._particlesStarted) return;
+            window._particlesStarted = true;
+            const canvas = document.createElement('canvas');
+            canvas.className = 'particle-canvas';
+            canvas.id = 'particle-canvas';
+            document.body.appendChild(canvas);
+            const ctx = canvas.getContext('2d');
+            function resize(){ canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+            resize(); window.addEventListener('resize', resize);
+            const particles = [];
+            for (let i=0;i<120;i++) particles.push({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, vx: (Math.random()-0.5)*0.4, vy: (Math.random()-0.5)*0.4, s: 0.8+Math.random()*1.6 });
+            function draw(){ ctx.clearRect(0,0,canvas.width,canvas.height); ctx.globalCompositeOperation='lighter'; particles.forEach(p=>{ p.x += p.vx; p.y += p.vy; if (p.x<0) p.x=canvas.width; if (p.x>canvas.width) p.x=0; if (p.y<0) p.y=canvas.height; if (p.y>canvas.height) p.y=0; ctx.fillStyle = 'rgba(0,255,120,0.06)'; ctx.beginPath(); ctx.arc(p.x,p.y,p.s,0,Math.PI*2); ctx.fill(); }); requestAnimationFrame(draw); }
+            draw();
+        }
+
+        // 啟動 UI 音效（輕量）
+        function playFeedback(type='success'){
+            try {
+                if (!window.AudioContext) return;
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const o = ctx.createOscillator(); const g = ctx.createGain();
+                o.type = type === 'success' ? 'sine' : type === 'error' ? 'sawtooth' : 'square';
+                o.frequency.value = type === 'success' ? 880 : type === 'error' ? 220 : 440;
+                g.gain.value = 0.0001;
+                o.connect(g); g.connect(ctx.destination);
+                o.start(); g.gain.exponentialRampToValueAtTime(0.05, ctx.currentTime + 0.005); g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.25);
+                setTimeout(()=>{ o.stop(); try{ctx.close();}catch(e){} }, 300);
+            } catch(e){}
         }
 
         // ===== 添加攻擊日誌 =====
@@ -8728,6 +8715,131 @@
             
             // 滾動到底部
             attackLog.scrollTop = attackLog.scrollHeight;
+        }
+
+        // ===== Threat Feed 管理 =====
+        let _threatFeedTimer = null;
+        let _threatFeedPaused = false;
+        // in-memory store for threat feed (for rendering/filtering/persist)
+        let _threatFeedItems = [];
+
+        function _persistThreatFeed() {
+            const persistToggle = document.getElementById('threat-persist-toggle');
+            try {
+                if (persistToggle && persistToggle.checked) {
+                    localStorage.setItem('threatFeed', JSON.stringify(_threatFeedItems));
+                } else {
+                    localStorage.removeItem('threatFeed');
+                }
+            } catch (e) {}
+        }
+
+        function _loadPersistedThreatFeed() {
+            try {
+                const raw = localStorage.getItem('threatFeed');
+                if (raw) {
+                    _threatFeedItems = JSON.parse(raw) || [];
+                }
+            } catch (e) { _threatFeedItems = []; }
+        }
+
+        function addThreatFeedItem(text, severity = 'low') {
+            const time = new Date();
+            const record = { text, severity, ts: time.getTime() };
+            _threatFeedItems.push(record);
+            // keep last 200 in memory
+            if (_threatFeedItems.length > 200) _threatFeedItems.shift();
+            _persistThreatFeed();
+            renderThreatFeed();
+        }
+
+        function renderThreatFeed() {
+            const feed = document.getElementById('threat-feed');
+            if (!feed) return;
+            const searchInput = document.getElementById('threat-filter-search');
+            const sevSelect = document.getElementById('threat-filter-sev');
+            const q = searchInput && searchInput.value.trim().toLowerCase();
+            const sevFilter = sevSelect ? sevSelect.value : 'all';
+
+            feed.innerHTML = '';
+            const items = _threatFeedItems.filter(r => {
+                if (sevFilter !== 'all' && r.severity !== sevFilter) return false;
+                if (q && !r.text.toLowerCase().includes(q)) return false;
+                return true;
+            });
+
+            items.forEach(r => {
+                const item = document.createElement('div');
+                item.className = 'threat-item';
+                const sevClass = r.severity === 'high' ? 'threat-sev-high' : r.severity === 'med' ? 'threat-sev-med' : 'threat-sev-low';
+                const timeStr = new Date(r.ts).toLocaleTimeString();
+                item.innerHTML = `<span>[${timeStr}] ${r.text}</span><span class="severity ${sevClass}">${r.severity.toUpperCase()}</span>`;
+                feed.appendChild(item);
+            });
+
+            // auto-scroll to bottom when no filter/search applied
+            if (!(q) && (sevFilter === 'all')) feed.scrollTop = feed.scrollHeight;
+        }
+
+        function startThreatFeedSim(mode) {
+            // 初始化按鈕
+            const pauseBtn = document.getElementById('btn-pause-feed');
+            const clearBtn = document.getElementById('btn-clear-feed');
+
+            const searchInput = document.getElementById('threat-filter-search');
+            const sevSelect = document.getElementById('threat-filter-sev');
+            const persistToggle = document.getElementById('threat-persist-toggle');
+
+            if (searchInput) searchInput.addEventListener('input', () => renderThreatFeed());
+            if (sevSelect) sevSelect.addEventListener('change', () => renderThreatFeed());
+            if (persistToggle) persistToggle.addEventListener('change', () => _persistThreatFeed());
+
+            if (pauseBtn) pauseBtn.addEventListener('click', () => {
+                _threatFeedPaused = !_threatFeedPaused;
+                pauseBtn.textContent = _threatFeedPaused ? '繼續' : '暫停';
+            });
+            if (clearBtn) clearBtn.addEventListener('click', clearThreatFeed);
+
+            // load persisted feed if present
+            _loadPersistedThreatFeed();
+            renderThreatFeed();
+
+            // 模擬資料來源
+            const samples = [
+                '偵測到可疑登錄嘗試來自 203.0.113.45',
+                '多重端口掃描偵測: 10 個不同來源',
+                '惡意程式活動: 可疑文件上傳至 /tmp',
+                '異常高頻連線至外部 IP 198.51.100.22',
+                '疑似 DDoS 洪流，連接數突增',
+                '已封鎖可疑封包: 規則 ID 4721',
+                '蜜罐捕獲可疑指令序列',
+                '入侵偵測: 內部橫向移動跡象'
+            ];
+
+            _threatFeedTimer = setInterval(() => {
+                if (_threatFeedPaused) return;
+                const txt = samples[Math.floor(Math.random() * samples.length)];
+                const r = Math.random();
+                const sev = r > 0.85 ? 'high' : r > 0.5 ? 'med' : 'low';
+                addThreatFeedItem(txt, sev);
+                // 同時把重要事件寫入 attack log / terminal
+                if (sev === 'high') {
+                    addAttackLog('[高] ' + txt);
+                    addTerminalLine('[警報] ' + txt, 'alert');
+                }
+                // push into in-memory feed
+                addThreatFeedItem(txt, sev);
+            }, 3000 + Math.round(Math.random() * 2000));
+        }
+
+        function stopThreatFeedSim() {
+            if (_threatFeedTimer) { clearInterval(_threatFeedTimer); _threatFeedTimer = null; }
+        }
+
+        function clearThreatFeed() {
+            _threatFeedItems = [];
+            _persistThreatFeed();
+            renderThreatFeed();
         }
 
         // ===== 清空終端 =====
@@ -8826,6 +8938,219 @@
                     `).join('');
                 }
             }
+        }
+
+        // ===== 自動補全狀態（支援連續 Tab 循環） =====
+        const _autoCompleteState = { matches: [], index: -1, lastInput: '' };
+
+        // 改良版自動補全：連按 Tab 將在匹配項之間循環
+        function autoCompleteCommand(mode, config) {
+            if (!terminalInput) return;
+
+            const raw = terminalInput.value || '';
+            const input = raw.trim().toLowerCase();
+            const commands = Object.keys(config.commands || {});
+
+            // 如果輸入變了，重建匹配清單
+            if (input !== _autoCompleteState.lastInput) {
+                _autoCompleteState.matches = commands.filter(cmd => cmd.startsWith(input));
+                _autoCompleteState.index = 0;
+                _autoCompleteState.lastInput = input;
+            }
+
+            const matches = _autoCompleteState.matches || [];
+            if (matches.length === 0) {
+                // no-op
+                return;
+            }
+
+            // 如果只有一個匹配，直接填入並重置狀態
+            if (matches.length === 1) {
+                terminalInput.value = matches[0];
+                _autoCompleteState.matches = [];
+                _autoCompleteState.index = -1;
+                _autoCompleteState.lastInput = '';
+            } else {
+                // 填入當前索引並進行循環
+                const idx = _autoCompleteState.index % matches.length;
+                terminalInput.value = matches[idx];
+                _autoCompleteState.index = (idx + 1) % matches.length;
+                addTerminalLine(`自動補全: ${matches.join(', ')}`, 'system');
+            }
+
+            // 把光標移到末尾
+            setTimeout(() => terminalInput.setSelectionRange(terminalInput.value.length, terminalInput.value.length), 0);
+        }
+
+        // ===== 動態事件系統 =====
+        // 隨機產生突發事件以增加玩法變化（會影響 GameState、威脅資訊流與終端）
+        let _dynamicEventTimer = null;
+        function startDynamicEventSystem(mode) {
+            stopDynamicEventSystem();
+            _dynamicEventTimer = setInterval(() => {
+                // 低機率觸發事件
+                if (Math.random() < 0.35) triggerRandomEvent(mode);
+            }, 4000 + Math.floor(Math.random() * 4000));
+        }
+
+        function stopDynamicEventSystem() {
+            if (_dynamicEventTimer) { clearInterval(_dynamicEventTimer); _dynamicEventTimer = null; }
+        }
+
+        function triggerRandomEvent(mode) {
+            const events = ['defender-firewall-boost', 'phishing-success', 'defender-detect', 'node-lockdown', 'minor-scan'];
+            const ev = events[Math.floor(Math.random() * events.length)];
+
+            switch (ev) {
+                case 'defender-firewall-boost':
+                    GameState.firewall.level = Math.min(100, (GameState.firewall.level || 50) + 10);
+                    addThreatFeedItem(`防禦方自動強化防火牆至 ${GameState.firewall.level}%`, 'med');
+                    addTerminalLine(`系統事件: 防火牆自動升級至 ${GameState.firewall.level}%`, 'system');
+                    break;
+                case 'phishing-success':
+                    // 模擬目標被釣魚，提升黑客權限並寫入攔截終端
+                    addThreatFeedItem('釣魚郵件成功：已攔截憑證', 'high');
+                    addAttackLog('[釣魚] 成功攔截憑證並提升訪問權限');
+                    GameState.stats.accessLevel = Math.min(100, (GameState.stats.accessLevel || 0) + 15);
+                    addTerminalLine('事件: 釣魚成功，訪問權限提升', 'success');
+                    // 解鎖鄰近節點（若有）
+                    if (GameState.network && GameState.network.nodes) {
+                        const locked = GameState.network.nodes.find(n => n.locked);
+                        if (locked) unlockNetworkNode(locked.id);
+                    }
+                    break;
+                case 'defender-detect':
+                    GameState.stats.detectionRisk = Math.min(100, (GameState.stats.detectionRisk || 0) + 10);
+                    addThreatFeedItem('防禦系統偵測到異常活動，檢測風險上升', 'med');
+                    addTerminalLine('系統事件: 偵測風險上升', 'warning');
+                    break;
+                case 'node-lockdown':
+                    if (GameState.network && GameState.network.nodes) {
+                        const candidates = GameState.network.nodes.filter(n => !n.compromised && !n.locked);
+                        if (candidates.length > 0) {
+                            const pick = candidates[Math.floor(Math.random() * candidates.length)];
+                            pick.locked = true;
+                            renderNetworkTopology();
+                            addThreatFeedItem(`節點 ${pick.name} 進入臨時封鎖 (lockdown)`, 'med');
+                            addTerminalLine(`事件: 節點 ${pick.name} 被封鎖`, 'warning');
+                        }
+                    }
+                    break;
+                case 'minor-scan':
+                    addThreatFeedItem('例行掃描：偵測到多個可疑連線', 'low');
+                    break;
+            }
+        }
+
+        // ===== 網絡拓撲 / 節點系統 =====
+        function initNetworkTopology(mode) {
+            // 輕量化的節點/邊模型，用於逐步解鎖節點
+            GameState.network = GameState.network || { nodes: [], edges: [] };
+            if (GameState.network.nodes.length === 0) {
+                if (mode === 'hacker') {
+                    GameState.network.nodes = [
+                        { id: 'n-attacker', name: '攻擊者', x:50, y:30, locked: false, compromised: true },
+                        { id: 'n-jump', name: '跳板主機', x:150, y:120, locked: false, compromised: false },
+                        { id: 'n-server', name: '目標伺服器', x:250, y:30, locked: true, compromised: false },
+                        { id: 'n-db', name: '數據庫', x:350, y:120, locked: true, compromised: false },
+                    ];
+                    GameState.network.edges = [ ['n-attacker','n-jump'], ['n-jump','n-server'], ['n-server','n-db'] ];
+                } else {
+                    GameState.network.nodes = [
+                        { id: 'n-defender', name: '防禦者', x:50, y:30, locked: false, compromised: false },
+                        { id: 'n-fw', name: '防火牆', x:150, y:120, locked: false, compromised: false },
+                        { id: 'n-web', name: 'Web伺服器', x:250, y:30, locked: false, compromised: false },
+                        { id: 'n-db', name: '數據庫', x:350, y:120, locked: false, compromised: false }
+                    ];
+                    GameState.network.edges = [ ['n-defender','n-fw'], ['n-fw','n-web'], ['n-web','n-db'] ];
+                }
+            }
+            renderNetworkTopology();
+        }
+
+        function renderNetworkTopology() {
+            if (!networkMap || !GameState.network) return;
+            networkMap.innerHTML = '';
+            const ns = GameState.network.nodes || [];
+            ns.forEach(n => {
+                const d = document.createElement('div');
+                d.className = 'node' + (n.locked ? ' locked' : '') + (n.compromised ? ' compromised' : '');
+                d.style.top = (n.y) + 'px'; d.style.left = (n.x) + 'px';
+                d.title = n.name + (n.locked ? ' (Locked)' : '') + (n.compromised ? ' (Compromised)' : '');
+                d.dataset.nodeId = n.id;
+                d.innerHTML = `<i class="fas fa-circle"></i>`;
+                d.addEventListener('click', () => attemptCompromise(n.id));
+                networkMap.appendChild(d);
+            });
+            // edges: visual lines handled elsewhere (startNetworkAnimation) — keep simple
+        }
+
+        function attemptCompromise(nodeId) {
+            const node = GameState.network.nodes.find(n => n.id === nodeId);
+            if (!node) return;
+            if (node.compromised) { addTerminalLine(`${node.name} 已被攻破`, 'system'); return; }
+            if (node.locked) { addTerminalLine(`${node.name} 目前已鎖定，無法直接入侵`, 'warning'); return; }
+
+            // 檢查相鄰已被入侵的節點（前置條件）
+            const edges = GameState.network.edges || [];
+            const neighbors = edges.filter(e => e.includes(nodeId)).map(e => e[0] === nodeId ? e[1] : e[0]);
+            const hasCompromisedNeighbor = neighbors.some(nid => GameState.network.nodes.find(n=>n.id===nid)?.compromised);
+            if (!hasCompromisedNeighbor && node.id !== 'n-attacker' && node.id !== 'n-defender') {
+                addTerminalLine(`需要先攻破相連的節點才能入侵 ${node.name}`, 'warning');
+                return;
+            }
+
+            addTerminalLine(`嘗試對 ${node.name} 進行入侵...`, 'system');
+            // 成功率受攻擊力與防火牆影響
+            const atk = GameState.stats.attackPower || 30;
+            const fw = GameState.firewall.level || 50;
+            const successProb = Math.max(0.05, Math.min(0.95, (atk / 100) * (1 - fw / 200)));
+
+            setTimeout(() => {
+                if (Math.random() < successProb) {
+                    node.compromised = true;
+                    addAttackLog(`✓ 成功入侵 ${node.name}`);
+                    addTerminalLine(`✓ 成功入侵 ${node.name}`, 'success');
+                    // 解鎖鄰近節點
+                    neighbors.forEach(nid => unlockNetworkNode(nid));
+                    renderNetworkTopology();
+                } else {
+                    addTerminalLine(`✗ 入侵 ${node.name} 失敗，防禦系統加強偵測`, 'error');
+                    GameState.stats.detectionRisk = Math.min(100, (GameState.stats.detectionRisk || 0) + 8);
+                    addThreatFeedItem(`入侵嘗試失敗: ${node.name}`, 'med');
+                }
+            }, 800 + Math.floor(Math.random() * 1200));
+        }
+
+        function unlockNetworkNode(nodeId) {
+            const node = GameState.network.nodes.find(n => n.id === nodeId);
+            if (!node) return;
+            node.locked = false;
+            addTerminalLine(`節點解鎖: ${node.name}`, 'system');
+            renderNetworkTopology();
+        }
+
+        // ===== 排行榜（本地存儲的簡單實作；可換成後端 API / Firebase） =====
+        const Leaderboard = (function(){
+            const KEY = 'local_leaderboard_v1';
+            function _load(){ try { return JSON.parse(localStorage.getItem(KEY) || '[]'); } catch(e){ return []; } }
+            function _save(list){ try { localStorage.setItem(KEY, JSON.stringify(list)); } catch(e){} }
+            function submitScore(player, score){ const list = _load(); list.push({player, score, ts: Date.now()}); list.sort((a,b)=>b.score-a.score); _save(list.slice(0,100)); }
+            function fetchTop(n=10){ return _load().slice(0,n); }
+            return { submitScore, fetchTop };
+        })();
+
+        function showLeaderboard() {
+            const rows = Leaderboard.fetchTop(10).map((r,i)=>`<div style="display:flex;justify-content:space-between;padding:6px 10px;border-bottom:1px solid rgba(255,255,255,0.03);">${i+1}. ${r.player}<span>${r.score}</span></div>`).join('') || '<div style="padding:20px;color:#aaa;text-align:center;">尚無分數</div>';
+            const html = `
+                <div class="modal-overlay" style="display:flex;">
+                    <div class="modal-box" style="max-width:520px;padding:16px;">
+                        <h2 style="color:#ffd700;margin:0 0 10px 0;text-align:center;"><i class="fas fa-trophy"></i> 排行榜</h2>
+                        <div style="background:rgba(0,0,0,0.4);border-radius:8px;padding:8px;">${rows}</div>
+                        <div style="text-align:center;margin-top:12px;"><button onclick="ModalManager.unmount('leaderboard-modal')" style="padding:10px 18px;border-radius:6px;">關閉</button></div>
+                    </div>
+                </div>`;
+            ModalManager.mount(html, 'leaderboard-modal');
         }
 
         // ===== 設置終端輸入 =====
@@ -9109,7 +9434,7 @@
             const targetIP = GameState.battle.targetIP;
 
             const browserHTML = `
-                <div class="modal-overlay" id="browser-simulator-modal" style="display: flex;">
+                <div class="modal-overlay" style="display: flex;">
                     <div class="modal-box" style="max-width: 1000px; max-height: 90vh; overflow: hidden; background: #1a1a2e; border: none; border-radius: 12px; padding: 0;">
                         <!-- 瀏覽器標題欄 -->
                         <div style="background: linear-gradient(90deg, #2d2d44 0%, #3d3d5c 100%); padding: 10px 15px; display: flex; align-items: center; gap: 15px; border-radius: 12px 12px 0 0;">
@@ -9136,7 +9461,7 @@
                         </div>
 
                         <!-- 瀏覽器內容 -->
-                        <div id="browser-content" style="background: #0d0d1a; height: 500px; overflow-y: auto; padding: 0;">
+                        <div id="browser-content" style="background: #0d0d1a; max-height: 70vh; height: auto; overflow-y: auto; padding: 0;">
                             ${mode === 'hacker' ? generateHackerBrowserContent() : generateDefenderBrowserContent()}
                         </div>
 
@@ -9152,7 +9477,7 @@
                 </div>
             `;
 
-            document.body.insertAdjacentHTML('beforeend', browserHTML);
+            ModalManager.mount(browserHTML, 'browser-simulator-modal', { mode: GameState.mode || 'hacker' });
         }
 
         function generateHackerBrowserContent() {
@@ -9263,8 +9588,7 @@
         }
 
         function closeBrowserSimulator() {
-            const modal = document.getElementById('browser-simulator-modal');
-            if (modal) modal.remove();
+            ModalManager.unmount('browser-simulator-modal');
         }
 
         function browserNavigate() {
@@ -9373,12 +9697,20 @@
                         <div style="display: flex; justify-content: center;"><button onclick="closePhishingTemplateModal()" style="background: rgba(255,255,255,0.1); border: 1px solid #666; padding: 12px 25px; border-radius: 8px; color: #fff; cursor: pointer;"><i class="fas fa-times"></i> 關閉</button></div>
                     </div>
                 </div>`;
-            document.body.insertAdjacentHTML('beforeend', templateHTML);
+            if (window.ModalManager && typeof ModalManager.mount === 'function') {
+                ModalManager.mount('phishing-template-modal', templateHTML, { mode: mode });
+            } else {
+                document.body.insertAdjacentHTML('beforeend', templateHTML);
+            }
         }
 
         function closePhishingTemplateModal() {
-            const modal = document.getElementById('phishing-template-modal');
-            if (modal) modal.remove();
+            if (window.ModalManager && typeof ModalManager.unmount === 'function') {
+                ModalManager.unmount('phishing-template-modal');
+            } else {
+                const modal = document.getElementById('phishing-template-modal');
+                if (modal) modal.remove();
+            }
         }
 
         function selectPhishingTemplate(templateKey) {
@@ -9418,12 +9750,20 @@
                         </div>
                     </div>
                 </div>`;
-            document.body.insertAdjacentHTML('beforeend', sentHTML);
+            if (window.ModalManager && typeof ModalManager.mount === 'function') {
+                ModalManager.mount('phishing-sent-modal', sentHTML, { mode: mode });
+            } else {
+                document.body.insertAdjacentHTML('beforeend', sentHTML);
+            }
         }
 
         function closePhishingSentModal() {
-            const modal = document.getElementById('phishing-sent-modal');
-            if (modal) modal.remove();
+            if (window.ModalManager && typeof ModalManager.unmount === 'function') {
+                ModalManager.unmount('phishing-sent-modal');
+            } else {
+                const modal = document.getElementById('phishing-sent-modal');
+                if (modal) modal.remove();
+            }
         }
 
         function simulateVictimClick(templateKey) {
@@ -9458,7 +9798,7 @@
         function showVictimBrowserView(templateKey) {
             const template = PhishingTemplates[templateKey];
             const victimBrowserHTML = `
-                <div class="modal-overlay" id="victim-browser-modal" style="display: flex;">
+                <div class="modal-overlay" style="display: flex;">
                     <div class="modal-box" style="max-width: 1100px; max-height: 95vh; overflow: hidden; background: linear-gradient(135deg, rgba(10,10,30,0.98) 0%, rgba(20,20,50,0.98) 100%); border: 2px solid ${template.color}; padding: 0;">
                         <div style="background: rgba(0,0,0,0.8); padding: 15px 20px; border-bottom: 1px solid #333; display: flex; justify-content: space-between; align-items: center;">
                             <div style="display: flex; align-items: center; gap: 15px;"><i class="fas fa-eye" style="color: #e74c3c;"></i><span style="color: #e74c3c; font-weight: bold;">受害者瀏覽器視角 - 即時監控</span></div>
@@ -9492,7 +9832,7 @@
                         </div>
                     </div>
                 </div>`;
-            document.body.insertAdjacentHTML('beforeend', victimBrowserHTML);
+            ModalManager.mount(victimBrowserHTML, 'victim-browser-modal', { mode: GameState.mode || 'hacker' });
             if (typeof updateDeviceScreen === 'function') {
                 updateDeviceScreen('opponent', '🌐 正在瀏覽網站...');
                 updateDeviceScreen('player', '👁️ 監控受害者瀏覽器');
@@ -9523,8 +9863,7 @@
         }
 
         function closeVictimBrowser() {
-            const modal = document.getElementById('victim-browser-modal');
-            if (modal) modal.remove();
+            ModalManager.unmount('victim-browser-modal');
             if (GameState.phishingActivityInterval) clearInterval(GameState.phishingActivityInterval);
         }
 
@@ -9778,7 +10117,11 @@
                 </div>
             `;
 
-            document.body.insertAdjacentHTML('beforeend', packetHTML);
+            if (window.ModalManager && typeof ModalManager.mount === 'function') {
+                ModalManager.mount('network-packets-modal', packetHTML, { mode: mode });
+            } else {
+                document.body.insertAdjacentHTML('beforeend', packetHTML);
+            }
 
             // 開始即時更新
             startPacketUpdates();
@@ -9805,8 +10148,12 @@
         }
 
         function closeNetworkPackets() {
-            const modal = document.getElementById('network-packets-modal');
-            if (modal) modal.remove();
+            if (window.ModalManager && typeof ModalManager.unmount === 'function') {
+                ModalManager.unmount('network-packets-modal');
+            } else {
+                const modal = document.getElementById('network-packets-modal');
+                if (modal) modal.remove();
+            }
             if (GameState.packetUpdateInterval) {
                 clearInterval(GameState.packetUpdateInterval);
             }
@@ -10152,12 +10499,11 @@
                 </div>
             `;
 
-            document.body.insertAdjacentHTML('beforeend', shopHTML);
+            ModalManager.mount(shopHTML, 'shop-modal', { mode: GameState.mode || 'hacker' });
         }
 
         function closeShop() {
-            const modal = document.getElementById('shop-modal');
-            if (modal) modal.remove();
+            ModalManager.unmount('shop-modal');
         }
 
         function purchaseItem(itemId, mode) {
@@ -10301,12 +10647,11 @@
                 </div>
             `;
 
-            document.body.insertAdjacentHTML('beforeend', receiptHTML);
+            ModalManager.mount(receiptHTML, 'receipt-modal', { mode: GameState.mode || 'hacker' });
         }
 
         function closeReceiptModal() {
-            const modal = document.getElementById('receipt-modal');
-            if (modal) modal.remove();
+            ModalManager.unmount('receipt-modal');
         }
 
         // ===== 防禦者專屬服務購買 =====
@@ -10527,12 +10872,11 @@
                 </div>
             `;
 
-            document.body.insertAdjacentHTML('beforeend', historyHTML);
+            ModalManager.mount(historyHTML, 'transaction-history-modal', { mode: GameState.mode || 'hacker' });
         }
 
         function closeTransactionHistory() {
-            const modal = document.getElementById('transaction-history-modal');
-            if (modal) modal.remove();
+            ModalManager.unmount('transaction-history-modal');
         }
 
         function exportTransactionHistory() {
@@ -10693,12 +11037,11 @@
                 </div>
             `;
 
-            document.body.insertAdjacentHTML('beforeend', topUpHTML);
+            ModalManager.mount(topUpHTML, 'topup-modal', { mode: GameState.mode || 'hacker' });
         }
 
         function closeTopUp() {
-            const modal = document.getElementById('topup-modal');
-            if (modal) modal.remove();
+            ModalManager.unmount('topup-modal');
             showShop();
         }
 
@@ -11005,12 +11348,20 @@
                 </div>
             `;
 
-            document.body.insertAdjacentHTML('beforeend', surrenderHTML);
+            if (window.ModalManager && typeof ModalManager.mount === 'function') {
+                ModalManager.mount('surrender-modal', surrenderHTML, { mode: mode });
+            } else {
+                document.body.insertAdjacentHTML('beforeend', surrenderHTML);
+            }
         }
 
         function closeSurrenderPanel() {
-            const modal = document.getElementById('surrender-modal');
-            if (modal) modal.remove();
+            if (window.ModalManager && typeof ModalManager.unmount === 'function') {
+                ModalManager.unmount('surrender-modal');
+            } else {
+                const modal = document.getElementById('surrender-modal');
+                if (modal) modal.remove();
+            }
         }
 
         function initiateSettlement() {
@@ -11072,7 +11423,11 @@
                 </div>
             `;
 
-            document.body.insertAdjacentHTML('beforeend', dialogueHTML);
+            if (window.ModalManager && typeof ModalManager.mount === 'function') {
+                ModalManager.mount('settlement-dialogue-modal', dialogueHTML, { mode: mode });
+            } else {
+                document.body.insertAdjacentHTML('beforeend', dialogueHTML);
+            }
 
             // 添加初始AI訊息
             setTimeout(() => {
@@ -11081,8 +11436,12 @@
         }
 
         function closeSettlementDialogue() {
-            const modal = document.getElementById('settlement-dialogue-modal');
-            if (modal) modal.remove();
+            if (window.ModalManager && typeof ModalManager.unmount === 'function') {
+                ModalManager.unmount('settlement-dialogue-modal');
+            } else {
+                const modal = document.getElementById('settlement-dialogue-modal');
+                if (modal) modal.remove();
+            }
         }
 
         function addSettlementMessage(sender, message) {
@@ -11251,6 +11610,72 @@
             }
         }
 
+        // ===== Modal 管理器（避免重複插入與漏卸載） =====
+        const ModalManager = (function(){
+            const active = new Set();
+
+            function mount(html, id, opts = {}){
+                // 若已有相同 id，先移除再 mount
+                const existing = document.getElementById(id);
+                if (existing) existing.remove();
+
+                const wrapper = document.createElement('div');
+                wrapper.innerHTML = html;
+                const node = wrapper.firstElementChild;
+                if (!node) return null;
+                node.id = id;
+                if (opts.mode) node.setAttribute('data-mode', opts.mode);
+                document.body.appendChild(node);
+                active.add(id);
+                // attach a cleanup hook: when removed, remove from set
+                const obs = new MutationObserver((m) => {
+                    if (!document.getElementById(id)) { active.delete(id); obs.disconnect(); }
+                });
+                obs.observe(document.body, { childList: true });
+                return node;
+            }
+
+            function unmount(id){
+                const el = document.getElementById(id);
+                if (el) el.remove();
+                active.delete(id);
+            }
+
+            function list(){ return Array.from(active); }
+
+            return { mount, unmount, list };
+        })();
+
+        // ===== CDN / 字體可用性檢查（簡單版） =====
+        function detectCDNIssues() {
+            // 簡單檢查 FontAwesome 是否載入
+            const fa = Array.from(document.styleSheets).some(s => (s.href || '').includes('fontawesome')) || !!window.FontAwesome;
+            const warn = document.getElementById('cdn-warning') || (function(){ const d=document.createElement('div'); d.id='cdn-warning'; d.textContent='檢測到外部資源可能無法載入，部分圖示/字體可能失真'; document.body.appendChild(d); return d; })();
+            if (!fa) { warn.style.display = 'block'; } else { warn.style.display = 'none'; }
+        }
+
+        // ===== UI 同步循環（小型）: 保持 GameState 與 UI 的定期同步，避免高頻事件導致更新缺失 =====
+        let _uiSyncTimer = null;
+        function startUISyncLoop() {
+            if (_uiSyncTimer) return;
+            _uiSyncTimer = setInterval(() => {
+                try {
+                    // 刷新顯示用的幾個元素（輕量）
+                    const conn = document.getElementById('connection-status');
+                    if (conn) conn.classList.toggle('disconnected', !GameState.connected);
+                    const connText = document.getElementById('connection-text'); if (connText) connText.textContent = GameState.connected ? '已連接' : '未連接';
+                    const targetIP = document.getElementById('target-ip-display'); if (targetIP) targetIP.textContent = GameState.battle.targetIP;
+                    const wallet = document.getElementById('wallet-display'); if (wallet) wallet.textContent = GameState.wallet.balance.toLocaleString();
+                    // 同步進度條
+                    const pbar = document.getElementById('player-progress-bar'); if (pbar) pbar.style.width = (GameState.battle.playerProgress || 0) + '%';
+                    const aiBar = document.getElementById('ai-progress-bar'); if (aiBar) aiBar.style.width = (GameState.battle.aiProgress || 0) + '%';
+                } catch (e) { /* ignore */ }
+            }, 500);
+        }
+
+        // start detection + sync early
+        window.addEventListener('load', () => { detectCDNIssues(); startUISyncLoop(); });
+
         function changeVPNRegion(region) {
             if (!GameState.vpn.active) {
                 addTerminalLine('請先啟用VPN', 'warning');
@@ -11369,12 +11794,11 @@
                 </div>
             `;
 
-            document.body.insertAdjacentHTML('beforeend', panelHTML);
+            ModalManager.mount(panelHTML, 'attack-mode-modal', { mode: GameState.mode || 'hacker' });
         }
 
         function closeAttackModePanel() {
-            const modal = document.getElementById('attack-mode-modal');
-            if (modal) modal.remove();
+            ModalManager.unmount('attack-mode-modal');
         }
 
         // ===== 直接執行攻擊控制台 =====
@@ -11382,8 +11806,8 @@
             closeAttackModePanel();
 
             const panelHTML = `
-                <div class="modal-overlay" id="direct-attack-panel" style="display: flex;">
-                    <div class="modal-box" style="max-width: 950px; max-height: 95vh; overflow-y: auto; background: linear-gradient(135deg, rgba(30,10,10,0.98) 0%, rgba(50,15,15,0.98) 100%); border: 2px solid #ff3333;">
+                <div class="modal-overlay" style="display: flex;">
+                    <div class="modal-box accent-border" style="max-width: 950px; max-height: 95vh; overflow-y: auto; background: linear-gradient(135deg, rgba(30,10,10,0.98) 0%, rgba(50,15,15,0.98) 100%);">
                         <h2 style="color: #ff3333; margin-bottom: 20px; text-align: center; text-shadow: 0 0 15px rgba(255,51,51,0.5);">
                             <i class="fas fa-bolt"></i> 直接執行攻擊控制台
                         </h2>
@@ -11460,7 +11884,11 @@ nmap -sS -sV -O ${GameState.battle.targetIP}"></textarea>
                 </div>
             `;
 
-            document.body.insertAdjacentHTML('beforeend', panelHTML);
+            if (window.ModalManager && typeof ModalManager.mount === 'function') {
+                ModalManager.mount('direct-attack-panel', panelHTML, { mode: mode });
+            } else {
+                document.body.insertAdjacentHTML('beforeend', panelHTML);
+            }
             SoundSystem.play('keypress');
         }
 
@@ -11505,8 +11933,12 @@ echo "[+] Target network is overwhelmed!"`
         }
 
         function closeDirectAttackPanel() {
-            const panel = document.getElementById('direct-attack-panel');
-            if (panel) panel.remove();
+            if (window.ModalManager && typeof ModalManager.unmount === 'function') {
+                ModalManager.unmount('direct-attack-panel');
+            } else {
+                const panel = document.getElementById('direct-attack-panel');
+                if (panel) panel.remove();
+            }
             showAttackModePanel();
         }
 
@@ -11676,7 +12108,11 @@ nmap -sS -sV ${GameState.battle.targetIP}
                 </div>
             `;
 
-            document.body.insertAdjacentHTML('beforeend', panelHTML);
+            if (window.ModalManager && typeof ModalManager.mount === 'function') {
+                ModalManager.mount('gradual-attack-panel', panelHTML, { mode: mode });
+            } else {
+                document.body.insertAdjacentHTML('beforeend', panelHTML);
+            }
 
             // 初始化策略狀態
             if (!GameState.hackerAttack.gradualStrategy) {
@@ -11706,8 +12142,12 @@ nmap -sS -sV ${GameState.battle.targetIP}
         }
 
         function closeGradualAttackPanel() {
-            const panel = document.getElementById('gradual-attack-panel');
-            if (panel) panel.remove();
+            if (window.ModalManager && typeof ModalManager.unmount === 'function') {
+                ModalManager.unmount('gradual-attack-panel');
+            } else {
+                const panel = document.getElementById('gradual-attack-panel');
+                if (panel) panel.remove();
+            }
             showAttackModePanel();
         }
 
@@ -11947,7 +12387,11 @@ find /target -type f -exec ./encrypt.sh {} \\;
                 </div>
             `;
 
-            document.body.insertAdjacentHTML('beforeend', panelHTML);
+            if (window.ModalManager && typeof ModalManager.mount === 'function') {
+                ModalManager.mount('ransom-attack-panel', panelHTML, { mode: mode });
+            } else {
+                document.body.insertAdjacentHTML('beforeend', panelHTML);
+            }
 
             // 初始化預設值
             if (!GameState.hackerAttack.selectedRansomAmount) {
@@ -12016,8 +12460,12 @@ find /target -type f -exec ./encrypt.sh {} \\;
         }
 
         function closeRansomAttackPanel() {
-            const panel = document.getElementById('ransom-attack-panel');
-            if (panel) panel.remove();
+            if (window.ModalManager && typeof ModalManager.unmount === 'function') {
+                ModalManager.unmount('ransom-attack-panel');
+            } else {
+                const panel = document.getElementById('ransom-attack-panel');
+                if (panel) panel.remove();
+            }
             showAttackModePanel();
         }
 
@@ -12565,7 +13013,11 @@ find /target -type f -exec ./encrypt.sh {} \\;
                 </style>
             `;
 
-            document.body.insertAdjacentHTML('beforeend', alertHTML);
+            if (window.ModalManager && typeof ModalManager.mount === 'function') {
+                ModalManager.mount('ransom-alert-modal', alertHTML, { mode: 'defender' });
+            } else {
+                document.body.insertAdjacentHTML('beforeend', alertHTML);
+            }
             SoundSystem.play('alert');
         }
 
@@ -12637,7 +13089,11 @@ find /target -type f -exec ./encrypt.sh {} \\;
                     </div>
                 </div>
             `;
-            document.body.insertAdjacentHTML('beforeend', modalHTML);
+            if (window.ModalManager && typeof ModalManager.mount === 'function') {
+                ModalManager.mount('insufficient-funds-modal', modalHTML, { mode: GameState.currentMode || 'hacker' });
+            } else {
+                document.body.insertAdjacentHTML('beforeend', modalHTML);
+            }
         }
 
         function closeInsufficientFundsModal() {
@@ -12718,7 +13174,11 @@ find /target -type f -exec ./encrypt.sh {} \\;
                     }
                 </style>
             `;
-            document.body.insertAdjacentHTML('beforeend', ultimatumHTML);
+            if (window.ModalManager && typeof ModalManager.mount === 'function') {
+                ModalManager.mount('escalation-modal', ultimatumHTML, { mode: 'hacker' });
+            } else {
+                document.body.insertAdjacentHTML('beforeend', ultimatumHTML);
+            }
             closeRansomAlert();
 
             // 開始升級攻擊倒計時
@@ -12811,8 +13271,12 @@ find /target -type f -exec ./encrypt.sh {} \\;
         }
 
         function closeEscalationModal() {
-            const modal = document.getElementById('escalation-modal');
-            if (modal) modal.remove();
+            if (window.ModalManager && typeof ModalManager.unmount === 'function') {
+                ModalManager.unmount('escalation-modal');
+            } else {
+                const modal = document.getElementById('escalation-modal');
+                if (modal) modal.remove();
+            }
         }
 
         // 通知黑客收到勒索金
@@ -13393,7 +13857,7 @@ find /target -type f -exec ./encrypt.sh {} \\;
                 </div>
             `;
 
-            document.body.insertAdjacentHTML('beforeend', panelHTML);
+            ModalManager.mount(panelHTML, 'direct-attack-panel', { mode: GameState.mode || 'hacker' });
         }
 
         function closeHackerPaymentPanel() {
@@ -16851,4 +17315,125 @@ find /target -type f -exec ./encrypt.sh {} \\;
             <div id="law-enforcement-result-container"></div>
         </div>
     </div>
+<!-- Minimal UI wiring script: navigation, modal, notification, battle start handlers -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // Graceful page show helper (works even if duplicates exist)
+    window.showPage = function(pageId) {
+        document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
+        const page = document.querySelector(`#${pageId}`);
+        if (page) {
+            page.style.display = 'block';
+            window.scrollTo(0, 0);
+        }
+    };
+
+    const setActiveNav = (navId) => {
+        document.querySelectorAll('.nav-menu a').forEach(a => a.classList.remove('active'));
+        const el = document.getElementById(navId);
+        if (el) el.classList.add('active');
+    };
+
+    // Public API used by inline onclick attributes
+    window.goToMainPage = function() {
+        showPage('main-page');
+        setActiveNav('nav-home');
+    };
+
+    window.navigateToMode = function(mode) {
+        if (mode === 'hacker') {
+            // show the (single) game page and apply hacker theme
+            showPage('game-page');
+            document.body.classList.add('hacker-ui');
+            document.body.classList.remove('defender-ui');
+            setActiveNav('nav-hacker');
+        } else if (mode === 'defender') {
+            showPage('game-page');
+            document.body.classList.add('defender-ui');
+            document.body.classList.remove('hacker-ui');
+            setActiveNav('nav-defender');
+        } else if (mode === 'battle') {
+            showPage('battle-select-page');
+            setActiveNav('nav-battle');
+        } else {
+            showPage('main-page');
+            setActiveNav('nav-home');
+        }
+    };
+
+    // Modal helpers
+    const modal = document.getElementById('custom-modal');
+    const modalTitle = document.getElementById('modal-title-text');
+    const modalMessage = document.getElementById('modal-message');
+    const modalInput = document.getElementById('modal-input');
+    const modalCancel = document.getElementById('modal-cancel');
+    const modalConfirm = document.getElementById('modal-confirm');
+
+    if (modalCancel) modalCancel.addEventListener('click', () => { modal.style.display = 'none'; });
+    if (modalConfirm) modalConfirm.addEventListener('click', () => { modal.style.display = 'none'; });
+
+    window.showModal = function(title, message, withInput = false) {
+        if (!modal) return;
+        modalTitle.textContent = title || '系統提示';
+        modalMessage.textContent = message || '';
+        if (modalInput) modalInput.style.display = withInput ? 'block' : 'none';
+        modal.style.display = 'flex';
+    };
+
+    // Notification helpers
+    const notification = document.getElementById('notification');
+    const notificationTitleText = document.getElementById('notification-title-text');
+    const notificationMessage = document.getElementById('notification-message');
+
+    window.showNotification = function(title, message, type = 'hacker', timeout = 3500) {
+        if (!notification) return;
+        if (notificationTitleText) notificationTitleText.textContent = title || '系統通知';
+        if (notificationMessage) notificationMessage.textContent = message || '';
+        notification.className = `notification ${type} show`;
+        setTimeout(() => { notification.className = `notification ${type}`; }, timeout);
+    };
+
+    // Wire main buttons (if present)
+    const guideBtn = document.getElementById('guide-btn');
+    if (guideBtn) guideBtn.addEventListener('click', () => showPage('guide-page'));
+
+    const flowBtn = document.getElementById('flowchart-btn');
+    if (flowBtn) flowBtn.addEventListener('click', () => showPage('flowchart-page'));
+
+    const guideBack = document.getElementById('guide-back-btn');
+    if (guideBack) guideBack.addEventListener('click', () => goToMainPage());
+
+    // there may be multiple flowchart-back-btn buttons; wire all
+    document.querySelectorAll('#flowchart-back-btn').forEach(b => b.addEventListener('click', () => goToMainPage()));
+
+    const battleBack = document.getElementById('battle-back-btn');
+    if (battleBack) battleBack.addEventListener('click', () => goToMainPage());
+
+    // Battle start handlers
+    const startH = document.getElementById('battle-start-hacker');
+    if (startH) startH.addEventListener('click', () => {
+        const target = document.getElementById('battle-target-ip');
+        const difficulty = document.getElementById('battle-difficulty');
+        if (!target || !target.value) { showNotification('錯誤', '請輸入目標IP', 'warning'); return; }
+        const t = document.getElementById('target-ip'); if (t) t.value = target.value;
+        const g = document.getElementById('game-difficulty'); if (g && difficulty) g.value = difficulty.value || g.value;
+        navigateToMode('hacker');
+        showNotification('對戰已開始', '你已以黑客身份開始對戰', 'hacker');
+    });
+
+    const startD = document.getElementById('battle-start-defender');
+    if (startD) startD.addEventListener('click', () => {
+        const target = document.getElementById('battle-target-ip');
+        const difficulty = document.getElementById('battle-difficulty');
+        if (!target || !target.value) { showNotification('錯誤', '請輸入目標IP', 'warning'); return; }
+        const t = document.getElementById('target-ip'); if (t) t.value = target.value;
+        const g = document.getElementById('game-difficulty'); if (g && difficulty) g.value = difficulty.value || g.value;
+        navigateToMode('defender');
+        showNotification('對戰已開始', '你已以防禦者身份開始對戰', 'defender');
+    });
+
+    // Initialize to main page
+    try { goToMainPage(); } catch (e) { showPage('main-page'); }
+});
+</script>
 </body></html>
